@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Activity.So_Do_Cho_Ngoi_Activity">
+    
+    <android.support.design.widget.TabLayout
+        android:background="@android:color/transparent"
+        app:tabIndicatorHeight="2dp"
+        app:tabTextColor="#000000"
+        app:tabSelectedTextColor="#FFFF9F03"
+        app:tabMode="fixed"
+        app:tabIndicatorColor="#FFFF9F03"
+        android:id="@+id/myTabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </android.support.design.widget.TabLayout>
+    
+    <android.support.v4.view.ViewPager
+        android:id="@+id/myViewPager"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+
+    </android.support.v4.view.ViewPager>
+
+    <LinearLayout
+        android:weightSum="10"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:text="Đặt vé"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="8"
+            android:id="@+id/btn_dat_ve"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/btn_goi_y_cho_ngoi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="2"
+            android:text="Gợi ý chỗ ngồi" />
+    </LinearLayout>
+
+    
+</LinearLayout>

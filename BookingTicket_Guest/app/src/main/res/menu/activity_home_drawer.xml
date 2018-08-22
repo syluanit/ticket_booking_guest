@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_Login_SignUp"
+            android:icon="@drawable/ic_person_black_24dp"
+            android:title="Đăng nhập/ Đăng ký" />
+        <item
+            android:id="@+id/nav_Booking"
+            android:icon="@drawable/ic_directions_bus_black_24dp"
+            android:title="Mua vé" />
+        <item
+            android:id="@+id/nav_BookingHistory"
+            android:icon="@drawable/ic_history_black_24dp"
+            android:title="Lịch sử mua vé" />
+        <item
+            android:id="@+id/nav_Introduction"
+            android:icon="@drawable/ic_mood_black_24dp"
+            android:title="Giới thiệu" />
+        <item
+            android:iconTint="@color/colorPrimary"
+            android:id="@+id/nav_Contact"
+            android:icon="@drawable/ic_call_black_24dp"
+            android:title="Liên hệ" />
+    </group>
+
+</menu>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Activity.Dang_Nhap_Activity">
+        <EditText
+            android:hint="Email hoặc số điện thoại"
+            android:id="@+id/et_Name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:hint="Mật khẩu"
+            android:id="@+id/et_Password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:onClick="quenMatKhau"
+            android:layout_gravity="right"
+            android:text="Quên Mật Khẩu"
+            android:clickable="true"
+            android:id="@+id/tv_orgetPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <Button
+
+            android:text="Đăng Nhập"
+            android:id="@+id/btn_Login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+                <TextView
+                    android:text="Bạn la khách hang mới "
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:onClick="dangKy"
+                    android:id="@+id/tv_DangKy"
+                    android:text="Đăng Ký"
+                    android:clickable="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+        </LinearLayout>
+
+</LinearLayout>

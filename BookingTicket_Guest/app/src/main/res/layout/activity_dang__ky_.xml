@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Activity.Dang_Ky_Activity">
+    <EditText
+        android:hint="Họ tên"
+        android:id="@+id/tv_Name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <EditText
+        android:hint="Email"
+        android:id="@+id/tv_Email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <EditText
+        android:hint="Số di động"
+        android:id="@+id/tv_PhoneNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <EditText
+        android:hint="Chứng minh nhân dân"
+        android:id="@+id/tv_IdCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <EditText
+        android:hint="Địa chỉ"
+        android:id="@+id/tv_Address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <EditText
+        android:hint="Mật khẩu"
+        android:id="@+id/tv_Password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <EditText
+        android:hint="Nhập lại mật khẩu"
+        android:id="@+id/tv_PasswordAgain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <Button
+        android:background="#f2bf07"
+        android:text="Đăng Ký"
+        android:id="@+id/btn_SignUp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>

@@ -40,8 +40,8 @@ public class Fragment_Ghe_Ngoi extends Fragment {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                int seatState = gheNgoiArrayList.get(position).getTrangThai();
-                if (seatState == 0){
+                int seatStatus = gheNgoiArrayList.get(position).getTrangThai();
+                if (seatStatus == 0){
                     gheNgoiArrayList.get(position).setTrangThai(1) ;
                 } else {
                     gheNgoiArrayList.get(position).setTrangThai(0);

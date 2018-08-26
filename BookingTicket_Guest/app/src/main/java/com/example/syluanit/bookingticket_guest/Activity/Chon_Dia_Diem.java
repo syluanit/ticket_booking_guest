@@ -24,7 +24,6 @@ public class Chon_Dia_Diem extends AppCompatActivity {
 
     ListView listView;
     TextView tvKhongCoDiaDiem;
-    EditText etSearch;
     Chon_Dia_Diem_Adapter chon_dia_diem_adapter;
     ArrayList<DiaDiem> diaDiemArrayList;
     @Override

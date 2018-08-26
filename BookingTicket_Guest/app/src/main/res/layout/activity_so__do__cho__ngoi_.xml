@@ -11,9 +11,9 @@
         android:background="@android:color/transparent"
         app:tabIndicatorHeight="2dp"
         app:tabTextColor="#000000"
-        app:tabSelectedTextColor="#FFFF9F03"
+        app:tabSelectedTextColor="@color/colorPrimary"
         app:tabMode="fixed"
-        app:tabIndicatorColor="#FFFF9F03"
+        app:tabIndicatorColor="@color/colorPrimary"
         android:id="@+id/myTabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

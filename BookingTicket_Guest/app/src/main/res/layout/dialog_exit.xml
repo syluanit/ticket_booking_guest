@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:elevation="10dp">
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:background="@drawable/white_border">
+
+        <TextView
+            android:id="@+id/tv_annoucement"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/colorPrimary"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:text="THÔNG BÁO"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <View android:layout_marginTop="2dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/tv_annoucement"
+            android:layout_width="150dp"
+            android:layout_height="1dp"
+            android:background="@color/colorPrimary"/>
+        <TextView
+            android:layout_below="@+id/tv_annoucement"
+            android:layout_marginTop="20dp"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:text="Bạn có muốn thoát ứng dụng?"
+            android:textSize="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_out"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="125dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:background="@mipmap/ic_check"
+            android:id="@+id/btn_accept"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
+
+        <Button
+            android:layout_marginLeft="70dp"
+            android:background="@mipmap/ic_close"
+            android:id="@+id/btn_cancel"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+             />
+    </LinearLayout>
+    <!--<Button-->
+        <!--android:id="@+id/btn_cancel"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginStart="248dp"-->
+        <!--android:layout_marginTop="120dp"-->
+        <!--android:text="HỦY"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toTopOf="parent" />-->
+
+    <!--<Button-->
+        <!--android:id="@+id/btn_accept"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginStart="84dp"-->
+        <!--android:layout_marginTop="120dp"-->
+        <!--android:text="CHẤP NHẬN"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toTopOf="parent" />-->
+
+</RelativeLayout>

@@ -51,13 +51,13 @@ public class TimeListAdapter extends BaseAdapter {
 
         // Ánh xạ
         TextView tv_time = (TextView) convertView.findViewById(R.id.tv_time);
-        ImageView iv_icon = (ImageView) convertView.findViewById(R.id.iv_icon);
+//        ImageView iv_icon = (ImageView) convertView.findViewById(R.id.iv_icon);
 
         // Gán giá trị
         TimeList time_List = timeList.get(position);
 
         tv_time.setText(time_List.getTime());
-        iv_icon.setImageResource(time_List.getIcon());
+//        iv_icon.setImageResource(time_List.getIcon());
 
         return convertView;
     }

@@ -9,6 +9,10 @@ public class TimeList {
         this.icon = icon;
     }
 
+    public TimeList(String time) {
+        this.time = time;
+    }
+
     public String getTime() {
         return time;
     }

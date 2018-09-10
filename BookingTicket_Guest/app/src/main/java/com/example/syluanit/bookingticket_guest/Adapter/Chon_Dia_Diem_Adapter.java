@@ -49,13 +49,13 @@ public class Chon_Dia_Diem_Adapter extends BaseAdapter {
 
         // Ánh xạ
         TextView tv_time = (TextView) convertView.findViewById(R.id.tv_diadiem);
-        ImageView iv_icon = (ImageView) convertView.findViewById(R.id.iv_diadiem);
+//        ImageView iv_icon = (ImageView) convertView.findViewById(R.id.iv_diadiem);
 
         // Gán giá trị
         DiaDiem diaDiem = diaDiemList.get(position);
 
         tv_time.setText(diaDiem.getPlace());
-        iv_icon.setImageResource(diaDiem.getIcon());
+//        iv_icon.setImageResource(diaDiem.getIcon());
 
         return convertView;
     }

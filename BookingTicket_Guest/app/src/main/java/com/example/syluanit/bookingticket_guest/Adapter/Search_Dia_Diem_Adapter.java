@@ -54,7 +54,7 @@ public class Search_Dia_Diem_Adapter extends RecyclerView.Adapter<Search_Dia_Die
         public ViewHolder(View itemView) {
             super(itemView);
             tvDiaDiem = itemView.findViewById(R.id.tv_diadiem);
-            ivIcon = itemView.findViewById(R.id.iv_icon);
+//            ivIcon = itemView.findViewById(R.id.iv_icon);
             itemView.setOnClickListener(this);
         }
 

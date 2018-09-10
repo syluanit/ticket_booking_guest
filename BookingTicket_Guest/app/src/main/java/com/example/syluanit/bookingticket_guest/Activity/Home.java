@@ -1,6 +1,8 @@
 package com.example.syluanit.bookingticket_guest.Activity;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -12,10 +14,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.example.syluanit.bookingticket_guest.R;
 
@@ -42,7 +46,7 @@ public class Home extends AppCompatActivity
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+//        getSupportActionBar().setTitle("Awesome Travel");
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -71,7 +75,7 @@ public class Home extends AppCompatActivity
             }
         });
 
-
+        btn_ticketSearch.bringToFront();
         btn_ticketSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -159,11 +163,34 @@ public class Home extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            final Dialog dialog = new Dialog(Home.this);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setContentView(R.layout.dialog_exit);
+            Button btn_exit = dialog.findViewById(R.id.btn_cancel);
+            Button btn_accept = dialog.findViewById(R.id.btn_accept);
+            LinearLayout layout = dialog.findViewById(R.id.layout_out);
+            dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+//            layout.setBackgroundResource(android.R.color.transparent);
+
+            btn_exit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+
+            btn_accept.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ((Activity) Home.this).finish();
+                }
+            });
+            dialog.show();
         }
     }
 

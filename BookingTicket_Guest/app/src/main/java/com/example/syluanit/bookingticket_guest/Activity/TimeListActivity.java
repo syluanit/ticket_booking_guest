@@ -28,9 +28,13 @@ public class TimeListActivity extends AppCompatActivity {
         lv_timeList = (ListView) findViewById(R.id.lv_timeList);
 
         timeList = new ArrayList<>();
-        timeList.add(new TimeList("8:00", R.drawable.front_bus));
-        timeList.add(new TimeList("9:00", R.drawable.front_bus));
-        timeList.add(new TimeList("10:00", R.drawable.front_bus));
+//        timeList.add(new TimeList("8:00", R.drawable.front_bus));
+//        timeList.add(new TimeList("9:00", R.drawable.front_bus));
+//        timeList.add(new TimeList("10:00", R.drawable.front_bus));
+
+        timeList.add(new TimeList("8:00"));
+        timeList.add(new TimeList("9:00"));
+        timeList.add(new TimeList("10:00"));
 
         Intent intent = getIntent();
         Bundle ticket = intent.getExtras();

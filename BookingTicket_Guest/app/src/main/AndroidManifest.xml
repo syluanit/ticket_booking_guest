@@ -2,27 +2,29 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.syluanit.bookingticket_guest">
 
+
+    <!--android:name=".Service.Customfontapp"-->
     <application
+
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        >
+        android:theme="@style/AppTheme">
         <activity
             android:name=".Activity.SplashScreen"
-            android:theme="@style/SplashTheme"
-            >
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.Home"
-            android:label=""></activity>
-        <activity android:name=".Activity.TimeListActivity" />
+        <activity
+            android:name=".Activity.Home"
+            android:label="" />
+        <activity android:name=".Activity.RouteActivity" />
         <activity android:name=".Activity.So_Do_Cho_Ngoi_Activity" />
         <activity android:name=".Activity.Dang_Nhap_Activity" />
         <activity android:name=".Activity.Dang_Ky_Activity" />
@@ -31,7 +33,10 @@
         <!-- android:label="@string/title_activity_home" -->
         <!-- android:theme="@style/AppTheme"></activity> -->
         <activity android:name=".Activity.Chon_Dia_Diem" />
-
+        <activity android:name=".Activity.Fill_Customer_Info_Form" />
+        <activity android:name=".Activity.Lay_Lai_Mat_Khau" />
+        <activity android:name=".Activity.TicketBookingInfo" />
+        <activity android:name=".Activity.UserInfo"></activity>
     </application>
 
 </manifest>

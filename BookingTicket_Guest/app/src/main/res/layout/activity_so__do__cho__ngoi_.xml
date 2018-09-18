@@ -5,51 +5,232 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/white"
     tools:context=".Activity.So_Do_Cho_Ngoi_Activity">
-    
-    <android.support.design.widget.TabLayout
-        android:background="@android:color/transparent"
-        app:tabIndicatorHeight="2dp"
-        app:tabTextColor="#000000"
-        app:tabSelectedTextColor="@color/colorPrimary"
-        app:tabMode="fixed"
-        app:tabIndicatorColor="@color/colorPrimary"
-        android:id="@+id/myTabLayout"
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbarLayoutTimeList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
 
-    </android.support.design.widget.TabLayout>
-    
-    <android.support.v4.view.ViewPager
-        android:id="@+id/myViewPager"
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="0dp">
+            <ImageView
+                android:padding="8dp"
+                android:id="@+id/so_do_back_pressed"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_navigate_before_black_24dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp" />
 
-    </android.support.v4.view.ViewPager>
+            <android.support.v7.widget.Toolbar
+                android:textAlignment="center"
+                android:gravity="center"
+                android:id="@+id/toolbarSearch"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/toolbar_height"
+                android:background="?attr/colorPrimary" >
+                <TextView
+                    android:layout_marginRight="20dp"
+                    android:textColor="@color/nav_header_color"
+                    android:textSize="@dimen/nav_header_text_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="CHỌN VỊ TRÍ"
+                    android:layout_gravity="center"
+                    android:id="@+id/toolbar_title" />
+            </android.support.v7.widget.Toolbar>
+        </LinearLayout>
+    </android.support.design.widget.AppBarLayout>
 
     <LinearLayout
-        android:weightSum="10"
-        android:orientation="horizontal"
+        android:id="@+id/layout_giuong_nam"
+        android:orientation="vertical"
+        android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <Button
-            android:text="Đặt vé"
-            android:layout_marginLeft="5dp"
-            android:layout_weight="8"
-            android:id="@+id/btn_dat_ve"
+
+    <android.support.design.widget.TabLayout
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        app:tabIndicatorHeight="0dp"
+        app:tabTextColor="@color/colorPrimary"
+        app:tabSelectedTextColor="@color/white"
+        app:tabMode="fixed"
+        app:tabTextAppearance="@style/Toolbar.TitleText"
+        app:tabBackground="@drawable/tab_color_selector"
+        android:id="@+id/myTabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="30dp">
+    </android.support.design.widget.TabLayout>
+
+
+    <android.support.v4.view.ViewPager
+        android:scrollbars="vertical"
+        android:background="@color/grey"
+        android:id="@+id/myViewPager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </android.support.v4.view.ViewPager>
+    </LinearLayout>
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/layout_ghe_ngoi"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_margin="5dp"
+            android:padding="5dp"
+            android:layout_gravity="center"
+            android:textStyle="bold"
+            android:background="@drawable/rectangle_gradient"
+            android:gravity="center"
+            android:textSize="@dimen/body_text_size"
+            android:text="Chọn ghế ngồi"
+            android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <Button
-            android:id="@+id/btn_goi_y_cho_ngoi"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="5dp"
-            android:layout_weight="2"
-            android:text="Gợi ý chỗ ngồi" />
+        <GridView
+
+            android:paddingLeft="10dp"
+            android:background="@color/grey"
+            android:id="@+id/gridviewGheNgoi"
+            android:listSelector="@android:color/transparent"
+            android:numColumns="5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </GridView>
+
     </LinearLayout>
 
-    
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_margin="5dp"
+            android:orientation="vertical"
+            android:layout_alignParentLeft="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:background="@drawable/seat_pressed_small"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp" />
+                <TextView
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="5dp"
+                    android:textSize="@dimen/body_text_size_small_instruction"
+                    android:textColor="@android:color/black"
+                    android:text="Vé chọn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:background="@drawable/seat_lock_small"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp" />
+                <TextView
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="5dp"
+                    android:textSize="@dimen/body_text_size_small_instruction"
+                    android:textColor="@android:color/black"
+                    android:text="Đã đặt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:background="@drawable/seat_default_small"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp" />
+                <TextView
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="5dp"
+                    android:textSize="@dimen/body_text_size_small_instruction"
+                    android:textColor="@android:color/black"
+                    android:text="Còn trống"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <Button
+            android:background="@drawable/custom_button_next"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="8"
+            android:id="@+id/btn_dat_ve"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
+
+        <RelativeLayout
+            android:layout_margin="5dp"
+            android:layout_alignParentRight="true"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:orientation="horizontal"
+                android:id="@+id/layout_suggestion"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:textColor="@android:color/black"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textSize="@dimen/body_text_size"
+                    android:text="Gợi ý chỗ ngồi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <ImageView
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_idea"
+                    android:id="@+id/iv_suggestion"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp" />
+
+            </LinearLayout>
+            <TextView
+                android:id="@+id/tv_vechon"
+                android:layout_below="@id/layout_suggestion"
+                android:layout_alignParentRight="true"
+                android:textSize="@dimen/body_text_size"
+                android:textColor="@android:color/black"
+                android:text="Vé đã chọn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/tv_seatSelected"
+                android:layout_below="@id/tv_vechon"
+                android:layout_alignParentRight="true"
+                android:textSize="@dimen/body_text_size"
+                android:textColor="@android:color/black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+    </RelativeLayout>
 </LinearLayout>

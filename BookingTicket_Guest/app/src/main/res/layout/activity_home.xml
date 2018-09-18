@@ -14,6 +14,11 @@
         android:layout_height="match_parent" />
 
     <android.support.design.widget.NavigationView
+        app:itemTextAppearance="@style/Toolbar.TitleText"
+        app:itemIconTint="@drawable/activated_text_nav"
+        app:itemTextColor="@drawable/activated_text_nav"
+        app:itemBackground="@drawable/activated_background_menu"
+        android:background="@color/colorPrimary"
         android:id="@+id/nav_view"
         android:layout_width="250dp"
         android:layout_height="match_parent"
@@ -27,15 +32,39 @@
         android:layout_height="match_parent">
 
         <RelativeLayout
+            android:id="@+id/layoutt_font"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="40dp"
-            android:background="#fafafa"
+            android:background="@color/grey"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
+            
+            <RelativeLayout
+                android:layout_alignParentBottom="true"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.q42.android.scrollingimageview.ScrollingImageView
+                    android:layout_alignParentBottom="true"
+                    android:id="@+id/scrolling_background"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:speed="1dp"
+                    app:src="@drawable/bg12"/>
+
+                <ImageView
+                    android:layout_marginBottom="95dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentBottom="true"
+                    android:src="@drawable/bus_bus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="120dp" />
+            </RelativeLayout>
+            
 
             <LinearLayout
                 android:id="@+id/layout_place"
@@ -43,16 +72,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginTop="20dp"
-                android:background="@android:color/white"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/white_border"
                 android:elevation="10dp"
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="7dp"
-                    android:layout_marginTop="7dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
                     android:orientation="vertical">
 
                     <TextView
@@ -60,11 +89,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
-                        android:layout_marginTop="0dp"
                         android:inputType="none"
                         android:text="Điểm khởi hành"
                         android:textColor="@android:color/black"
-                        android:textSize="13sp"
+                        android:textSize="@dimen/body_text_size"
                         android:textStyle="bold" />
 
                     <LinearLayout
@@ -77,7 +105,7 @@
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:layout_marginStart="5dp"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="5dp"
                             android:src="@drawable/ic_location_city_black_24dp" />
 
                         <EditText
@@ -86,11 +114,11 @@
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="16dp"
                             android:layout_marginStart="5dp"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="5dp"
                             android:hint="Chọn điểm khởi hành"
                             android:inputType="textPersonName"
                             android:textColorHint="@android:color/black"
-                            android:textSize="13dp" />
+                            android:textSize="@dimen/body_text_size" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -104,11 +132,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
-                            android:layout_marginTop="0dp"
                             android:inputType="none"
                             android:text="Điểm đến"
                             android:textColor="@android:color/black"
-                            android:textSize="13sp"
+                            android:textSize="@dimen/body_text_size"
                             android:textStyle="bold" />
 
                         <LinearLayout
@@ -121,7 +148,7 @@
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 android:layout_marginStart="5dp"
-                                android:layout_marginTop="10dp"
+                                android:layout_marginTop="5dp"
                                 android:src="@drawable/ic_location_city_black_24dp" />
 
                             <EditText
@@ -130,11 +157,11 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="16dp"
                                 android:layout_marginStart="5dp"
-                                android:layout_marginTop="10dp"
+                                android:layout_marginTop="5dp"
                                 android:hint="Chọn điểm đến"
                                 android:inputType="textPersonName"
                                 android:textColorHint="@android:color/black"
-                                android:textSize="13dp" />
+                                android:textSize="@dimen/body_text_size" />
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
@@ -143,19 +170,19 @@
             <LinearLayout
                 android:id="@+id/layout_time"
                 android:layout_below="@+id/layout_place"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:background="@android:color/white"
+                android:background="@drawable/white_border"
                 android:elevation="10dp"
                 android:orientation="vertical">
 
                 <LinearLayout
+                    android:id="@+id/layout_font"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="7dp"
                     android:layout_marginTop="7dp"
                     android:orientation="vertical">
 
@@ -164,11 +191,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
-                        android:layout_marginTop="0dp"
                         android:inputType="none"
                         android:text="Ngày khởi hành"
                         android:textColor="@android:color/black"
-                        android:textSize="13sp"
+                        android:textSize="@dimen/body_text_size"
                         android:textStyle="bold" />
 
                     <LinearLayout
@@ -194,67 +220,114 @@
                             android:hint="Chọn ngày khởi hành"
                             android:inputType="textPersonName"
                             android:textColorHint="@android:color/black"
-                            android:textSize="13dp" />
+                            android:textSize="@dimen/body_text_size" />
                     </LinearLayout>
-                </LinearLayout>
-            </LinearLayout>
 
-            <LinearLayout
-                android:layout_below="@+id/layout_time"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:background="@android:color/white"
-                android:elevation="10dp"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="7dp"
-                    android:layout_marginTop="7dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/tv_loaighe"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginTop="0dp"
-                        android:inputType="none"
-                        android:text="Chọn loại ghế"
-                        android:textColor="@android:color/black"
-                        android:textSize="13sp"
-                        android:textStyle="bold" />
-
-                    <RadioGroup
-                        android:id="@+id/radioGroup"
+                    <LinearLayout
+                        android:layout_marginTop="5dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="7dp"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginTop="5dp">
+                        android:orientation="vertical">
 
-                        <RadioButton
-                            android:id="@+id/radioButton"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Ghế ngồi"
-                            android:textSize="12sp" />
-
-                        <RadioButton
-                            android:id="@+id/radioButton2"
+                        <TextView
+                            android:id="@+id/tv_loaighe"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Giường nằm"
-                            android:textSize="12sp" />
-                    </RadioGroup>
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginTop="0dp"
+                            android:inputType="none"
+                            android:text="Chọn loại ghế"
+                            android:textColor="@android:color/black"
+                            android:textSize="@dimen/body_text_size"
+                            android:textStyle="bold" />
+
+                        <RadioGroup
+                            android:id="@+id/radioGroup"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="5dp">
+
+                            <RadioButton
+                                android:id="@+id/radioButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Ghế ngồi"
+                                android:textSize="@dimen/body_text_size" />
+
+                            <RadioButton
+                                android:checked="true"
+                                android:id="@+id/radioButton2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Giường nằm"
+                                android:textSize="@dimen/body_text_size" />
+                        </RadioGroup>
+                    </LinearLayout>
+
+
                 </LinearLayout>
             </LinearLayout>
+
+            <!--<LinearLayout-->
+                <!--android:layout_below="@+id/layout_time"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="20dp"-->
+                <!--android:layout_marginLeft="20dp"-->
+                <!--android:layout_marginRight="20dp"-->
+                <!--android:background="@android:color/white"-->
+                <!--android:elevation="10dp"-->
+                <!--android:orientation="vertical">-->
+
+                <!--<LinearLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginBottom="7dp"-->
+                    <!--android:layout_marginTop="7dp"-->
+                    <!--android:orientation="vertical">-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/tv_loaighe"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginLeft="5dp"-->
+                        <!--android:layout_marginTop="0dp"-->
+                        <!--android:inputType="none"-->
+                        <!--android:text="Chọn loại ghế"-->
+                        <!--android:textColor="@android:color/black"-->
+                        <!--android:textSize="@dimen/body_text_size"-->
+                        <!--android:textStyle="bold" />-->
+
+                    <!--<RadioGroup-->
+                        <!--android:id="@+id/radioGroup"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginBottom="7dp"-->
+                        <!--android:layout_marginStart="5dp"-->
+                        <!--android:layout_marginTop="5dp">-->
+
+                        <!--<RadioButton-->
+                            <!--android:id="@+id/radioButton"-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_weight="1"-->
+                            <!--android:text="Ghế ngồi"-->
+                            <!--android:textSize="@dimen/body_text_size" />-->
+
+                        <!--<RadioButton-->
+                            <!--android:id="@+id/radioButton2"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_weight="1"-->
+                            <!--android:text="Giường nằm"-->
+                            <!--android:textSize="@dimen/body_text_size" />-->
+                    <!--</RadioGroup>-->
+                <!--</LinearLayout>-->
+            <!--</LinearLayout>-->
 
             <LinearLayout
                 android:layout_centerHorizontal="true"

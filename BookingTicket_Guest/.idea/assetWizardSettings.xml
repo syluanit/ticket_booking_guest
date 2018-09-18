@@ -23,8 +23,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="color" value="ffffff" />
-                                                <entry key="paddingPercent" value="30" />
+                                                <entry key="color" value="ffa000" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -35,30 +34,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_search_black_24dp.xml" />
-                                              </map>
-                                            </option>
-                                          </PersistentState>
-                                        </value>
-                                      </entry>
-                                      <entry key="text">
-                                        <value>
-                                          <PersistentState>
-                                            <option name="values">
-                                              <map>
-                                                <entry key="color" value="ffffff" />
-                                              </map>
-                                            </option>
-                                          </PersistentState>
-                                        </value>
-                                      </entry>
-                                      <entry key="textAsset">
-                                        <value>
-                                          <PersistentState>
-                                            <option name="values">
-                                              <map>
-                                                <entry key="fontFamily" value="Arial" />
-                                                <entry key="text" value="ĐƯA BẠN ĐI XA" />
+                                                <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/social/ic_person_black_24dp.xml" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -68,11 +44,8 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="backgroundColor" value="ffb80c" />
-                                      <entry key="cropped" value="true" />
                                       <entry key="iconShape" value="NONE" />
-                                      <entry key="imageAsset" value="C:\Users\syluanit\Desktop\download.png" />
-                                      <entry key="outputName" value="ic_search_white" />
+                                      <entry key="outputName" value="ic_person" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -108,7 +81,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/image/ic_navigate_before_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_swap_horiz_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -118,8 +91,8 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="color" value="ffffff" />
-                            <entry key="outputName" value="ic_navigate_before_black_24dp" />
+                            <entry key="color" value="ffa000" />
+                            <entry key="outputName" value="ic_swap_horiz_black_24dp" />
                             <entry key="sourceFile" value="C:\Users\syluanit" />
                           </map>
                         </option>

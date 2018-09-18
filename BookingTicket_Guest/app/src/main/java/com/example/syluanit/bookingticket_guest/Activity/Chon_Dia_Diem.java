@@ -33,25 +33,22 @@ public class Chon_Dia_Diem extends AppCompatActivity {
     Chon_Dia_Diem_Adapter chon_dia_diem_adapter;
     ArrayList<DiaDiem> diaDiemArrayList;
     ImageView iv_back;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_chon__dia__diem);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarSearch);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("CHỌN ĐỊA ĐIỂM");
         listView = (ListView) findViewById(R.id.lv_chon_dia_diem);
         tvKhongCoDiaDiem = (TextView) findViewById(R.id.tvKhongCoDiaDiem);
         iv_back = (ImageView) findViewById(R.id.back_pressed);
 
         diaDiemArrayList = new ArrayList<>();
-        diaDiemArrayList.add(new DiaDiem("Binh Định"));
-        diaDiemArrayList.add(new DiaDiem("Đa Nang"));
+        diaDiemArrayList.add(new DiaDiem("Bình Định"));
+        diaDiemArrayList.add(new DiaDiem("Đà Nẵng"));
         diaDiemArrayList.add(new DiaDiem("Nha Trang"));
         diaDiemArrayList.add(new DiaDiem("Sài Gòn"));
-        diaDiemArrayList.add(new DiaDiem("Ha Noi"));
+        diaDiemArrayList.add(new DiaDiem("Hà Nội"));
         chon_dia_diem_adapter = new Chon_Dia_Diem_Adapter(this, R.layout.dong_dia_diem ,diaDiemArrayList);
         listView.setAdapter(chon_dia_diem_adapter);
 

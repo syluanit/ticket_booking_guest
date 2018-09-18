@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="130dp"
+    android:background="@drawable/white_border_20dp">
+
+    <TextView
+        android:id="@+id/tv_annoucement"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/colorPrimary"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="GỢI Ý CHỖ NGỒI"
+        android:textStyle="bold"
+        android:textSize="17dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_below="@+id/tv_annoucement"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="Nhà xe gợi ý chỗ ngồi giúp bạn:"
+        android:textSize="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <View
+        android:layout_above="@id/annoucement_suggestion"
+        android:layout_marginTop="2dp"
+        android:layout_centerHorizontal="true"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorPrimary"/>
+
+    <TextView
+        android:id="@+id/annoucement_suggestion"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="OK"
+        android:textSize="17dp"
+        android:layout_width="match_parent"
+        android:layout_height="40dp" />
+
+</RelativeLayout>

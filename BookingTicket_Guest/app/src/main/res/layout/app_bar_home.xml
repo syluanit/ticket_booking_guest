@@ -16,8 +16,8 @@
         android:layout_height="@dimen/toolbar_height"
         android:background="?attr/colorPrimary">
         <TextView
-            android:textColor="@color/white"
-            android:textSize="15sp"
+            android:textColor="@color/nav_header_color"
+            android:textSize="@dimen/nav_header_text_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Awesome Travel"

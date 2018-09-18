@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
 //                    Toast.makeText(MainActivity.this, "Vui lòng chọn ngày đi!", Toast.LENGTH_LONG).show();
 //                } else {
                     // TODO Sending data to the TimeList Activity using Bundle
-                    Intent intent = new Intent(MainActivity.this, TimeListActivity.class);
+                    Intent intent = new Intent(MainActivity.this, RouteActivity.class);
                     Bundle ticket = new Bundle();
                     ticket.putString("from", from);
                     ticket.putString("to", to);

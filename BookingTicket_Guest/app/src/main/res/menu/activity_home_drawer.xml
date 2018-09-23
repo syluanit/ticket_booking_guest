@@ -24,8 +24,9 @@
             android:height="1dp"
             android:width="250dp"
             ></View>
+        <!--visible false-->
         <item
-            android:visible="false"
+
             android:id="@+id/nav_BookingHistory"
             android:icon="@drawable/ic_history_black_24dp"
             android:title="LỊCH SỬ MUA VÉ" />

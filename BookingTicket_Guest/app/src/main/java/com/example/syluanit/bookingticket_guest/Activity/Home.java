@@ -12,6 +12,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,11 +23,24 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.syluanit.bookingticket_guest.Model.CurrentTicket;
 import com.example.syluanit.bookingticket_guest.Model.CurrentUser;
 import com.example.syluanit.bookingticket_guest.R;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -109,13 +123,42 @@ public class Home extends AppCompatActivity
 //                    Toast.makeText(Home.this, "Vui lòng chọn ngày đi!", Toast.LENGTH_LONG).show();
 //                } else {
 //                 TODO Sending data to the TimeList Activity using Bundle
-                Intent intent = new Intent(Home.this, RouteActivity.class);
-                Bundle ticket = new Bundle();
-                ticket.putString("from", from);
-                ticket.putString("to", to);
-                ticket.putString("date", date);
-                intent.putExtras(ticket);
-                startActivity(intent);
+//                Intent intent = new Intent(Home.this, RouteActivity.class);
+//                Bundle ticket = new Bundle();
+//                ticket.putString("from", from);
+//                ticket.putString("to", to);
+//                ticket.putString("date", date);
+//                intent.putExtras(ticket);
+//                startActivity(intent);
+
+                RequestQueue requestQueue = Volley.newRequestQueue(Home.this);
+
+                String url = "http://192.168.1.214/laravel/getTicket";
+
+//                JSONArray jsonArray = new JSONArray();
+//                try {
+//                    jsonArray = new JSONArray(url);
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+
+                JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(Request.Method.POST,
+                        url, null,
+                        new Response.Listener<JSONArray>() {
+                            @Override
+                            public void onResponse(JSONArray response) {
+                                Toast.makeText(Home.this, response.toString(), Toast.LENGTH_SHORT).show();
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Toast.makeText(Home.this, "Error", Toast.LENGTH_SHORT).show();
+                                Log.d("AAA", "onErrorResponse: " + error.toString());
+                            }
+                        });
+                requestQueue.add(jsonObjectRequest);
+
                 }
 //            }
         });
@@ -157,6 +200,8 @@ public class Home extends AppCompatActivity
                 }
             }
         });
+
+
     }
 
     @Override
@@ -253,7 +298,8 @@ public class Home extends AppCompatActivity
         if (id == R.id.nav_Booking) {
             // Handle the camera action
         } else if (id == R.id.nav_BookingHistory) {
-
+            Intent intent = new Intent(Home.this, BookingHistory.class);
+            startActivity(intent);
         } else if (id == R.id.nav_Login_SignUp) {
             Intent intent = new Intent(Home.this, Dang_Nhap_Activity.class);
             startActivity(intent);

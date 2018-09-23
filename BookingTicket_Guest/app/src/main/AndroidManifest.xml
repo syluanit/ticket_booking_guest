@@ -2,10 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.syluanit.bookingticket_guest">
 
+    <uses-permission android:name="android.permission.INTERNET" />
 
-    <!--android:name=".Service.Customfontapp"-->
+    <!-- android:name=".Service.Customfontapp" -->
     <application
-
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -36,7 +36,10 @@
         <activity android:name=".Activity.Fill_Customer_Info_Form" />
         <activity android:name=".Activity.Lay_Lai_Mat_Khau" />
         <activity android:name=".Activity.TicketBookingInfo" />
-        <activity android:name=".Activity.UserInfo"></activity>
+        <activity android:name=".Activity.UserInfo" />
+        <activity android:name=".Activity.BookingHistory" />
+        <activity android:name=".Activity.EditInfoForm" />
+        <activity android:name=".ChangePasswordForm"></activity>
     </application>
 
 </manifest>

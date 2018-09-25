@@ -8,7 +8,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.example.syluanit.bookingticket_guest.ChangePasswordForm;
 import com.example.syluanit.bookingticket_guest.R;
 
 public class EditInfoForm extends AppCompatActivity {

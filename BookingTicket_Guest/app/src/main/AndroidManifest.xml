@@ -39,7 +39,7 @@
         <activity android:name=".Activity.UserInfo" />
         <activity android:name=".Activity.BookingHistory" />
         <activity android:name=".Activity.EditInfoForm" />
-        <activity android:name=".ChangePasswordForm"></activity>
+        <activity android:name=".Activity.ChangePasswordForm"></activity>
     </application>
 
 </manifest>

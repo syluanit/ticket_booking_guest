@@ -1,5 +1,5 @@
 
-package com.example.syluanit.bookingticket_guest;
+package com.example.syluanit.bookingticket_guest.Activity;
 
 import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
@@ -8,7 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
+
+import com.example.syluanit.bookingticket_guest.R;
 
 public class ChangePasswordForm extends AppCompatActivity {
 

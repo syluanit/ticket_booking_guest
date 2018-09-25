@@ -5,12 +5,10 @@
     <!--<item ><bitmap android:src="@drawable/logo"></bitmap></item>-->
 
     <item
-
         android:gravity="center"
         android:width="220dp"
         android:height="150dp"
         android:drawable="@drawable/logo">
-
     </item>
 
 </layer-list>

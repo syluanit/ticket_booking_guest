@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">test_layout</string>
+    <string name="title_activity_tracking">Map</string>
 </resources>

@@ -1,5 +1,7 @@
 package com.example.syluanit.bookingticket_guest.Model;
 
+import java.util.ArrayList;
+
 public class Route {
     private String startDestination;
     private String endDestination;
@@ -7,6 +9,7 @@ public class Route {
     private String timeDep;
     private String timeArr;
     private String price;
+    private ArrayList<String> seat;
 
     public Route(String startDestination, String endDestination, String day, String timeDep, String timeArr, String price) {
         this.startDestination = startDestination;
@@ -16,6 +19,8 @@ public class Route {
         this.timeArr = timeArr;
         this.price = price;
     }
+
+
 
     public Route(String timeDep, String timeArr, String price) {
         this.timeDep = timeDep;
@@ -69,5 +74,13 @@ public class Route {
 
     public void setPrice(String price) {
         this.price = price;
+    }
+
+    public ArrayList<String> getSeat() {
+        return seat;
+    }
+
+    public void setSeat(ArrayList<String> seat) {
+        this.seat = seat;
     }
 }

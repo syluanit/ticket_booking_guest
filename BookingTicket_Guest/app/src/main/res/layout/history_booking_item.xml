@@ -204,11 +204,36 @@
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:weightSum="10"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="6"
+                        android:text="Ghế đặt: "
+                        android:textSize="@dimen/body_text_size" />
+
+                    <TextView
+                        android:textColor="@color/color_text_route"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/body_text_size"
+                        android:id="@+id/tv_bookingseat"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        />
+
+                </LinearLayout>
+
             </LinearLayout>
 
         </LinearLayout>
 
         <Button
+            android:textColor="@color/white"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="10dp"
             android:layout_gravity="center"

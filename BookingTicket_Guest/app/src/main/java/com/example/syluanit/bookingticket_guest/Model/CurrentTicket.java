@@ -1,12 +1,14 @@
 package com.example.syluanit.bookingticket_guest.Model;
 
+import java.util.ArrayList;
+
 public class CurrentTicket {
     private String startDestination;
     private String endDestination;
     private String day;
     private String timeDep;
     private String timeArr;
-    private String seat;
+    private ArrayList<String> seat;
     private String price;
     private int numSeat;
     private int typeSeat;
@@ -59,11 +61,11 @@ public class CurrentTicket {
         this.timeArr = timeArr;
     }
 
-    public String getSeat() {
+    public ArrayList<String> getSeat() {
         return seat;
     }
 
-    public void setSeat(String seat) {
+    public void setSeat(ArrayList<String> seat) {
         this.seat = seat;
     }
 

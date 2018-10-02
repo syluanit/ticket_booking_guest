@@ -51,6 +51,8 @@ public class Home extends AppCompatActivity
 
     private static final int DIA_DIEM_ACTIVITY_REQUEST_CODE = 100;
     private static final int DIA_DIEM_TO_ACTIVITY_REQUEST_CODE = 200;
+//    String url = "http://192.168.40.68/laravel/getTicket";
+    String url = "http://192.168.1.214/laravel/getTicket";
 
     private EditText et_pickDay,et_from, et_to;
     private RadioGroup radioGroupTypeSeat;
@@ -123,43 +125,15 @@ public class Home extends AppCompatActivity
 //                    Toast.makeText(Home.this, "Vui lòng chọn ngày đi!", Toast.LENGTH_LONG).show();
 //                } else {
 //                 TODO Sending data to the TimeList Activity using Bundle
-//                Intent intent = new Intent(Home.this, RouteActivity.class);
-//                Bundle ticket = new Bundle();
-//                ticket.putString("from", from);
-//                ticket.putString("to", to);
-//                ticket.putString("date", date);
-//                intent.putExtras(ticket);
-//                startActivity(intent);
+                Intent intent = new Intent(Home.this, RouteActivity.class);
+                Bundle ticket = new Bundle();
+                ticket.putString("from", from);
+                ticket.putString("to", to);
+                ticket.putString("date", date);
+                intent.putExtras(ticket);
+                startActivity(intent);
 
-                RequestQueue requestQueue = Volley.newRequestQueue(Home.this);
-
-                String url = "http://192.168.1.214/laravel/getTicket";
-
-//                JSONArray jsonArray = new JSONArray();
-//                try {
-//                    jsonArray = new JSONArray(url);
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-
-                JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(Request.Method.POST,
-                        url, null,
-                        new Response.Listener<JSONArray>() {
-                            @Override
-                            public void onResponse(JSONArray response) {
-                                Toast.makeText(Home.this, response.toString(), Toast.LENGTH_SHORT).show();
-                            }
-                        },
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Toast.makeText(Home.this, "Error", Toast.LENGTH_SHORT).show();
-                                Log.d("AAA", "onErrorResponse: " + error.toString());
-                            }
-                        });
-                requestQueue.add(jsonObjectRequest);
-
-                }
+            }
 //            }
         });
 
@@ -202,6 +176,34 @@ public class Home extends AppCompatActivity
         });
 
 
+    }
+
+    private void receiveUserData (String url){
+        RequestQueue requestQueue = Volley.newRequestQueue(Home.this);
+
+//                JSONArray jsonArray = new JSONArray();
+//                try {
+//                    jsonArray = new JSONArray(url);
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+
+        JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(Request.Method.GET,
+                url, null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        Toast.makeText(Home.this, response.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(Home.this, "Error", Toast.LENGTH_SHORT).show();
+                        Log.d("AAA", "onErrorResponse: " + error.toString());
+                    }
+                });
+        requestQueue.add(jsonObjectRequest);
     }
 
     @Override

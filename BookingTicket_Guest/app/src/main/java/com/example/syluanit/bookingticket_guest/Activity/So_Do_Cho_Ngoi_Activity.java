@@ -133,14 +133,21 @@ public class So_Do_Cho_Ngoi_Activity extends AppCompatActivity {
                 if (currentSeat.size() != 0) {
 
                         if (So_Do_Cho_Ngoi_Activity.currentSeat != null) {
-                            String seat = "";
+                            ArrayList<String> seat = new ArrayList<>();
+
                             for (int i = 0; i < So_Do_Cho_Ngoi_Activity.currentSeat.size(); i++) {
                                 if (i != So_Do_Cho_Ngoi_Activity.currentSeat.size() - 1) {
-                                    seat += (So_Do_Cho_Ngoi_Activity.currentSeat.get(i).getViTri() + ", ");
+                                    seat.add(So_Do_Cho_Ngoi_Activity.currentSeat.get(i).getViTri());
                                 } else
-                                    seat += (So_Do_Cho_Ngoi_Activity.currentSeat.get(i).getViTri() + ".");
+                                    seat.add(So_Do_Cho_Ngoi_Activity.currentSeat.get(i).getViTri() );
                             }
                             Home.currentTicket.setSeat(seat);
+                            for (int i = 0; i < Home.currentTicket.getSeat().size(); i++) {
+                                String seat1 = "";
+                                if (i != Home.currentTicket.getSeat().size() - 1) {
+                                    seat1 += (Home.currentTicket.getSeat().get(i).toString() + ", ");
+                                } else seat1 += (Home.currentTicket.getSeat().get(i).toString() + ".");
+                            }
                         }
 
                     Home.currentTicket.setNumSeat(currentSeat.size());
@@ -151,7 +158,7 @@ public class So_Do_Cho_Ngoi_Activity extends AppCompatActivity {
                     final Dialog dialog = new Dialog(So_Do_Cho_Ngoi_Activity.this);
                     dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                     dialog.setContentView(R.layout.dialog_no_seat_selected);
-                    TextView tv_annoucement = dialog.findViewById(R.id.annoucement);
+                    TextView tv_annoucement = dialog.findViewById(R.id.tv_OK);
                     dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                     tv_annoucement.setOnClickListener(new View.OnClickListener() {
                         @Override

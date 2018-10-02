@@ -23,6 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView
+        android:id="@+id/tv_content"
         android:layout_below="@+id/tv_annoucement"
         android:layout_marginTop="15dp"
         android:layout_centerHorizontal="true"
@@ -33,14 +34,14 @@
         android:layout_height="wrap_content" />
 
     <View
-        android:layout_above="@id/annoucement"
+        android:layout_above="@id/tv_OK"
         android:layout_marginTop="2dp"
         android:layout_centerHorizontal="true"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/colorPrimary"/>
     <TextView
-        android:id="@+id/annoucement"
+        android:id="@+id/tv_OK"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:gravity="center"

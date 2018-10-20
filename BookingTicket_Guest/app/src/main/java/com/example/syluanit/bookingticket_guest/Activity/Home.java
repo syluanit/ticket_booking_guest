@@ -25,12 +25,14 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.syluanit.bookingticket_guest.Model.CurrentTicket;
 import com.example.syluanit.bookingticket_guest.Model.CurrentUser;
@@ -43,6 +45,8 @@ import org.json.JSONObject;
 import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import me.anwarshahriar.calligrapher.Calligrapher;
 
@@ -55,6 +59,7 @@ public class Home extends AppCompatActivity
     String url = "http://192.168.1.214/laravel/getTicket";
 
     private EditText et_pickDay,et_from, et_to;
+    private String typeSeat;
     private RadioGroup radioGroupTypeSeat;
     private RelativeLayout layout_font;
     private Button btn_ticketSearch;
@@ -116,25 +121,19 @@ public class Home extends AppCompatActivity
                 currentTicket.setEndDestination(to);
                 currentTicket.setDay(date);
 
-//                // TODO Checking infomation
-//                if (from.isEmpty()) {
-//                    Toast.makeText(Home.this, "Vui lòng chọn điểm đi!", Toast.LENGTH_LONG).show();
-//                } else if (to.isEmpty()) {
-//                    Toast.makeText(Home.this, "Vui lòng chọn điểm đến!", Toast.LENGTH_LONG).show();
-//                } else if (date.isEmpty()) {
-//                    Toast.makeText(Home.this, "Vui lòng chọn ngày đi!", Toast.LENGTH_LONG).show();
-//                } else {
+                // TODO Checking infomation
+                if (from.isEmpty()) {
+                    Toast.makeText(Home.this, "Vui lòng chọn điểm đi!", Toast.LENGTH_LONG).show();
+                } else if (to.isEmpty()) {
+                    Toast.makeText(Home.this, "Vui lòng chọn điểm đến!", Toast.LENGTH_LONG).show();
+                } else if (date.isEmpty()) {
+                    Toast.makeText(Home.this, "Vui lòng chọn ngày đi!", Toast.LENGTH_LONG).show();
+                } else {
 //                 TODO Sending data to the TimeList Activity using Bundle
-                Intent intent = new Intent(Home.this, RouteActivity.class);
-                Bundle ticket = new Bundle();
-                ticket.putString("from", from);
-                ticket.putString("to", to);
-                ticket.putString("date", date);
-                intent.putExtras(ticket);
-                startActivity(intent);
-
+                    final String url = "http://192.168.43.218/busmanager/public/chuyenxeAndroid";
+                    sendUserData(url);
             }
-//            }
+            }
         });
 
         et_from.setFocusable(false);
@@ -154,29 +153,107 @@ public class Home extends AppCompatActivity
             public void onClick(View v) {
                 Intent intent = new Intent(Home.this, Chon_Dia_Diem.class);
                 startActivityForResult(intent, DIA_DIEM_TO_ACTIVITY_REQUEST_CODE);
-//                ProgressDialog progressDialog = new ProgressDialog(Home.this);
-//                progressDialog.setContentView(R.layout.);
             }
         });
 
         radioGroupTypeSeat = (RadioGroup) findViewById(R.id.radioGroup) ;
         currentTicket.setTypeSeat(1);
+        typeSeat = "1";
         radioGroupTypeSeat.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.radioButton:
                         currentTicket.setTypeSeat(0);
+                        typeSeat = "0";
                         break;
                     case R.id.radioButton2:
                         currentTicket.setTypeSeat(1);
+                        //giuong
+                        typeSeat = "1";
                         break;
                 }
             }
         });
 
+//        String url = "http://192.168.1.214/laravel/receiveDataUser";
+
+//        final String url = "http://192.168.43.218/busmanager/public/chonveAndroid";
+//        final String url = "http://192.168.43.218/busmanager/public/lichsuAndroid";
 
     }
+
+    private void sendUserData(String url){
+        final RequestQueue requestQueue = Volley.newRequestQueue(this);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("AAA", "onResponse: yeahyeah");
+//                        Toast.makeText(Home.this, response.toString(), Toast.LENGTH_SHORT).show();
+                        Log.d("AAA", "onResponse: " + response.toString());
+                        Bundle ticket = new Bundle();
+                        ticket.putString("ticketJson",response);
+                        Intent intent = new Intent(Home.this, RouteActivity.class);
+                        intent.putExtras(ticket);
+                        startActivity(intent);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(Home.this, "Error", Toast.LENGTH_SHORT).show();
+                        Log.d("AAA", "onErrorResponse: " + error.toString());
+                    }
+                }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+//                params.put("X-CSRF-Token", accessToken);
+                params.put("Noidi", et_from.getText().toString().trim());
+                params.put("Noiden", et_to.getText().toString().trim());
+                params.put("Loaighe", typeSeat);
+                params.put("Ngaydi", et_pickDay.getText().toString().trim());
+                Log.d("AAA", "getParams: OK!!!");
+
+                return params;
+            }
+        };
+        requestQueue.add(stringRequest);
+    }
+
+//
+//private void sendUserData(String url){
+//
+//    final RequestQueue requestQueue = Volley.newRequestQueue(this);
+//    StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+//            new Response.Listener<String>() {
+//                @Override
+//                public void onResponse(String response) {
+//                    Log.d("AAA", "onResponse: yeahyeah");
+//                    Toast.makeText(Home.this, response.toString(), Toast.LENGTH_SHORT).show();
+//                    Log.d("AAA", "onResponse: " + response.toString());
+//                }
+//            },
+//            new Response.ErrorListener() {
+//                @Override
+//                public void onErrorResponse(VolleyError error) {
+//                    Toast.makeText(Home.this, "Error", Toast.LENGTH_SHORT).show();
+//                    Log.d("AAA", "onErrorResponse: " + error.toString());
+//                }
+//            }){
+//        @Override
+//        protected Map<String, String> getParams() throws AuthFailureError {
+//
+//            Map<String, String> params = new HashMap<>();
+//            params.put("ID", "1");
+//            Log.d("AAA", "getParams: OK!!!");
+//            return params;
+//        }
+//    };
+//    requestQueue.add(stringRequest);
+//}
 
     private void receiveUserData (String url){
         RequestQueue requestQueue = Volley.newRequestQueue(Home.this);
@@ -225,21 +302,32 @@ public class Home extends AppCompatActivity
     }
 
     private void pickDay(){
-        final Calendar calendar =  Calendar.getInstance();
-        int ngay = calendar.get(Calendar.DATE);
-        int thang = calendar.get(Calendar.MONTH);
-        int nam = calendar.get(Calendar.YEAR);
+        final Calendar calendar = Calendar.getInstance();
+        int ngay, thang, nam = 0;
+        if (et_pickDay.getText().toString().matches("")) {
+            ngay = calendar.get(Calendar.DATE);
+             thang = calendar.get(Calendar.MONTH);
+             nam = calendar.get(Calendar.YEAR);
+        }
+        else {
+            String s = et_pickDay.getText().toString();
+            String [] arrayString = s.split("-");
+            ngay = Integer.parseInt(arrayString[0]);
+            thang = Integer.parseInt(arrayString[1]);
+            nam = Integer.parseInt(arrayString[2]);
+        }
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+        final DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 calendar.set(year, month,dayOfMonth);
                 // TODO Time format and set picked day to the edittext
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
                 et_pickDay.setText(simpleDateFormat.format(calendar.getTime()));
             }
         }, nam, thang, ngay);
-
+        datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
         datePickerDialog.show();
     }
 

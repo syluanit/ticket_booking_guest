@@ -81,7 +81,7 @@ public class Fragment_Tang_Duoi extends Fragment {
 
         for (int i = 0; i < 30; i++) {
             if (i == 4  ) {
-                gheNgoiArrayList_tang_duoi.add(new GheNgoi(R.drawable.custom_seat,1,""+ j ,0));
+                gheNgoiArrayList_tang_duoi.add(new GheNgoi(R.drawable.custom_seat,1,"B"+ j ,0));
                 j++;
             }
             else

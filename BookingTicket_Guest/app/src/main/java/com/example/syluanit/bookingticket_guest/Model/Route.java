@@ -3,6 +3,7 @@ package com.example.syluanit.bookingticket_guest.Model;
 import java.util.ArrayList;
 
 public class Route {
+    private String id;
     private String startDestination;
     private String endDestination;
     private String day;
@@ -20,12 +21,19 @@ public class Route {
         this.price = price;
     }
 
+    public String getId() {
+        return id;
+    }
 
+    public void setId(String id) {
+        this.id = id;
+    }
 
-    public Route(String timeDep, String timeArr, String price) {
+    public Route(String timeDep, String timeArr, String price, String id) {
         this.timeDep = timeDep;
         this.timeArr = timeArr;
         this.price = price;
+        this.id = id;
     }
 
     public String getStartDestination() {
@@ -35,6 +43,8 @@ public class Route {
     public void setStartDestination(String startDestination) {
         this.startDestination = startDestination;
     }
+
+
 
     public String getEndDestination() {
         return endDestination;

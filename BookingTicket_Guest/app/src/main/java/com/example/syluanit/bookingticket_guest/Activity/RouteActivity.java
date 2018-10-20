@@ -1,18 +1,34 @@
 package com.example.syluanit.bookingticket_guest.Activity;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.syluanit.bookingticket_guest.Adapter.RouteAdapter;
+import com.example.syluanit.bookingticket_guest.Model.DiaDiem;
 import com.example.syluanit.bookingticket_guest.Model.Route;
 import com.example.syluanit.bookingticket_guest.R;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class RouteActivity extends AppCompatActivity {
 
@@ -20,6 +36,7 @@ public class RouteActivity extends AppCompatActivity {
     ArrayList<Route> routeArrayList;
     RouteAdapter routeAdapter;
     RecyclerView recyclerView;
+    TextView start, end, date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,27 +44,55 @@ public class RouteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_route);
 
         back_pressed = (ImageView) findViewById(R.id.timelist_back_pressed);
+        start = (TextView) findViewById(R.id.tv_start);
+        end = (TextView) findViewById(R.id.tv_end);
+        date = (TextView) findViewById(R.id.tv_day);
 
         routeArrayList = new ArrayList<>();
-        routeArrayList.add(new Route(Home.currentTicket.getStartDestination(),
-                Home.currentTicket.getEndDestination(), Home.currentTicket.getDay(),
-                "8:00", "14:00", "200000"));
-        routeArrayList.add(new Route(Home.currentTicket.getStartDestination(),
-                Home.currentTicket.getEndDestination(), Home.currentTicket.getDay(),
-                "8:00", "14:00", "200000"));
-        routeArrayList.add(new Route("8:00", "14:00", "200000"));
-        routeArrayList.add(new Route("8:00", "14:00", "200000"));
-        routeArrayList.add(new Route("8:00", "14:00", "200000"));
-        routeArrayList.add(new Route("8:00", "14:00", "200000"));
-        routeArrayList.add(new Route("8:00", "14:00", "200000"));
 
-        recyclerView = (RecyclerView) findViewById(R.id.rv_Route);
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        if (bundle != null) {
+            String receiveJson = bundle.getString("ticketJson", "");
+
+            try {
+                JSONObject jsonObject = new JSONObject(receiveJson);
+                JSONArray jsonArray = jsonObject.getJSONArray("chuyenxe");
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonObject1 = (JSONObject) jsonArray.get(i);
+                    String time = jsonObject1.getString("Giờ_xuất_phát");
+                    String price = jsonObject1.getString("Tiền_vé");
+                    String id = jsonObject1.getString("Mã");
+
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
+                    SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("HH:mm");
+                    routeArrayList.add(new Route(simpleDateFormat.format(simpleDateFormat1.parse(time)),
+                            "14:00", currencyFormat(price), id));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                JSONObject jsonObject = new JSONObject(receiveJson);
+                String startShow = jsonObject.getString("from");
+                String endShow = jsonObject.getString("to");
+                String timeShow = jsonObject.getString("tt");
+                start.setText(startShow);
+                end.setText(endShow);
+                date.setText(timeShow);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+    recyclerView = (RecyclerView) findViewById(R.id.rv_Route);
         recyclerView.setHasFixedSize(true);
         routeAdapter = new RouteAdapter(this, routeArrayList);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-//        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, layoutManager.getOrientation());
-//        recyclerView.addItemDecoration(dividerItemDecoration);
         recyclerView.setAdapter(routeAdapter);
 
         back_pressed.setOnClickListener(new View.OnClickListener() {
@@ -56,5 +101,10 @@ public class RouteActivity extends AppCompatActivity {
                 ((Activity) RouteActivity.this).onBackPressed();
             }
         });
+    }
+
+    public static String currencyFormat(String amount) {
+        DecimalFormat formatter = new DecimalFormat("###,###,###");
+        return formatter.format(Double.parseDouble(amount));
     }
 }

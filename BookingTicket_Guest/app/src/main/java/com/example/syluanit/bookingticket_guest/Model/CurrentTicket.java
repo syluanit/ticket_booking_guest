@@ -3,6 +3,7 @@ package com.example.syluanit.bookingticket_guest.Model;
 import java.util.ArrayList;
 
 public class CurrentTicket {
+    private String Id;
     private String startDestination;
     private String endDestination;
     private String day;
@@ -12,6 +13,14 @@ public class CurrentTicket {
     private String price;
     private int numSeat;
     private int typeSeat;
+
+    public String getId() {
+        return Id;
+    }
+
+    public void setId(String id) {
+        Id = id;
+    }
 
     public String getStartDestination() {
         return startDestination;

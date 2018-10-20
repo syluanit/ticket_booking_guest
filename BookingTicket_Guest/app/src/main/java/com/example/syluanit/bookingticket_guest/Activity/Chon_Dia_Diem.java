@@ -19,10 +19,22 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.syluanit.bookingticket_guest.Adapter.Chon_Dia_Diem_Adapter;
 import com.example.syluanit.bookingticket_guest.Model.DiaDiem;
 import com.example.syluanit.bookingticket_guest.R;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -44,11 +56,15 @@ public class Chon_Dia_Diem extends AppCompatActivity {
         iv_back = (ImageView) findViewById(R.id.back_pressed);
 
         diaDiemArrayList = new ArrayList<>();
-        diaDiemArrayList.add(new DiaDiem("Bình Định"));
-        diaDiemArrayList.add(new DiaDiem("Đà Nẵng"));
-        diaDiemArrayList.add(new DiaDiem("Nha Trang"));
-        diaDiemArrayList.add(new DiaDiem("Sài Gòn"));
-        diaDiemArrayList.add(new DiaDiem("Hà Nội"));
+//        diaDiemArrayList.add(new DiaDiem("Bình Định"));
+//        diaDiemArrayList.add(new DiaDiem("Đà Nẵng"));
+//        diaDiemArrayList.add(new DiaDiem("Nha Trang"));
+//        diaDiemArrayList.add(new DiaDiem("Sài Gòn"));
+//        diaDiemArrayList.add(new DiaDiem("Hà Nội"));
+
+        String url = "http://192.168.43.218/busmanager/public/gettinh";
+        receiveUserData(url);
+
         chon_dia_diem_adapter = new Chon_Dia_Diem_Adapter(this, R.layout.dong_dia_diem ,diaDiemArrayList);
         listView.setAdapter(chon_dia_diem_adapter);
 
@@ -69,6 +85,34 @@ public class Chon_Dia_Diem extends AppCompatActivity {
                 ((Activity) Chon_Dia_Diem.this).onBackPressed();
             }
         });
+    }
+
+    private void receiveUserData (String url){
+        RequestQueue requestQueue = Volley.newRequestQueue(Chon_Dia_Diem.this);
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONArray jsonArray = response.getJSONArray("kq");
+                            for (int i = 0; i < jsonArray.length(); i++){
+                                JSONObject jsonObject = (JSONObject) jsonArray.get(i);
+                                String province = jsonObject.getString("Tên");
+                                diaDiemArrayList.add(new DiaDiem(province));
+                                chon_dia_diem_adapter.notifyDataSetChanged();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        requestQueue.add(jsonObjectRequest);
     }
 
     @Override

@@ -90,6 +90,7 @@ public class Dang_Nhap_Activity extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
 
                 Map<String, String> params = new HashMap<>();
+//                params.put("X-CSRF-Token", accessToken);
                 params.put("email", username.getText().toString().trim());
                 params.put("password", password.getText().toString().trim());
                 Log.d("AAA", "getParams: OK!!!");

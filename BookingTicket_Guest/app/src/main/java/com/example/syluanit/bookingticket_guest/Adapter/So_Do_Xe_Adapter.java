@@ -180,6 +180,7 @@ public class So_Do_Xe_Adapter extends BaseAdapter {
         else{
             holder.imgSeat.setEnabled(false);
             holder.imgSeat.setFocusable(false);
+            holder.imgSeat.setOnClickListener(null);
         }
         return convertView;
     }

@@ -19,6 +19,7 @@ import com.example.syluanit.bookingticket_guest.R;
 
 import org.w3c.dom.Text;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class TicketBookingInfo extends AppCompatActivity {
@@ -78,9 +79,9 @@ public class TicketBookingInfo extends AppCompatActivity {
     }
 
     private void prepareTicketInfo(){
-        ticketInfoArrayList.add(new TicketInfo("Họ và tên","" ));
-        ticketInfoArrayList.add(new TicketInfo("Email", ""));
-        ticketInfoArrayList.add(new TicketInfo("Điện thoại",""));
+        ticketInfoArrayList.add(new TicketInfo("Họ và tên", Home.currentUser.getName() ));
+        ticketInfoArrayList.add(new TicketInfo("Email", Home.currentUser.getEmail()));
+        ticketInfoArrayList.add(new TicketInfo("Điện thoại",Home.currentUser.getPhoneNumber()));
         ticketInfoArrayList.add(new TicketInfo("Tuyến đi",
                 Home.currentTicket.getStartDestination() + " => "
                         + Home.currentTicket.getEndDestination()));
@@ -94,7 +95,15 @@ public class TicketBookingInfo extends AppCompatActivity {
         }
         ticketInfoArrayList.add(new TicketInfo("Vị trí ghế",seat1));
 
-        ticketInfoArrayList.add(new TicketInfo("Tổng tiền","140000"));
+        ticketInfoArrayList.add(new TicketInfo("Tổng tiền",
+                currencyFormat(
+                String.valueOf(Integer.parseInt(Home.currentTicket.getPrice())
+                * Home.currentTicket.getNumSeat() * 1000))));
         adapter.notifyDataSetChanged();
+    }
+
+    public static String currencyFormat(String amount) {
+        DecimalFormat formatter = new DecimalFormat("###,###,###");
+        return formatter.format(Double.parseDouble(amount));
     }
 }

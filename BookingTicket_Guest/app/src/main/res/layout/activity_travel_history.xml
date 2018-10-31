@@ -17,7 +17,7 @@
 
             <ImageView
                 android:padding="8dp"
-                android:id="@+id/back_pressed_history"
+                android:id="@+id/back_pressed_travelhistory"
                 android:layout_gravity="center"
                 android:src="@drawable/ic_navigate_before_black_24dp"
                 android:layout_width="40dp"
@@ -36,7 +36,7 @@
                     android:textSize="@dimen/nav_header_text_size"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Lịch sử tìm kiếm"
+                    android:text="Lịch sử đã đi"
                     android:layout_gravity="center"
                     android:id="@+id/toolbar_title" />
             </android.support.v7.widget.Toolbar>
@@ -55,7 +55,7 @@
         android:layout_height="wrap_content" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_HistoryBooking"
+        android:id="@+id/rv_TravelBooking"
         android:layout_below="@+id/appbarLayoutHistory"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

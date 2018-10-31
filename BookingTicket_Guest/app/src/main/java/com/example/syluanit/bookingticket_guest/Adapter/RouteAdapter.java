@@ -2,6 +2,7 @@ package com.example.syluanit.bookingticket_guest.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -19,10 +20,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.syluanit.bookingticket_guest.Activity.Dang_Nhap_Activity;
 import com.example.syluanit.bookingticket_guest.Activity.Home;
+import com.example.syluanit.bookingticket_guest.Activity.RouteActivity;
 import com.example.syluanit.bookingticket_guest.Activity.So_Do_Cho_Ngoi_Activity;
 import com.example.syluanit.bookingticket_guest.Model.Route;
 import com.example.syluanit.bookingticket_guest.R;
+import com.example.syluanit.bookingticket_guest.Service.Database;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,7 +41,7 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.ViewHolder>{
 
     Context context;
     ArrayList<Route> routeArrayList;
-
+    Database database;
 
     public RouteAdapter(Context context, ArrayList<Route> routeArrayList) {
         this.context = context;
@@ -62,7 +66,6 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.ViewHolder>{
         holder.btn_book.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 // Server Request
                 final String url = "http://192.168.43.218/busmanager/public/chonveAndroid";
 
@@ -73,33 +76,39 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.ViewHolder>{
                             public void onResponse(String response) {
                                 Log.d("AAA", "onResponse: yeahyeah");
                                 Log.d("AAA", "onResponse: " + response.toString());
-                                try {
-                                    JSONObject jsonObject = new JSONObject(response);
-                                    JSONArray jsonArray = jsonObject.getJSONArray("sodo");
-                                    JSONObject jsonObject1 = (JSONObject) jsonArray.get(0);
-                                    String sodo = jsonObject1.getString("Sơ_đồ");
-                                    //
-                                    Home.currentTicket.setTimeDep(route.getTimeDep());
-                                    Home.currentTicket.setPrice(currencyFormat(route.getPrice()));
-                                    Home.currentTicket.setId(route.getId());
 
-                                    Intent i =  new Intent(context, So_Do_Cho_Ngoi_Activity.class);
-                                    i.putExtra("ticketMap", sodo );
+                                RouteActivity.noRoute.setVisibility(View.GONE);
+
+                                Home.currentTicket.setTimeDep(route.getTimeDep());
+                                Home.currentTicket.setPrice(currencyFormat(route.getPrice()));
+                                Home.currentTicket.setId(route.getId());
+
+                                Home.routeSignal = true;
+
+                                database = new Database(context, "ticket.sqlite", null, 1);
+
+                                Cursor data = database.getDaTa("SELECT * FROM sqlite_master WHERE name ='User' and type='table'");
+
+                                if (data.getCount() > 0) {
+                                    Intent i = new Intent(context, So_Do_Cho_Ngoi_Activity.class);
+                                    i.putExtra("ticketMap", response);
                                     context.startActivity(i);
-
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
+                                } else
+                                {
+                                    Intent i = new Intent(context, Dang_Nhap_Activity.class);
+                                    i.putExtra("ticketMap", response);
+                                    context.startActivity(i);
                                 }
-
                             }
                         },
                         new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+                                RouteActivity.noRoute.setVisibility(View.VISIBLE);
+                                Toast.makeText(context, "Vui lòng kiểm tra kết nối mạng hoặc thử lại", Toast.LENGTH_SHORT).show();
                                 Log.d("AAA", "onErrorResponse: " + error.toString());
                             }
-                        }){
+                        }) {
                     @Override
                     protected Map<String, String> getParams() throws AuthFailureError {
 

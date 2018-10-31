@@ -13,7 +13,7 @@
         ></View>
 
     <LinearLayout
-        android:paddingTop="10dp"
+        android:padding="10dp"
         android:background="@color/grey"
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -90,8 +90,6 @@
                         />
 
                 </LinearLayout>
-
-
 
                 <TextView
                     android:layout_width="match_parent"
@@ -262,19 +260,19 @@
 
         </LinearLayout>
 
-        <Button
-            android:textColor="@color/white"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="10dp"
-            android:layout_gravity="center"
-            android:textSize="@dimen/body_text_size"
-            android:paddingLeft="40dp"
-            android:paddingRight="40dp"
-            android:background="@drawable/button_history"
-            android:text="Xem lại vé"
-            android:id="@+id/btnHistory"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp" />
+        <!--<Button-->
+            <!--android:textColor="@color/white"-->
+            <!--android:layout_marginTop="5dp"-->
+            <!--android:layout_marginBottom="10dp"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:textSize="@dimen/body_text_size"-->
+            <!--android:paddingLeft="40dp"-->
+            <!--android:paddingRight="40dp"-->
+            <!--android:background="@drawable/button_history"-->
+            <!--android:text="Xem lại vé"-->
+            <!--android:id="@+id/btnHistory"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="30dp" />-->
 
     </LinearLayout>
 

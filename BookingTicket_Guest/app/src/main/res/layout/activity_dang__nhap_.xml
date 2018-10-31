@@ -47,7 +47,7 @@
             android:layout_margin="20dp"
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
                 <!--<View-->
                     <!--android:layout_width="match_parent"-->
@@ -61,7 +61,7 @@
 
                 <EditText
                     android:id="@+id/username"
-                    android:hint="Email hoặc SĐT"
+                    android:hint="Số điện thoại"
                     android:textSize="@dimen/body_text_size"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
@@ -73,6 +73,7 @@
 
                 <EditText
                     android:id="@+id/passWord"
+                    android:inputType="textPassword"
                     android:hint="Mật Khẩu"
                     android:textSize="@dimen/body_text_size"
                     android:layout_width="match_parent"
@@ -103,25 +104,30 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <LinearLayout
+            android:gravity="bottom"
+            android:layout_weight="1"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
             android:layout_marginTop="15dp"
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
             android:layout_height="25dp">
                 <TextView
+                    android:gravity="center"
+                    android:layout_marginBottom="10dp"
                     android:textSize="@dimen/body_text_size"
-                    android:text="Bạn chưa có tài khoản! "
-                    android:layout_width="wrap_content"
+                    android:text="Bạn chưa có tài khoản? "
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-                <TextView
-                    android:textStyle="bold"
+                <Button
+                    android:background="@drawable/primary_border"
+                    android:textColor="@color/colorPrimary"
                     android:textSize="13sp"
                     android:onClick="dangKy"
                     android:id="@+id/tv_DangKy"
                     android:text="ĐĂNG KÝ NGAY"
                     android:clickable="true"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
         </LinearLayout>
         </LinearLayout>

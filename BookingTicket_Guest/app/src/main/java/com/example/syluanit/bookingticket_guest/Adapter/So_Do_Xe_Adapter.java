@@ -175,7 +175,6 @@ public class So_Do_Xe_Adapter extends BaseAdapter {
         }
         else if (gheNgoi.getTrangThai() == 1){
             holder.imgSeat.setPressed(true);
-            //            holder.imgSeat.setBackgroundColor(Color.RED);
         }
         else{
             holder.imgSeat.setEnabled(false);

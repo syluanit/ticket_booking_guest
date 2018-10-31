@@ -10,7 +10,28 @@ public class Route {
     private String timeDep;
     private String timeArr;
     private String price;
-    private ArrayList<String> seat;
+    private String seat;
+
+    public Route(String id, String startDestination, String endDestination, String day, String timeDep, String timeArr, String price, String seat) {
+        this.id = id;
+        this.startDestination = startDestination;
+        this.endDestination = endDestination;
+        this.day = day;
+        this.timeDep = timeDep;
+        this.timeArr = timeArr;
+        this.price = price;
+        this.seat = seat;
+    }
+
+    public Route(String startDestination, String endDestination, String day, String timeDep, String timeArr, String price, String seat) {
+        this.startDestination = startDestination;
+        this.endDestination = endDestination;
+        this.day = day;
+        this.timeDep = timeDep;
+        this.timeArr = timeArr;
+        this.price = price;
+        this.seat = seat;
+    }
 
     public Route(String startDestination, String endDestination, String day, String timeDep, String timeArr, String price) {
         this.startDestination = startDestination;
@@ -20,6 +41,8 @@ public class Route {
         this.timeArr = timeArr;
         this.price = price;
     }
+
+
 
     public String getId() {
         return id;
@@ -86,11 +109,11 @@ public class Route {
         this.price = price;
     }
 
-    public ArrayList<String> getSeat() {
+    public String getSeat() {
         return seat;
     }
 
-    public void setSeat(ArrayList<String> seat) {
+    public void setSeat(String seat) {
         this.seat = seat;
     }
 }

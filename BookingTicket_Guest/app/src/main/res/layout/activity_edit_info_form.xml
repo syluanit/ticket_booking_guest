@@ -123,7 +123,7 @@
 
                 <EditText
                     android:textSize="@dimen/body_text_size"
-                    android:hint="Tỉnh/Thành phố_editation"
+                    android:hint="Tỉnh/Thành phố"
                     android:id="@+id/tv_city"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
@@ -135,7 +135,7 @@
 
                 <EditText
                     android:textSize="@dimen/body_text_size"
-                    android:hint="Quận/Huyện_editation"
+                    android:hint="Quận/Huyện"
                     android:id="@+id/tv_district"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />

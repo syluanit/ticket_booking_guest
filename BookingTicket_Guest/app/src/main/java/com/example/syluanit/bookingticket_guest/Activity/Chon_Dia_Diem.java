@@ -41,7 +41,7 @@ import java.util.ArrayList;
 public class Chon_Dia_Diem extends AppCompatActivity {
 
     ListView listView;
-    TextView tvKhongCoDiaDiem;
+    TextView  noPlace;
     Chon_Dia_Diem_Adapter chon_dia_diem_adapter;
     ArrayList<DiaDiem> diaDiemArrayList;
     ImageView iv_back;
@@ -52,7 +52,7 @@ public class Chon_Dia_Diem extends AppCompatActivity {
         setContentView(R.layout.activity_chon__dia__diem);
 
         listView = (ListView) findViewById(R.id.lv_chon_dia_diem);
-        tvKhongCoDiaDiem = (TextView) findViewById(R.id.tvKhongCoDiaDiem);
+        noPlace = (TextView) findViewById(R.id.noPlace);
         iv_back = (ImageView) findViewById(R.id.back_pressed);
 
         diaDiemArrayList = new ArrayList<>();
@@ -94,22 +94,36 @@ public class Chon_Dia_Diem extends AppCompatActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        try {
-                            JSONArray jsonArray = response.getJSONArray("kq");
-                            for (int i = 0; i < jsonArray.length(); i++){
-                                JSONObject jsonObject = (JSONObject) jsonArray.get(i);
-                                String province = jsonObject.getString("Tên");
-                                diaDiemArrayList.add(new DiaDiem(province));
-                                chon_dia_diem_adapter.notifyDataSetChanged();
+                        if (response != null) {
+                            noPlace.setVisibility(View.GONE);
+                            try {
+                                JSONArray jsonArray = response.getJSONArray("kq");
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject jsonObject = (JSONObject) jsonArray.get(i);
+                                    String province = jsonObject.getString("Tên");
+                                    Intent intent = getIntent();
+                                    if (province.equals(intent.getStringExtra("to")) ||
+                                            province.equals(intent.getStringExtra("from")) )
+                                    {} else {
+                                    diaDiemArrayList.add(new DiaDiem(province));
+                                    }
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                            chon_dia_diem_adapter.notifyDataSetChanged();
+                        }
+                        else {
+                            noPlace.setVisibility(View.VISIBLE);
+                            Toast.makeText(Chon_Dia_Diem.this, "Vui lòng kiểm tra kết nối mạng!", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                noPlace.setVisibility(View.VISIBLE);
+                Log.d("AAA", "onErrorResponse: " + error.toString());
+                Toast.makeText(Chon_Dia_Diem.this, "Vui lòng kiểm tra kết nối mạng", Toast.LENGTH_SHORT).show();
             }
         });
         requestQueue.add(jsonObjectRequest);

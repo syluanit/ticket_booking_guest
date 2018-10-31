@@ -4,9 +4,12 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -23,6 +26,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -36,16 +40,23 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.syluanit.bookingticket_guest.Model.CurrentTicket;
 import com.example.syluanit.bookingticket_guest.Model.CurrentUser;
+import com.example.syluanit.bookingticket_guest.Model.TicketComplete;
 import com.example.syluanit.bookingticket_guest.R;
+import com.example.syluanit.bookingticket_guest.Service.Database;
+import com.google.gson.Gson;
 
+import org.florescu.android.rangeseekbar.RangeSeekBar;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import me.anwarshahriar.calligrapher.Calligrapher;
@@ -64,16 +75,14 @@ public class Home extends AppCompatActivity
     private RelativeLayout layout_font;
     private Button btn_ticketSearch;
     public static CurrentTicket currentTicket;
-    public static CurrentUser currentUser;
+    public static boolean routeSignal = false;
     public static NavigationView navigationView;
+
+    Database database;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-
-//        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-//                WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -85,6 +94,7 @@ public class Home extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+        // Set phont
 //        Calligrapher calligrapher = new Calligrapher(this);
 //        calligrapher.setFont(this,"Signatra.ttf", true);
 
@@ -97,8 +107,7 @@ public class Home extends AppCompatActivity
         et_to = (EditText) findViewById(R.id.et_to);
         btn_ticketSearch = (Button) findViewById(R.id.btn_ticketSearch);
         currentTicket = new CurrentTicket();
-        currentUser =  new CurrentUser();
-
+        routeSignal = false;
         // TODO Hiding soft keyboard on editext
         et_pickDay.setFocusable(false);
         et_pickDay.setClickable(true);
@@ -141,8 +150,16 @@ public class Home extends AppCompatActivity
         et_from.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Home.this, Chon_Dia_Diem.class);
-                startActivityForResult(intent, DIA_DIEM_ACTIVITY_REQUEST_CODE);
+                if (et_to.getText().toString().matches("")){
+                    Intent intent = new Intent(Home.this, Chon_Dia_Diem.class);
+                    startActivityForResult(intent, DIA_DIEM_ACTIVITY_REQUEST_CODE);
+                }
+                else
+                {
+                    Intent intent = new Intent(Home.this, Chon_Dia_Diem.class);
+                    intent.putExtra("from", et_to.getText().toString());
+                    startActivityForResult(intent, DIA_DIEM_ACTIVITY_REQUEST_CODE);
+                }
             }
         });
 
@@ -151,8 +168,16 @@ public class Home extends AppCompatActivity
         et_to.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Home.this, Chon_Dia_Diem.class);
-                startActivityForResult(intent, DIA_DIEM_TO_ACTIVITY_REQUEST_CODE);
+                if (et_from.getText().toString().matches("")){
+                    Intent intent = new Intent(Home.this, Chon_Dia_Diem.class);
+                    startActivityForResult(intent, DIA_DIEM_TO_ACTIVITY_REQUEST_CODE);
+                }
+                else
+                {
+                    Intent intent = new Intent(Home.this, Chon_Dia_Diem.class);
+                    intent.putExtra("to", et_from.getText().toString());
+                    startActivityForResult(intent, DIA_DIEM_TO_ACTIVITY_REQUEST_CODE);
+                }
             }
         });
 
@@ -164,6 +189,7 @@ public class Home extends AppCompatActivity
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.radioButton:
+                        //ghe
                         currentTicket.setTypeSeat(0);
                         typeSeat = "0";
                         break;
@@ -176,10 +202,30 @@ public class Home extends AppCompatActivity
             }
         });
 
-//        String url = "http://192.168.1.214/laravel/receiveDataUser";
+        database = new Database(this, "ticket.sqlite", null, 1);
+//        database.queryData("Drop table IF exists Ticket");
 
-//        final String url = "http://192.168.43.218/busmanager/public/chonveAndroid";
-//        final String url = "http://192.168.43.218/busmanager/public/lichsuAndroid";
+        Cursor data = database.getDaTa("SELECT * FROM sqlite_master WHERE name ='User' and type='table'");
+
+        if (data.getCount() > 0){
+            navigationView.getMenu().findItem(R.id.nav_Login_SignUp).setVisible(false);
+            navigationView.getMenu().findItem(R.id.nav_SignUp).setVisible(false);
+            navigationView.getMenu().findItem(R.id.nav_TravelHistory).setVisible(true);
+            navigationView.getMenu().findItem(R.id.nav_Logout).setVisible(true);
+            navigationView.getMenu().findItem(R.id.nav_user_menu).setVisible(true);
+
+            Cursor currentUserDB = database.getDaTa("Select * from User");
+            while (currentUserDB.moveToNext()) {
+                TextView tv = (TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_username);
+                tv.setText(currentUserDB.getString(7));
+//                Toast.makeText(this, "Co dữ liệu" + currentUserDB.getString(8), Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        database.queryData("CREATE TABLE IF NOT EXISTS Ticket(Id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                " routeId INTEGER, start VARCHAR(200), end VARCHAR(200), " +
+                "date VARCHAR(200), timeStart VARCHAR(200), timeArr VARCHAR(200), " +
+                "price VARCHAR(200), seat VARCHAR(200), seatId VARCHAR(200), numSeat INTEGER, typeSeat INTEGER)");
 
     }
 
@@ -202,7 +248,7 @@ public class Home extends AppCompatActivity
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(Home.this, "Error", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Home.this, "Vui lòng kiểm tra kết nối mạng hoặc thử lại!", Toast.LENGTH_SHORT).show();
                         Log.d("AAA", "onErrorResponse: " + error.toString());
                     }
                 }){
@@ -221,66 +267,6 @@ public class Home extends AppCompatActivity
             }
         };
         requestQueue.add(stringRequest);
-    }
-
-//
-//private void sendUserData(String url){
-//
-//    final RequestQueue requestQueue = Volley.newRequestQueue(this);
-//    StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
-//            new Response.Listener<String>() {
-//                @Override
-//                public void onResponse(String response) {
-//                    Log.d("AAA", "onResponse: yeahyeah");
-//                    Toast.makeText(Home.this, response.toString(), Toast.LENGTH_SHORT).show();
-//                    Log.d("AAA", "onResponse: " + response.toString());
-//                }
-//            },
-//            new Response.ErrorListener() {
-//                @Override
-//                public void onErrorResponse(VolleyError error) {
-//                    Toast.makeText(Home.this, "Error", Toast.LENGTH_SHORT).show();
-//                    Log.d("AAA", "onErrorResponse: " + error.toString());
-//                }
-//            }){
-//        @Override
-//        protected Map<String, String> getParams() throws AuthFailureError {
-//
-//            Map<String, String> params = new HashMap<>();
-//            params.put("ID", "1");
-//            Log.d("AAA", "getParams: OK!!!");
-//            return params;
-//        }
-//    };
-//    requestQueue.add(stringRequest);
-//}
-
-    private void receiveUserData (String url){
-        RequestQueue requestQueue = Volley.newRequestQueue(Home.this);
-
-//                JSONArray jsonArray = new JSONArray();
-//                try {
-//                    jsonArray = new JSONArray(url);
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-
-        JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(Request.Method.GET,
-                url, null,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        Toast.makeText(Home.this, response.toString(), Toast.LENGTH_SHORT).show();
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(Home.this, "Error", Toast.LENGTH_SHORT).show();
-                        Log.d("AAA", "onErrorResponse: " + error.toString());
-                    }
-                });
-        requestQueue.add(jsonObjectRequest);
     }
 
     @Override
@@ -326,7 +312,7 @@ public class Home extends AppCompatActivity
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
                 et_pickDay.setText(simpleDateFormat.format(calendar.getTime()));
             }
-        }, nam, thang, ngay);
+        }, nam, thang - 1, ngay);
         datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
         datePickerDialog.show();
     }
@@ -374,15 +360,11 @@ public class Home extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-
         // item.getGroupId()
         int id = item.getItemId();
-
-
 //        item.setChecked(true);
 //        drawerLayout.closeDrawers();
         if (id == R.id.nav_Booking) {
@@ -394,10 +376,46 @@ public class Home extends AppCompatActivity
             Intent intent = new Intent(Home.this, Dang_Nhap_Activity.class);
             startActivity(intent);
         } else if (id == R.id.nav_Contact) {
-            Intent intent = new Intent(Home.this, UserInfo.class);
-            startActivity(intent);
+
         } else if (id == R.id.nav_Introduction) {
 
+        }
+        else if (id == R.id.nav_TravelHistory) {
+            Intent intent = new Intent(Home.this, TravelHistory.class);
+            startActivity(intent);
+        }
+        else if (id == R.id.nav_Logout) {
+            final Dialog dialog = new Dialog(Home.this);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setContentView(R.layout.dialog_exit);
+            TextView content = dialog.findViewById(R.id.content);
+            Button btn_exit = dialog.findViewById(R.id.btn_cancel);
+            Button btn_accept = dialog.findViewById(R.id.btn_accept);
+            dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            content.setText("Bạn có muốn đăng xuất?");
+            btn_exit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+
+            btn_accept.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    database.queryData("Drop table IF exists User");
+                    finish();
+                    startActivity(getIntent());
+                }
+            });
+            dialog.show();
+        }
+        else if (id == R.id.nav_SignUp) {
+            Intent intent = new Intent(Home.this,Dang_Ky_Activity.class);
+            startActivity(intent);
+        }else if (id == R.id.nav_user_menu) {
+            Intent intent = new Intent(Home.this, UserInfo.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

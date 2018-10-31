@@ -77,110 +77,16 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <TextView
-                android:layout_margin="5dp"
-                android:paddingRight="10dp"
-                android:paddingLeft="10dp"
-                android:text="Họ và tên:"
-                android:gravity="center|left"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/body_text_size"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <View
-                android:background="@color/grey"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"></View>
 
-            <TextView
-                android:layout_margin="5dp"
-                android:paddingRight="10dp"
-                android:paddingLeft="10dp"
-                android:text="Email:"
-                android:gravity="center|left"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/body_text_size"
+            <android.support.v7.widget.RecyclerView
+                android:padding="10dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/white_border"
+                android:id="@+id/rv_ticketInfo"
+                android:layout_below="@+id/ticket_appbarLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <View
-                android:background="@color/grey"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"></View>
-
-            <TextView
-                android:layout_margin="5dp"
-                android:paddingRight="10dp"
-                android:paddingLeft="10dp"
-                android:text="Điện thoại:"
-                android:gravity="center|left"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/body_text_size"
-                android:layout_width="match_parent"
-                android:layout_height="25dp" />
-            <View
-                android:background="@color/grey"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"></View>
-
-            <TextView
-                android:layout_margin="5dp"
-                android:paddingRight="10dp"
-                android:paddingLeft="10dp"
-                android:text="CMND:"
-                android:gravity="center|left"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/body_text_size"
-                android:layout_width="match_parent"
-                android:layout_height="25dp" />
-            <View
-                android:background="@color/grey"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"></View>
-
-            <TextView
-                android:layout_margin="5dp"
-                android:paddingRight="10dp"
-                android:paddingLeft="10dp"
-                android:text="Địa chỉ:"
-                android:gravity="center|left"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/body_text_size"
-                android:layout_width="match_parent"
-                android:layout_height="25dp" />
-            <View
-                android:background="@color/grey"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"></View>
-
-            <TextView
-                android:layout_margin="5dp"
-                android:paddingRight="10dp"
-                android:paddingLeft="10dp"
-                android:text="Quận/huyện:"
-                android:gravity="center|left"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/body_text_size"
-                android:layout_width="match_parent"
-                android:layout_height="25dp" />
-            <View
-                android:background="@color/grey"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"></View>
-
-            <TextView
-                android:layout_margin="5dp"
-                android:paddingRight="10dp"
-                android:paddingLeft="10dp"
-                android:text="Tỉnh/thành phố:"
-                android:gravity="center|left"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/body_text_size"
-                android:layout_width="match_parent"
-                android:layout_height="25dp" />
-            <View
-                android:background="@color/grey"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"></View>
+                android:layout_height="wrap_content">
+            </android.support.v7.widget.RecyclerView>
 
         </LinearLayout>
 

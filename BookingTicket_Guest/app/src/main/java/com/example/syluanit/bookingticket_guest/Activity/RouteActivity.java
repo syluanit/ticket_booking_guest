@@ -37,6 +37,7 @@ public class RouteActivity extends AppCompatActivity {
     RouteAdapter routeAdapter;
     RecyclerView recyclerView;
     TextView start, end, date;
+    public static TextView noRoute;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +48,7 @@ public class RouteActivity extends AppCompatActivity {
         start = (TextView) findViewById(R.id.tv_start);
         end = (TextView) findViewById(R.id.tv_end);
         date = (TextView) findViewById(R.id.tv_day);
+        noRoute = (TextView) findViewById(R.id.noRoute);
 
         routeArrayList = new ArrayList<>();
 
@@ -56,8 +58,12 @@ public class RouteActivity extends AppCompatActivity {
             String receiveJson = bundle.getString("ticketJson", "");
 
             try {
+
                 JSONObject jsonObject = new JSONObject(receiveJson);
                 JSONArray jsonArray = jsonObject.getJSONArray("chuyenxe");
+//                Toast.makeText(this, jsonArray.toString() + "", Toast.LENGTH_SHORT).show();
+                if (!jsonArray.toString().equals("[]")){
+                    noRoute.setVisibility(View.GONE);
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonObject1 = (JSONObject) jsonArray.get(i);
                     String time = jsonObject1.getString("Giờ_xuất_phát");
@@ -68,6 +74,9 @@ public class RouteActivity extends AppCompatActivity {
                     SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("HH:mm");
                     routeArrayList.add(new Route(simpleDateFormat.format(simpleDateFormat1.parse(time)),
                             "14:00", currencyFormat(price), id));
+                }}
+                else {
+                    noRoute.setVisibility(View.VISIBLE);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -88,7 +97,7 @@ public class RouteActivity extends AppCompatActivity {
             }
         }
 
-    recyclerView = (RecyclerView) findViewById(R.id.rv_Route);
+        recyclerView = (RecyclerView) findViewById(R.id.rv_Route);
         recyclerView.setHasFixedSize(true);
         routeAdapter = new RouteAdapter(this, routeArrayList);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);

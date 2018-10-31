@@ -36,6 +36,17 @@
         </RelativeLayout>
     </android.support.design.widget.AppBarLayout>
 
+    <TextView
+        android:id="@+id/noPlace"
+        android:visibility="gone"
+        android:textSize="@dimen/body_text_size_medium"
+        android:padding="10dp"
+        android:gravity="center"
+        android:layout_below="@id/appbarLayoutSearch"
+        android:text="Không tìm thấy địa điểm nào!"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <ListView
         android:layout_below="@id/appbarLayoutSearch"
         android:id="@+id/lv_chon_dia_diem"
@@ -43,14 +54,5 @@
         android:layout_height="match_parent">
     </ListView>
 
-    <TextView
-        android:layout_marginTop="20dp"
-        android:visibility="gone"
-        android:textColor="#000"
-        android:layout_alignParentTop="true"
-        android:text="Không tìm thấy địa điểm nào"
-        android:id="@+id/tvKhongCoDiaDiem"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
+
 </RelativeLayout>

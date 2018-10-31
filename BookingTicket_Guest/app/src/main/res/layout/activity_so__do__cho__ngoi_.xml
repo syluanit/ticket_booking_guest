@@ -97,16 +97,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <GridView
-
-            android:paddingLeft="10dp"
+        <!--<GridView-->
+            <!--android:background="@color/grey"-->
+            <!--android:id="@+id/gridviewGheNgoi"-->
+            <!--android:listSelector="@android:color/transparent"-->
+            <!--android:numColumns="6"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content">-->
+    <!--</GridView>-->
+        <android.support.v7.widget.RecyclerView
+            android:padding="10dp"
             android:background="@color/grey"
-            android:id="@+id/gridviewGheNgoi"
-            android:listSelector="@android:color/transparent"
-            android:numColumns="5"
+            android:layout_weight="1"
+            android:id="@+id/rv_GiuongNam"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-        </GridView>
+
+        </android.support.v7.widget.RecyclerView>
+
 
     </LinearLayout>
 

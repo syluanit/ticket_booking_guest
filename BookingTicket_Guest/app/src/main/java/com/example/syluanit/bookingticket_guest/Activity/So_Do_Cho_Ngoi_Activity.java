@@ -5,40 +5,36 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.Window;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.example.syluanit.bookingticket_guest.Adapter.So_Do_Xe_Adapter;
+import com.example.syluanit.bookingticket_guest.Adapter.So_Do_Xe_Adapter_Scrolling;
 import com.example.syluanit.bookingticket_guest.Adapter.ViewPagerAdapter;
 import com.example.syluanit.bookingticket_guest.Fragment.Fragment_Tang_Duoi;
 import com.example.syluanit.bookingticket_guest.Fragment.Fragment_Tang_Tren;
 import com.example.syluanit.bookingticket_guest.Model.GheNgoi;
 import com.example.syluanit.bookingticket_guest.R;
+import com.example.syluanit.bookingticket_guest.Service.Database;
 
+import org.florescu.android.rangeseekbar.RangeSeekBar;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class So_Do_Cho_Ngoi_Activity extends AppCompatActivity {
 
@@ -46,8 +42,9 @@ public class So_Do_Cho_Ngoi_Activity extends AppCompatActivity {
     ImageView back, seatSuggestion;
     ArrayList<GheNgoi> gheNgoiArrayList;
     GridView gridView;
-    So_Do_Xe_Adapter adapter;
+    public static So_Do_Xe_Adapter_Scrolling adapter;
     LinearLayout giuong, ghe;
+    Database database;
 
     public static TextView tv_seatSelected;
     public static ArrayList<GheNgoi> currentSeat;
@@ -65,7 +62,10 @@ public class So_Do_Cho_Ngoi_Activity extends AppCompatActivity {
         giuong = (LinearLayout) findViewById(R.id.layout_giuong_nam);
         ghe = (LinearLayout ) findViewById(R.id.layout_ghe_ngoi);
 
+        database = new Database(this, "ticket.sqlite", null, 1);
+
         currentSeat = new ArrayList<>();
+        gheNgoiArrayList = new ArrayList<>();
 
         Intent intent = getIntent();
         TicketMap  = intent.getStringExtra("ticketMap");
@@ -77,8 +77,8 @@ public class So_Do_Cho_Ngoi_Activity extends AppCompatActivity {
             TabLayout tabLayout =  findViewById(R.id.myTabLayout);
             ViewPager viewPager = findViewById(R.id.myViewPager);
             ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-            viewPagerAdapter.addFragment(new Fragment_Tang_Tren(), "Tầng Trên");
-            viewPagerAdapter.addFragment(new Fragment_Tang_Duoi(), "Tầng Dưới");
+            viewPagerAdapter.addFragment(new Fragment_Tang_Tren(), "Tầng Dưới");
+            viewPagerAdapter.addFragment(new Fragment_Tang_Duoi(), "Tầng Trên");
             viewPager.setAdapter(viewPagerAdapter);
             tabLayout.setupWithViewPager(viewPager);
         }
@@ -86,85 +86,121 @@ public class So_Do_Cho_Ngoi_Activity extends AppCompatActivity {
             giuong.setVisibility(View.GONE);
             ghe.setVisibility(View.VISIBLE);
             // Ghe Ngoi
-            gridView = (GridView) findViewById(R.id.gridviewGheNgoi);
+//            gridView = (GridView) findViewById(R.id.gridviewGheNgoi);
+            try {
+                JSONObject jsonObject = new JSONObject(TicketMap);
+                JSONArray jsonArray = jsonObject.getJSONArray("ve");
+                JSONArray jsonArraySoDo = jsonObject.getJSONArray("sodo");
+                JSONObject jsonObject1 = (JSONObject) jsonArraySoDo.get(0);
+                String s = jsonObject1.getString("Sơ_đồ");
 
-            int j = 1;
-            for (int i = 0; i < 35; i++) {
-                if (i == 4) {
-                    gheNgoiArrayList.add(new GheNgoi(R.drawable.custom_seat,1,"A" + j ,0));
-                    j++;
-                }
-                else
-                if ( (i % 5)  == 2) {
-                    gheNgoiArrayList.add(new GheNgoi(0, "" ));
-                } else {
-                    gheNgoiArrayList.add(new GheNgoi(R.drawable.custom_seat, "A" + j));
-                    j++;
-                }
-            }
-
-            adapter = new So_Do_Xe_Adapter(this, R.layout.giuong_nam_item, gheNgoiArrayList);
-            gridView.setAdapter(adapter);
-
-            gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    int seatStatus = gheNgoiArrayList.get(position).getTrangThai();
-                    if (seatStatus == 0){
-                        So_Do_Cho_Ngoi_Activity.currentSeat.add(gheNgoiArrayList.get(position));
-                        gheNgoiArrayList.get(position).setTrangThai(1) ;
-
-                    } else {
-                        for (int i = 0; i < So_Do_Cho_Ngoi_Activity.currentSeat.size(); i++) {
-                            if (So_Do_Cho_Ngoi_Activity.currentSeat.get(i).getViTri().equals(gheNgoiArrayList.get(position).getViTri())) {
-                                So_Do_Cho_Ngoi_Activity.currentSeat.remove(i);
-                                break;
+                String [] sodo = s.split("(?!^)");
+                int j = 0;
+                for (int i = 0; i < sodo.length; i++) {
+                        if (i == 0){
+                            gheNgoiArrayList.add(new GheNgoi(null,R.mipmap.ic_driver, 0, "", 0));
+                        }
+                        else
+                        if (sodo[i].equals("1")){
+                            JSONObject jsonObjectTicket = (JSONObject) jsonArray.get(j);
+                            String seatId = jsonObjectTicket.getString("Mã");
+                            if (jsonObjectTicket.getString("Trạng_thái").equals("1")) {
+                                gheNgoiArrayList.add(new GheNgoi(seatId, R.drawable.custom_seat, 0, jsonObjectTicket.getString("Vị_trí_ghế"), 2));
+                                j++;
+                            }
+                            else if (jsonObjectTicket.getString("Trạng_thái").equals("0")) {
+                                gheNgoiArrayList.add(new GheNgoi(seatId, R.drawable.custom_seat, 0, jsonObjectTicket.getString("Vị_trí_ghế"), 0));
+                                j++;
                             }
                         }
-                        gheNgoiArrayList.get(position).setTrangThai(0);
-                    }
-                    setSeatPositionText();
-                    adapter.notifyDataSetChanged();
+                        else {
+                            gheNgoiArrayList.add(new GheNgoi(0, "" ));
+                        }
                 }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            adapter = new So_Do_Xe_Adapter_Scrolling(this,  gheNgoiArrayList);
+            RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_GiuongNam);
+            recyclerView.setHasFixedSize(true);
+            LinearLayoutManager layoutManager = new GridLayoutManager(this, 6);
+            recyclerView.setLayoutManager(layoutManager);
+            recyclerView.setAdapter(adapter);
 
-            });
+//            gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                @Override
+//                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                    int seatStatus = gheNgoiArrayList.get(position).getTrangThai();
+//                    if (seatStatus == 0){
+//                      currentSeat.add(gheNgoiArrayList.get(position));
+//                        gheNgoiArrayList.get(position).setTrangThai(1) ;
+//
+//                    } else {
+//                        for (int i = 0; i < currentSeat.size(); i++) {
+//                            if (currentSeat.get(i).getViTri().equals(gheNgoiArrayList.get(position).getViTri())) {
+//                                currentSeat.remove(i);
+//                                break;
+//                            }
+//                        }
+//                        gheNgoiArrayList.get(position).setTrangThai(0);
+//                    }
+//                    setSeatPositionText();
+//                    adapter.notifyDataSetChanged();
+//                }
+//            });
 
-            gridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-                @Override
-                public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                    Toast.makeText(getApplication(), "" + position , Toast.LENGTH_SHORT).show();
-                    gheNgoiArrayList.get(position).setTrangThai(2) ;
-                    adapter.notifyDataSetChanged();
-                    return false;
-                }
-            });
-
-
+//            gridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+//                @Override
+//                public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+////                    Toast.makeText(getApplication(), "" + position , Toast.LENGTH_SHORT).show();
+//                    gheNgoiArrayList.get(position).setTrangThai(2) ;
+//                    adapter.notifyDataSetChanged();
+//                    return false;
+//                }
+//            });
         }
 
         btn_Dat_Ve.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (currentSeat.size() != 0) {
-                        if (So_Do_Cho_Ngoi_Activity.currentSeat != null) {
-                            ArrayList<String> seat = new ArrayList<>();
+                        if (currentSeat != null) {
+                            String seat = "";
+                            String seatId = "";
 
-                            for (int i = 0; i < So_Do_Cho_Ngoi_Activity.currentSeat.size(); i++) {
-                                if (i != So_Do_Cho_Ngoi_Activity.currentSeat.size() - 1) {
-                                    seat.add(So_Do_Cho_Ngoi_Activity.currentSeat.get(i).getViTri());
-                                } else
-                                    seat.add(So_Do_Cho_Ngoi_Activity.currentSeat.get(i).getViTri() );
-                            }
-                            Home.currentTicket.setSeat(seat);
-//                            for (int i = 0; i < Home.currentTicket.getSeat().size(); i++) {
-//                                String seat1 = "";
-//                                if (i != Home.currentTicket.getSeat().size() - 1) {
-//                                    seat1 += (Home.currentTicket.getSeat().get(i).toString() + ", ");
-//                                } else seat1 += (Home.currentTicket.getSeat().get(i).toString() + ".");
+//                            for (int i = 0; i < currentSeat.size(); i++) {
+//                                if (i != currentSeat.size() - 1) {
+//                                    seat.add(currentSeat.get(i).getViTri());
+//                                } else
+//                                    seat.add(currentSeat.get(i).getViTri() );
 //                            }
+                            for (int i = 0; i < currentSeat.size(); i++) {
+                                if (i != currentSeat.size() - 1) {
+                                    seat += (currentSeat.get(i).getViTri() + ", ");
+                                    seatId += (currentSeat.get(i).getId() + ",");
+                                } else {seat += (currentSeat.get(i).getViTri() + ".");
+                                    seatId += (currentSeat.get(i).getId());
+                                }
+                            }
+//                            Toast.makeText(So_Do_Cho_Ngoi_Activity.this, seatId + "", Toast.LENGTH_SHORT).show();
+                            Home.currentTicket.setSeat(seat);
+                            Home.currentTicket.setSeatId(seatId);
+                            Home.currentTicket.setNumSeat(currentSeat.size());
                         }
 
-                    Home.currentTicket.setNumSeat(currentSeat.size());
+
+                   database.queryData("INSERT INTO Ticket VALUES(null, '"+ Home.currentTicket.getId() +"'," +
+                           " '"+ Home.currentTicket.getStartDestination() +"'," +
+                           " '"+ Home.currentTicket.getEndDestination() +"'," +
+                            " '"+ Home.currentTicket.getDay() +"'," +
+                           " '"+ Home.currentTicket.getTimeDep()  +"'," +
+//                           " '"+ Home.currentTicket.getTimeArr() +"'," +
+                           " '14:00', " +
+                           " '" + Home.currentTicket.getPrice()  +"'," +
+                           " '" + Home.currentTicket.getSeat()  +"'," +
+                           " '" + Home.currentTicket.getSeatId()  +"'," +
+                           "'" + Home.currentTicket.getNumSeat() + "'," +
+                           "'"+ Home.currentTicket.getTypeSeat()+"')");
 
                     Intent intent = new Intent(So_Do_Cho_Ngoi_Activity.this, Fill_Customer_Info_Form.class);
                     startActivity(intent);
@@ -196,95 +232,51 @@ public class So_Do_Cho_Ngoi_Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 final Dialog dialog = new Dialog(So_Do_Cho_Ngoi_Activity.this);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.setContentView(R.layout.dialog_seat_suggestion);
-                TextView tv_ok = (TextView) dialog.findViewById(R.id.annoucement_suggestion);
-                TextView seat = (TextView) dialog.findViewById(R.id.seat_suggestion);
-                dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-                dialog.show();
+                final RangeSeekBar seekBar = (RangeSeekBar) dialog.findViewById(R.id.ageSeekbar);
+                RadioGroup radioGroup = (RadioGroup) dialog.findViewById(R.id.radioGroupSeat) ;
 
-                tv_ok.setOnClickListener(new View.OnClickListener() {
+                radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                     @Override
-                    public void onClick(View v) {
-                        dialog.cancel();
+                    public void onCheckedChanged(RadioGroup group, int checkedId) {
+                        switch (checkedId) {
+                            case R.id.radioButtonSeatMen:
+                            case R.id.radioButtonWomen:
+                        }
                     }
                 });
+
+                seekBar.setRangeValues(0,99);
+                seekBar.setSelectedMinValue(18);
+                seekBar.setSelectedMaxValue(50);
+                seekBar.setTextAboveThumbsColor(ContextCompat.getColor(getApplication(), R.color.color_text_route));
+                seekBar.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener() {
+                    @Override
+                    public void onRangeSeekBarValuesChanged(RangeSeekBar bar, Object minValue, Object maxValue) {
+
+//                        Toast.makeText(So_Do_Cho_Ngoi_Activity.this,  minValue.toString() + "A" +seekBar.getSelectedMinValue(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+//
+                dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                dialog.show();
             }
         });
-
-
 
         // Connect Database
 
     }
 
     private void setSeatPositionText (){
-        if (So_Do_Cho_Ngoi_Activity.currentSeat != null) {
+        if (currentSeat != null) {
             String seat = "";
-            for (int i = 0; i < So_Do_Cho_Ngoi_Activity.currentSeat.size(); i++) {
-                if (i != So_Do_Cho_Ngoi_Activity.currentSeat.size() - 1) {
-                    seat += (So_Do_Cho_Ngoi_Activity.currentSeat.get(i).getViTri() + ", ");
-                } else seat += (So_Do_Cho_Ngoi_Activity.currentSeat.get(i).getViTri() + ".");
+            for (int i = 0; i < currentSeat.size(); i++) {
+                if (i != currentSeat.size() - 1) {
+                    seat += (currentSeat.get(i).getViTri() + ", ");
+                } else seat += (currentSeat.get(i).getViTri() + ".");
             }
-            So_Do_Cho_Ngoi_Activity.tv_seatSelected.setText(seat);
+            tv_seatSelected.setText(seat);
         }
     }
-
-    private void sendUserData(String url, final String id){
-
-    final RequestQueue requestQueue = Volley.newRequestQueue(this);
-    StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
-            new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    Log.d("AAA", "onResponse: yeahyeah");
-//                    Toast.makeText(So_Do_Cho_Ngoi_Activity.this, response.toString(), Toast.LENGTH_SHORT).show();
-                    Log.d("AAA", "onResponse: " + response.toString());
-                    try {
-                        JSONObject jsonObject = new JSONObject(response);
-                        JSONArray jsonArray = jsonObject.getJSONArray("sodo");
-                        JSONObject jsonObject1 = (JSONObject) jsonArray.get(0);
-                        String sodo = jsonObject1.getString("Sơ_đồ");
-                        TicketMap = sodo;
-                        Toast.makeText(So_Do_Cho_Ngoi_Activity.this,TicketMap + "", Toast.LENGTH_SHORT).show();
-
-//                        int j = 1;
-//                        for (int i = 0; i < 35; i++) {
-//                            if (i == 4) {
-//                                gheNgoiArrayList.add(new GheNgoi(R.drawable.custom_seat,1,"A" + j ,0));
-//                                j++;
-//                            }
-//                            else
-//                            if ( (i % 5)  == 2) {
-//                                gheNgoiArrayList.add(new GheNgoi(0, "" ));
-//                            } else {
-//                                gheNgoiArrayList.add(new GheNgoi(R.drawable.custom_seat, "A" + j));
-//                                j++;
-//                            }
-//                        }
-//                        adapter.notifyDataSetChanged();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-            },
-            new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(So_Do_Cho_Ngoi_Activity.this, "Error", Toast.LENGTH_SHORT).show();
-                    Log.d("AAA", "onErrorResponse: " + error.toString());
-                }
-            }){
-        @Override
-        protected Map<String, String> getParams() throws AuthFailureError {
-
-            Map<String, String> params = new HashMap<>();
-            params.put("ID", id);
-            Log.d("AAA", "getParams: OK!!!");
-            return params;
-        }
-    };
-    requestQueue.add(stringRequest);
-}
-
 }

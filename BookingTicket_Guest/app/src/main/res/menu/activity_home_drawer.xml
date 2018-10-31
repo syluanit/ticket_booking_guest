@@ -8,7 +8,17 @@
             android:checked="false"
             android:id="@+id/nav_Login_SignUp"
             android:icon="@drawable/ic_person_black_24dp"
-            android:title="ĐĂNG NHẬP" />
+            android:title="Đăng nhập" />
+        <item
+            android:checked="false"
+            android:id="@+id/nav_SignUp"
+            android:icon="@drawable/ic_person_black_24dp"
+            android:title="Đăng ký" />
+        <item
+            android:visible="false"
+            android:id="@+id/nav_Logout"
+            android:icon="@drawable/ic_person_black_24dp"
+            android:title="Đăng xuất" />
         <View
             android:color="@color/grey"
             android:height="1dp"
@@ -18,7 +28,7 @@
             android:checked="true"
             android:id="@+id/nav_Booking"
             android:icon="@drawable/ic_directions_bus_black_24dp"
-            android:title="MUA VÉ" />
+            android:title="Mua vé" />
         <View
             android:color="@color/grey"
             android:height="1dp"
@@ -26,24 +36,28 @@
             ></View>
         <!--visible false-->
         <item
-
             android:id="@+id/nav_BookingHistory"
             android:icon="@drawable/ic_history_black_24dp"
-            android:title="LỊCH SỬ MUA VÉ" />
+            android:title="Lịch sử tìm kiếm" />
+        <item
+            android:visible="false"
+            android:id="@+id/nav_TravelHistory"
+            android:icon="@drawable/ic_history_black_24dp"
+            android:title="Lịch sử đã đi" />
         <item
             android:id="@+id/nav_Introduction"
             android:icon="@drawable/ic_mood_black_24dp"
-            android:title="GIỚI THIỆU" />
+            android:title="Giới thiệu" />
         <item
             android:iconTint="@color/colorPrimary"
             android:id="@+id/nav_Contact"
             android:icon="@drawable/ic_call_black_24dp"
-            android:title="LIÊN HỆ" />
+            android:title="Liên hệ" />
         <item
             android:visible="false"
-            android:id="@+id/nav_Logout"
+            android:id="@+id/nav_user_menu"
             android:icon="@drawable/ic_person_black_24dp"
-            android:title="ĐĂNG XUẤT" />
+            android:title="Thông tin cá nhân" />
     </group>
 
 

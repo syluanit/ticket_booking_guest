@@ -1,59 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/white_border_20dp"
+    android:background="@drawable/white_border"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tv_annoucement"
-        android:layout_marginTop="10dp"
-        android:textColor="@color/colorPrimary"
-        android:layout_centerHorizontal="true"
-        android:gravity="center"
-        android:text="GỢI Ý CHỖ NGỒI"
-        android:textStyle="bold"
-        android:textSize="17dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:layout_marginTop="15dp"
-        android:layout_centerHorizontal="true"
-        android:gravity="center"
-        android:text="Nhà xe gợi ý chỗ ngồi giúp bạn:"
-        android:textSize="15dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:id="@+id/seat_suggestion"
+    <Button
+        android:textColor="@color/white"
+        android:background="@drawable/primary_rectangle_top"
+        android:textSize="@dimen/body_text_size"
         android:padding="10dp"
         android:gravity="center"
-        android:layout_above="@id/annoucement_suggestion"
-        android:text="Seat suggestion"
-        android:textSize="@dimen/body_text_size"
+        android:text="Lọc thông tin theo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:padding="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_loaighe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="none"
+            android:text="Giới tính"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/body_text_size"
+            android:textStyle="bold" />
+
+        <RadioGroup
+            android:orientation="horizontal"
+            android:id="@+id/radioGroupSeat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/radioButtonSeatMen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="10dp"
+                android:text="Nam"
+                android:textSize="@dimen/body_text_size" />
+
+            <RadioButton
+                android:checked="true"
+                android:id="@+id/radioButtonWomen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nữ"
+                android:textSize="@dimen/body_text_size" />
+        </RadioGroup>
+    </LinearLayout>
 
     <View
-
-        android:layout_above="@id/annoucement_suggestion"
-        android:layout_marginTop="2dp"
-        android:layout_centerHorizontal="true"
+        android:background="@color/color_text_route"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/colorPrimary"/>
+        android:layout_height="1dp"></View>
 
-
-    <TextView
+    <LinearLayout
         android:padding="5dp"
-        android:id="@+id/annoucement_suggestion"
-        android:layout_centerHorizontal="true"
-        android:gravity="center"
-        android:text="OK"
-        android:textSize="17dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_age"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="none"
+            android:text="Độ tuổi"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/body_text_size"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+    <org.florescu.android.rangeseekbar.RangeSeekBar
+        android:layout_marginBottom="10dp"
+        android:id="@+id/ageSeekbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        />
+
+        <Button
+
+            android:textColor="@color/white"
+            android:background="@drawable/primary_rectangle_bottom"
+            android:textSize="@dimen/body_text_size"
+            android:padding="10dp"
+            android:gravity="center"
+            android:text="Gợi ý chỗ ngồi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
 </LinearLayout>

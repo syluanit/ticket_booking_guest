@@ -14,90 +14,85 @@
         android:textSize="@dimen/body_text_size"
         android:padding="10dp"
         android:gravity="center"
-        android:text="Lọc thông tin theo"
+        android:text="Gợi ý chỗ ngồi"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <LinearLayout
-        android:padding="5dp"
+        android:padding="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <TextView
+            android:padding="5dp"
             android:id="@+id/tv_loaighe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="none"
-            android:text="Giới tính"
+            android:text="Bạn muốn"
             android:textColor="@android:color/black"
             android:textSize="@dimen/body_text_size"
             android:textStyle="bold" />
 
         <RadioGroup
-            android:orientation="horizontal"
-            android:id="@+id/radioGroupSeat"
+            android:padding="5dp"
+            android:orientation="vertical"
+            android:id="@+id/radioGroupSeat_suggestion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <RadioButton
-                android:id="@+id/radioButtonSeatMen"
+                android:checked="true"
+                android:id="@+id/me_suggestion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingRight="10dp"
-                android:text="Nam"
+                android:text="Gợi ý cho bạn"
                 android:textSize="@dimen/body_text_size" />
 
             <RadioButton
-                android:checked="true"
-                android:id="@+id/radioButtonWomen"
+                android:id="@+id/other_suggestion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Nữ"
+                android:text="Gợi ý cho người khác"
                 android:textSize="@dimen/body_text_size" />
         </RadioGroup>
     </LinearLayout>
 
-    <View
-        android:background="@color/color_text_route"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"></View>
-
     <LinearLayout
-        android:padding="5dp"
+        android:weightSum="10"
+        android:background="@drawable/primary_rectangle_bottom"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/tv_age"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="none"
-            android:text="Độ tuổi"
-            android:textColor="@android:color/black"
-            android:textSize="@dimen/body_text_size"
-            android:textStyle="bold" />
-
-    </LinearLayout>
-    <org.florescu.android.rangeseekbar.RangeSeekBar
-        android:layout_marginBottom="10dp"
-        android:id="@+id/ageSeekbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        />
+        android:layout_height="wrap_content">
 
         <Button
-            android:id="@+id/btn_suggestion"
+            android:layout_weight="5"
+            android:id="@+id/btn_back_suggestion"
             android:textColor="@color/white"
-            android:background="@drawable/primary_rectangle_bottom"
+            android:background="@drawable/primary_border"
             android:textSize="@dimen/body_text_size"
             android:padding="10dp"
             android:gravity="center"
-            android:text="Gợi ý chỗ ngồi"
-            android:layout_width="match_parent"
+            android:text="Hủy"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+        <View
+            android:background="@color/white"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"></View>
+        <Button
+            android:layout_weight="5"
+            android:id="@+id/btn_suggestion"
+            android:textColor="@color/white"
+            android:background="@drawable/primary_border"
+            android:textSize="@dimen/body_text_size"
+            android:padding="10dp"
+            android:gravity="center"
+            android:text="Tiếp tục"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 
 </LinearLayout>

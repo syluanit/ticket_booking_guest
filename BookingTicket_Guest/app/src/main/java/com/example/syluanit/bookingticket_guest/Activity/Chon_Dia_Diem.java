@@ -31,11 +31,13 @@ import com.android.volley.toolbox.Volley;
 import com.example.syluanit.bookingticket_guest.Adapter.Chon_Dia_Diem_Adapter;
 import com.example.syluanit.bookingticket_guest.Model.DiaDiem;
 import com.example.syluanit.bookingticket_guest.R;
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
 
 public class Chon_Dia_Diem extends AppCompatActivity {
@@ -45,6 +47,7 @@ public class Chon_Dia_Diem extends AppCompatActivity {
     Chon_Dia_Diem_Adapter chon_dia_diem_adapter;
     ArrayList<DiaDiem> diaDiemArrayList;
     ImageView iv_back;
+    MaterialSearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,11 +59,6 @@ public class Chon_Dia_Diem extends AppCompatActivity {
         iv_back = (ImageView) findViewById(R.id.back_pressed);
 
         diaDiemArrayList = new ArrayList<>();
-//        diaDiemArrayList.add(new DiaDiem("Bình Định"));
-//        diaDiemArrayList.add(new DiaDiem("Đà Nẵng"));
-//        diaDiemArrayList.add(new DiaDiem("Nha Trang"));
-//        diaDiemArrayList.add(new DiaDiem("Sài Gòn"));
-//        diaDiemArrayList.add(new DiaDiem("Hà Nội"));
 
         String url = "http://192.168.43.218/busmanager/public/gettinh";
         receiveUserData(url);
@@ -85,6 +83,68 @@ public class Chon_Dia_Diem extends AppCompatActivity {
                 ((Activity) Chon_Dia_Diem.this).onBackPressed();
             }
         });
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_place);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        searchView = (MaterialSearchView) findViewById(R.id.search_view);
+
+
+        searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
+            @Override
+            public void onSearchViewShown() {
+
+            }
+
+            @Override
+            public void onSearchViewClosed() {
+                listView = (ListView) findViewById(R.id.lv_chon_dia_diem);
+                chon_dia_diem_adapter = new Chon_Dia_Diem_Adapter(getApplicationContext(), R.layout.dong_dia_diem ,diaDiemArrayList);
+                listView.setAdapter(chon_dia_diem_adapter);
+            }
+        });
+
+
+        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (newText != null && !newText.isEmpty()){
+                    final ArrayList<DiaDiem> diaDiemSearch = new ArrayList<>();
+                    for( DiaDiem item:diaDiemArrayList){
+//                        if (Normalizer.normalize(item.getPlace().toLowerCase(),Normalizer.Form.NFD).
+////                                contains(Normalizer.normalize(newText.toLowerCase(),Normalizer.Form.NFD))){
+                        if (Normalizer.normalize(item.getPlace().toLowerCase(),Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]","").
+                              contains(Normalizer.normalize(newText.toLowerCase(),Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]",""))){
+                            diaDiemSearch.add(item);
+                        }
+                        chon_dia_diem_adapter = new Chon_Dia_Diem_Adapter(getApplicationContext(), R.layout.dong_dia_diem ,diaDiemSearch);
+                        listView.setAdapter(chon_dia_diem_adapter);
+                        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                String dia_diem = diaDiemSearch.get(position).getPlace();
+                                Intent intent = new Intent();
+                                intent.putExtra("diadiem", dia_diem);
+                                setResult(RESULT_OK, intent);
+                                finish();
+                            }
+                        });
+                    }
+                }
+                else {
+                    chon_dia_diem_adapter = new Chon_Dia_Diem_Adapter(getApplicationContext(), R.layout.dong_dia_diem ,diaDiemArrayList);
+                    listView.setAdapter(chon_dia_diem_adapter);
+                }
+                return  true;
+            }
+        });
+
     }
 
     private void receiveUserData (String url){
@@ -131,27 +191,38 @@ public class Chon_Dia_Diem extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.search_view,menu);
-        MenuItem menuItem = menu.findItem(R.id.search_view);
-
-        SearchView searchView = (SearchView) menuItem.getActionView();
-        searchView.setMaxWidth(Integer.MAX_VALUE);
-        SpannableString spanString = new SpannableString(("Tìm địa điểm...").toString());
-        int end = spanString.length();
-        spanString.setSpan(new RelativeSizeSpan(0.8f), 0, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        searchView.setQueryHint(spanString);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                Log.d("BBB", query);
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
-        return super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.search_view, menu);
+        MenuItem item = menu.findItem(R.id.action_search);
+        searchView.setMenuItem(item);
+        return true;
     }
+
+    //    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.search_view,menu);
+//        MenuItem menuItem = menu.findItem(R.id.search_view);
+//
+//        SearchView searchView = (SearchView) menuItem.getActionView();
+//        searchView.setMaxWidth(Integer.MAX_VALUE);
+//        SpannableString spanString = new SpannableString(("Tìm địa điểm...").toString());
+//        int end = spanString.length();
+//        spanString.setSpan(new RelativeSizeSpan(0.8f), 0, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//        searchView.setQueryHint(spanString);
+//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                Log.d("BBB", query);
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//                return false;
+//            }
+//        });
+//        return super.onCreateOptionsMenu(menu);
+//    }
+
+
+
 }

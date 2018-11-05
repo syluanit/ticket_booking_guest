@@ -85,16 +85,20 @@ public class UserInfo extends AppCompatActivity {
                 tvEditInfo.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        dialog.cancel();
                         Intent intent = new Intent(UserInfo.this, EditInfoForm.class);
                         startActivity(intent);
+
                     }
                 });
 
                 tvPassword.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        dialog.cancel();
                         Intent intent = new Intent(UserInfo.this, ChangePasswordForm.class);
                         startActivity(intent);
+
                     }
                 });
                 dialog.show();

@@ -79,7 +79,6 @@
             android:layout_height="wrap_content">
 
             <android.support.v7.widget.RecyclerView
-                android:padding="10dp"
                 android:layout_margin="10dp"
                 android:background="@drawable/white_border"
                 android:id="@+id/rv_ticketInfo"
@@ -91,6 +90,7 @@
         </LinearLayout>
 
         <Button
+            android:textColor="@color/white"
             android:padding="15dp"
             android:textSize="@dimen/button_text_size"
             android:id="@+id/signout"

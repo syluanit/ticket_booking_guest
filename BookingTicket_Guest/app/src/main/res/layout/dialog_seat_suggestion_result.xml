@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/white_border"
+    android:orientation="vertical">
+
+    <Button
+        android:textColor="@color/white"
+        android:background="@drawable/primary_rectangle_top"
+        android:textSize="@dimen/body_text_size"
+        android:padding="10dp"
+        android:gravity="center"
+        android:text="Kết quả"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:padding="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:gravity="center"
+            android:text="Vị trí vé mà bạn có thể thích nhất"
+            android:textSize="@dimen/body_text_size_medium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_margin="5dp"
+            android:id="@+id/seat_seat"
+            android:textStyle="bold"
+            android:textColor="@color/color_text_route"
+            android:gravity="center"
+            android:text="A1"
+            android:textSize="@dimen/body_text_size_medium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:gravity="center"
+            android:text="Vị trí vé tốt tiếp theo"
+            android:textSize="@dimen/body_text_size_medium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/seat"
+            android:layout_margin="5dp"
+            android:textStyle="bold"
+            android:textColor="@color/color_text_route"
+            android:gravity="center"
+            android:text="A1"
+            android:textSize="@dimen/body_text_size_medium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+        <Button
+            android:id="@+id/back_suggestion"
+            android:textColor="@color/white"
+            android:background="@drawable/primary_rectangle_bottom"
+            android:textSize="@dimen/body_text_size"
+            android:padding="10dp"
+            android:gravity="center"
+            android:text="Quay lại"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+</LinearLayout>

@@ -43,7 +43,7 @@ import com.example.syluanit.bookingticket_guest.Model.CurrentUser;
 import com.example.syluanit.bookingticket_guest.Model.TicketComplete;
 import com.example.syluanit.bookingticket_guest.R;
 import com.example.syluanit.bookingticket_guest.Service.Database;
-import com.google.gson.Gson;
+
 
 import org.florescu.android.rangeseekbar.RangeSeekBar;
 import org.json.JSONArray;
@@ -66,8 +66,6 @@ public class Home extends AppCompatActivity
 
     private static final int DIA_DIEM_ACTIVITY_REQUEST_CODE = 100;
     private static final int DIA_DIEM_TO_ACTIVITY_REQUEST_CODE = 200;
-//    String url = "http://192.168.40.68/laravel/getTicket";
-    String url = "http://192.168.1.214/laravel/getTicket";
 
     private EditText et_pickDay,et_from, et_to;
     private String typeSeat;

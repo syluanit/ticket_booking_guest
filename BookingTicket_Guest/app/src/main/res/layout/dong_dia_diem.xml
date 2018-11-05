@@ -15,6 +15,7 @@
         android:layout_height="20dp" />
 
     <TextView
+        android:textColor="@color/color_text_route"
         android:gravity="center"
         android:textSize="@dimen/body_text_size"
         android:text="Địa Điểm"

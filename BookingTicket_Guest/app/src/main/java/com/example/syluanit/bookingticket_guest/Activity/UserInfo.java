@@ -152,6 +152,7 @@ public class UserInfo extends AppCompatActivity {
                 if (gender.equals("1")) {
                     gender = "Nam";
                 } else gender = "Nữ";
+                //reverse dob string
                 String[] s = doB.split("-");
                 List<String> s1 = Arrays.asList(s);
                 Collections.reverse(s1);

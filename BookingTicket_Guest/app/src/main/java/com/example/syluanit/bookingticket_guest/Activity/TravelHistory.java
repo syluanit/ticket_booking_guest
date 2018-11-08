@@ -32,6 +32,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -97,10 +99,9 @@ public class TravelHistory extends AppCompatActivity {
                     public void onResponse(String response) {
                         Log.d("AAA", "onResponse: " + response.toString());
                         try {
-
                             JSONObject jsonObject = new JSONObject(response);
                             JSONArray jsonArray = jsonObject.getJSONArray("ve");
-                            if (jsonArray.equals("[]")){
+                            if (!jsonArray.toString().equals("[]")){
                             Log.d("", "onResponse: ");
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject jsonObject1 = (JSONObject) jsonArray.get(i);
@@ -108,42 +109,51 @@ public class TravelHistory extends AppCompatActivity {
                                 String end = jsonObject1.getString("Nơi_đến");
                                 String date = jsonObject1.getString("Ngày_xuất_phát");
                                 String timeStart = jsonObject1.getString("Giờ_xuất_phát");
-//                                String timeArr = jsonObject1.getString("Giờ_xuất_phát");
+                                String timeArr = jsonObject1.getString("Thời_gian_đến_dự_kiến");
                                 String price = jsonObject1.getString("Tiền_vé");
                                 price = currencyFormat(price);
+                                String [] s = timeArr.split("\\s+");
+                                timeArr = s[1];
                                 String position = jsonObject1.getString("Vị_trí_ghế");
                                 String routeId = jsonObject1.getString("Mã");
                                 int typeSeat = jsonObject1.getInt("Loại_ghế");
-
-                                if (i == 0){
-                                    idCheck = routeId;
-                                    positionCheck.append(position + ", ");
-                                }
-                                else if (routeId.equals(idCheck)){
-                                    positionCheck.append(position +", ");
-                                } else {
-
-//                                    Toast.makeText(TravelHistory.this, s[0] + "", Toast.LENGTH_SHORT).show();
-//                                    ArrayList <GheNgoi> s1 = new ArrayList<>();
-//                                    for (int j = 0; j < s.length; j++){
-//                                        s1.get(j).setViTri(s[j]);
+                                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
+                                historyArrayList.add(new CurrentTicket(routeId, start, end, date,
+                                        simpleDateFormat.format(simpleDateFormat.parse(timeStart)),
+                                        simpleDateFormat.format(simpleDateFormat.parse(timeArr)),
+                                        price, position, typeSeat, 1));
+//
+//                                if (i == 0){
+//                                    idCheck = routeId;
+//                                    positionCheck.append(position + ", ");
+//                                }
+//                                else if (routeId.equals(idCheck)){
+//                                    positionCheck.append(position +", ");
+//                                } else {
+//
+////                                    Toast.makeText(TravelHistory.this, s[0] + "", Toast.LENGTH_SHORT).show();
+////                                    ArrayList <GheNgoi> s1 = new ArrayList<>();
+////                                    for (int j = 0; j < s.length; j++){
+////                                        s1.get(j).setViTri(s[j]);
+////                                    }
+//                                    historyArrayList.add(new CurrentTicket(routeId, start, end, date,
+//                                            timeStart, "14:00", price, positionCheck.toString(), typeSeat, 1));
+//                                    positionCheck = new StringBuilder();
+//                                    positionCheck.append(position + ", ");
+//                                    if (i == jsonArray.length() - 1) {
+//                                        historyArrayList.add(new CurrentTicket(routeId, start, end, date,
+//                                                timeStart, "14:00", price, positionCheck.toString(), typeSeat, 1));
 //                                    }
-                                    historyArrayList.add(new CurrentTicket(routeId, start, end, date,
-                                            timeStart, "14:00", price, positionCheck.toString(), typeSeat, 1));
-                                    positionCheck = new StringBuilder();
-                                    positionCheck.append(position + ", ");
-                                    if (i == jsonArray.length() - 1) {
-                                        historyArrayList.add(new CurrentTicket(routeId, start, end, date,
-                                                timeStart, "14:00", price, positionCheck.toString(), typeSeat, 1));
-                                    }
-                                    idCheck = routeId;
-                                }
+//                                    idCheck = routeId;
+//                                }
                                 }
                             }
                             else {
                                 noHistory.setVisibility(View.VISIBLE);
                             }
                         } catch (JSONException e) {
+                            e.printStackTrace();
+                        } catch (ParseException e) {
                             e.printStackTrace();
                         }
                         historyAdapter.notifyDataSetChanged();

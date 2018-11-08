@@ -85,6 +85,7 @@ public class So_Do_Cho_Ngoi_Activity extends AppCompatActivity {
         Intent intent = getIntent();
         TicketMap  = intent.getStringExtra("ticketMap");
 
+        // show sơ đô xe giương hoặc ghế ngôi
         if (Home.currentTicket.getTypeSeat() == 1 ) {
             // Giuong nam
             giuong.setVisibility(View.VISIBLE);
@@ -125,6 +126,10 @@ public class So_Do_Cho_Ngoi_Activity extends AppCompatActivity {
                             }
                             else if (jsonObjectTicket.getString("Trạng_thái").equals("0")) {
                                 gheNgoiArrayList.add(new GheNgoi(seatId, R.drawable.custom_seat, 0, jsonObjectTicket.getString("Vị_trí_ghế"), 0));
+                                j++;
+                            }
+                            else if (jsonObjectTicket.getString("Trạng_thái").equals("2")) {
+                                gheNgoiArrayList.add(new GheNgoi(seatId, R.drawable.custom_seat, 0, jsonObjectTicket.getString("Vị_trí_ghế"), 2));
                                 j++;
                             }
                         }
@@ -175,6 +180,7 @@ public class So_Do_Cho_Ngoi_Activity extends AppCompatActivity {
 //            });
         }
 
+        //click button đặt vé
         btn_Dat_Ve.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -182,13 +188,7 @@ public class So_Do_Cho_Ngoi_Activity extends AppCompatActivity {
                         if (currentSeat != null) {
                             String seat = "";
                             String seatId = "";
-
-//                            for (int i = 0; i < currentSeat.size(); i++) {
-//                                if (i != currentSeat.size() - 1) {
-//                                    seat.add(currentSeat.get(i).getViTri());
-//                                } else
-//                                    seat.add(currentSeat.get(i).getViTri() );
-//                            }
+                            // prepare seat and seatId list
                             for (int i = 0; i < currentSeat.size(); i++) {
                                 if (i != currentSeat.size() - 1) {
                                     seat += (currentSeat.get(i).getViTri() + ", ");
@@ -198,6 +198,7 @@ public class So_Do_Cho_Ngoi_Activity extends AppCompatActivity {
                                 }
                             }
 //                            Toast.makeText(So_Do_Cho_Ngoi_Activity.this, seatId + "", Toast.LENGTH_SHORT).show();
+                            //set seat and seatID value and numSeat value
                             Home.currentTicket.setSeat(seat);
                             Home.currentTicket.setSeatId(seatId);
                             Home.currentTicket.setNumSeat(currentSeat.size());
@@ -209,8 +210,8 @@ public class So_Do_Cho_Ngoi_Activity extends AppCompatActivity {
                            " '"+ Home.currentTicket.getEndDestination() +"'," +
                             " '"+ Home.currentTicket.getDay() +"'," +
                            " '"+ Home.currentTicket.getTimeDep()  +"'," +
-//                           " '"+ Home.currentTicket.getTimeArr() +"'," +
-                           " '14:00', " +
+                           " '"+ Home.currentTicket.getTimeArr() +"'," +
+//                           " '14:00', " +
                            " '" + Home.currentTicket.getPrice()  +"'," +
                            " '" + Home.currentTicket.getSeat()  +"'," +
                            " '" + Home.currentTicket.getSeatId()  +"'," +
@@ -235,6 +236,7 @@ public class So_Do_Cho_Ngoi_Activity extends AppCompatActivity {
                 }
             }
         });
+        //end click button đặt vé
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -245,6 +247,7 @@ public class So_Do_Cho_Ngoi_Activity extends AppCompatActivity {
 
         choice = true;
 
+        //click gợi ý chỗ ngôi
         seatSuggestion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -296,8 +299,7 @@ public class So_Do_Cho_Ngoi_Activity extends AppCompatActivity {
                 dialog.show();
             }
         });
-
-        // Connect Database
+        // end gợi ý chỗ ngôi
 
     }
 
@@ -464,7 +466,7 @@ public class So_Do_Cho_Ngoi_Activity extends AppCompatActivity {
                             userId = currentUserDB.getString(1);
                         }
 
-                        params.put("idkhachhang", userId);
+//                        params.put("idkhachhang", userId);
                         params.put("idchuyenxe", Home.currentTicket.getId());
                         params.put("tuoimin", tuoimin);
                         params.put("tuoimax", tuoimax);

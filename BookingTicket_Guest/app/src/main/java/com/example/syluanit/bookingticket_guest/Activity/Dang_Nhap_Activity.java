@@ -172,7 +172,7 @@ public class Dang_Nhap_Activity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(Dang_Nhap_Activity.this, "Vui lòng thử lại!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Dang_Nhap_Activity.this, "Vui lòng kiểm tra kết nối sau đó thử lại!", Toast.LENGTH_SHORT).show();
                         Log.d("AAA", "onErrorResponse: " + error.toString());
                     }
                 }){

@@ -69,11 +69,14 @@ public class RouteActivity extends AppCompatActivity {
                     String time = jsonObject1.getString("Giờ_xuất_phát");
                     String price = jsonObject1.getString("Tiền_vé");
                     String id = jsonObject1.getString("Mã");
+                    String timeArr = jsonObject1.getString("Thời_gian_đến_dự_kiến");
+                    String [] s = timeArr.split("\\s+");
+
 
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
                     SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("HH:mm");
                     routeArrayList.add(new Route(simpleDateFormat.format(simpleDateFormat1.parse(time)),
-                            "14:00", currencyFormat(price), id));
+                            simpleDateFormat.format(simpleDateFormat1.parse(s[1])), currencyFormat(price), id));
                 }}
                 else {
                     noRoute.setVisibility(View.VISIBLE);

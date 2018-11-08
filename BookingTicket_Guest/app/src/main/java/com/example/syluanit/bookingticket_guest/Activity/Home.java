@@ -39,7 +39,6 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.syluanit.bookingticket_guest.Model.CurrentTicket;
-import com.example.syluanit.bookingticket_guest.Model.CurrentUser;
 import com.example.syluanit.bookingticket_guest.Model.TicketComplete;
 import com.example.syluanit.bookingticket_guest.R;
 import com.example.syluanit.bookingticket_guest.Service.Database;
@@ -116,6 +115,7 @@ public class Home extends AppCompatActivity
             }
         });
 
+        //click button search route
         btn_ticketSearch.bringToFront();
         btn_ticketSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -179,6 +179,7 @@ public class Home extends AppCompatActivity
             }
         });
 
+
         radioGroupTypeSeat = (RadioGroup) findViewById(R.id.radioGroup) ;
         currentTicket.setTypeSeat(1);
         typeSeat = "1";
@@ -204,7 +205,7 @@ public class Home extends AppCompatActivity
 //        database.queryData("Drop table IF exists Ticket");
 
         Cursor data = database.getDaTa("SELECT * FROM sqlite_master WHERE name ='User' and type='table'");
-
+        // checking the table User null? login or not?
         if (data.getCount() > 0){
             navigationView.getMenu().findItem(R.id.nav_Login_SignUp).setVisible(false);
             navigationView.getMenu().findItem(R.id.nav_SignUp).setVisible(false);
@@ -270,7 +271,7 @@ public class Home extends AppCompatActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        // checking the result phor two dierent start and destination places
         if (requestCode == DIA_DIEM_ACTIVITY_REQUEST_CODE){
             if (resultCode == RESULT_OK) {
                 String dia_diem = data.getStringExtra("diadiem");

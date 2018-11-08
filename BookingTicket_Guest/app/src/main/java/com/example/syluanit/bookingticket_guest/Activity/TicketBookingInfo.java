@@ -168,6 +168,8 @@ public class TicketBookingInfo extends AppCompatActivity {
                         + Home.currentTicket.getEndDestination()));
         ticketInfoArrayList.add(new TicketInfo("Ngày đi",Home.currentTicket.getDay()));
         ticketInfoArrayList.add(new TicketInfo("Giờ đi",Home.currentTicket.getTimeDep()));
+        ticketInfoArrayList.add(new TicketInfo("Giờ đến",Home.currentTicket.getTimeArr()));
+
 //        String seat1 = "";
 //        for (int i = 0; i < Home.currentTicket.getSeat().size(); i++) {
 //            if (i != Home.currentTicket.getSeat().size() - 1) {

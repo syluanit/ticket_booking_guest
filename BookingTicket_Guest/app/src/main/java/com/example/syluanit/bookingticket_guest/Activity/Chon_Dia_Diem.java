@@ -99,9 +99,22 @@ public class Chon_Dia_Diem extends AppCompatActivity {
 
             @Override
             public void onSearchViewClosed() {
+                // nếu trở vê không search nữa
                 listView = (ListView) findViewById(R.id.lv_chon_dia_diem);
                 chon_dia_diem_adapter = new Chon_Dia_Diem_Adapter(getApplicationContext(), R.layout.dong_dia_diem ,diaDiemArrayList);
                 listView.setAdapter(chon_dia_diem_adapter);
+
+                // set click event aph ter back search
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        String dia_diem = diaDiemArrayList.get(position).getPlace();
+                        Intent intent = new Intent();
+                        intent.putExtra("diadiem", dia_diem);
+                        setResult(RESULT_OK, intent);
+                        finish();
+                    }
+                });
             }
         });
 
@@ -119,12 +132,14 @@ public class Chon_Dia_Diem extends AppCompatActivity {
                     for( DiaDiem item:diaDiemArrayList){
 //                        if (Normalizer.normalize(item.getPlace().toLowerCase(),Normalizer.Form.NFD).
 ////                                contains(Normalizer.normalize(newText.toLowerCase(),Normalizer.Form.NFD))){
+                        // compare the item in list with the new text user type
                         if (Normalizer.normalize(item.getPlace().toLowerCase(),Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]","").
                               contains(Normalizer.normalize(newText.toLowerCase(),Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]",""))){
                             diaDiemSearch.add(item);
                         }
                         chon_dia_diem_adapter = new Chon_Dia_Diem_Adapter(getApplicationContext(), R.layout.dong_dia_diem ,diaDiemSearch);
                         listView.setAdapter(chon_dia_diem_adapter);
+                        // you need set click event again
                         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -196,33 +211,4 @@ public class Chon_Dia_Diem extends AppCompatActivity {
         searchView.setMenuItem(item);
         return true;
     }
-
-    //    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.search_view,menu);
-//        MenuItem menuItem = menu.findItem(R.id.search_view);
-//
-//        SearchView searchView = (SearchView) menuItem.getActionView();
-//        searchView.setMaxWidth(Integer.MAX_VALUE);
-//        SpannableString spanString = new SpannableString(("Tìm địa điểm...").toString());
-//        int end = spanString.length();
-//        spanString.setSpan(new RelativeSizeSpan(0.8f), 0, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-//        searchView.setQueryHint(spanString);
-//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//                Log.d("BBB", query);
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                return false;
-//            }
-//        });
-//        return super.onCreateOptionsMenu(menu);
-//    }
-
-
-
 }

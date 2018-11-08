@@ -43,13 +43,9 @@ public class Fragment_Tang_Tren extends Fragment{
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.giuong_nam, container, false);
 
-//        final GridView gridView = (GridView) view.findViewById(R.id.gv_GheNgoi);
         gheNgoiArrayList = new ArrayList<>();
 
         SetSeatPosition();
-
-//        adapter = new So_Do_Xe_Adapter(view.getContext(), R.layout.giuong_nam_item, gheNgoiArrayList);
-//        gridView.setAdapter(adapter);
 
         adapter = new So_Do_Xe_Adapter_Scrolling(view.getContext(), gheNgoiArrayList);
 
@@ -59,39 +55,6 @@ public class Fragment_Tang_Tren extends Fragment{
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
-//        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                int seatStatus = gheNgoiArrayList.get(position).getTrangThai();
-//                if (seatStatus == 0){
-//                    So_Do_Cho_Ngoi_Activity.currentSeat.add(gheNgoiArrayList.get(position));
-//                    gheNgoiArrayList.get(position).setTrangThai(1) ;
-//
-//                } else {
-//                    for (int i = 0; i < So_Do_Cho_Ngoi_Activity.currentSeat.size(); i++) {
-//                        if (So_Do_Cho_Ngoi_Activity.currentSeat.get(i).getViTri().equals(gheNgoiArrayList.get(position).getViTri())) {
-//                            So_Do_Cho_Ngoi_Activity.currentSeat.remove(i);
-//
-//                            break;
-//                        }
-//                    }
-//                    gheNgoiArrayList.get(position).setTrangThai(0);
-//                }
-//                setSeatPositionText();
-//                adapter.notifyDataSetChanged();
-//            }
-//
-//        });
-
-//        gridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-//            @Override
-//            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-////                Toast.makeText(getActivity(), "" + position , Toast.LENGTH_SHORT).show();
-//                gheNgoiArrayList.get(position).setTrangThai(2) ;
-//                adapter.notifyDataSetChanged();
-//                return false;
-//            }
-//        });
         return view;
     }
 
@@ -250,15 +213,4 @@ public class Fragment_Tang_Tren extends Fragment{
 //        }
 //    }
 
-    private void setSeatPositionText (){
-        if (So_Do_Cho_Ngoi_Activity.currentSeat != null) {
-            String seat = "";
-            for (int i = 0; i < So_Do_Cho_Ngoi_Activity.currentSeat.size(); i++) {
-                if (i != So_Do_Cho_Ngoi_Activity.currentSeat.size() - 1) {
-                    seat += (So_Do_Cho_Ngoi_Activity.currentSeat.get(i).getViTri() + ", ");
-                } else seat += (So_Do_Cho_Ngoi_Activity.currentSeat.get(i).getViTri() + ".");
-            }
-            So_Do_Cho_Ngoi_Activity.tv_seatSelected.setText(seat);
-        }
-    }
 }

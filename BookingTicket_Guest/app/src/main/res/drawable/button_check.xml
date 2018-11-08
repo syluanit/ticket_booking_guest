@@ -10,7 +10,6 @@
         </shape>
     </item>
     <item
-
         android:gravity="center"
         android:drawable="@drawable/ic_check_black_24dp" >
     </item>

@@ -59,8 +59,9 @@ public class Dang_Ky_Activity extends AppCompatActivity {
                 String pass = password.getText().toString();
                 String repass = rePassword.getText().toString();
                 String name = realname.getText().toString();
+                String dob = realname.getText().toString();
 
-                if (user.equals("") || pass.equals("") || repass.equals("")) {
+                if (user.equals("") || pass.equals("") || repass.equals("")||name.equals("")||dob.equals("")) {
                     Toast.makeText(Dang_Ky_Activity.this, "Vui lòng nhập đủ thông tin!", Toast.LENGTH_SHORT).show();
                 } else if (!detect_number(user)) {
                     Toast.makeText(Dang_Ky_Activity.this, "Vui lòng nhập số điện thoại đúng!", Toast.LENGTH_SHORT).show();
@@ -149,7 +150,7 @@ public class Dang_Ky_Activity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(Dang_Ky_Activity.this, "Error", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Dang_Ky_Activity.this, "Vui lòng kiểm tra kết nối sau đó thử lại!", Toast.LENGTH_SHORT).show();
                         Log.d("AAA", "onErrorResponse: " + error.toString());
                     }
                 }){

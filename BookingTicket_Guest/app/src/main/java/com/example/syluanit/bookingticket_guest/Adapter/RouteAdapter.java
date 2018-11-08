@@ -82,6 +82,7 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.ViewHolder>{
                                 Home.currentTicket.setTimeDep(route.getTimeDep());
                                 Home.currentTicket.setPrice(currencyFormat(route.getPrice()));
                                 Home.currentTicket.setId(route.getId());
+                                Home.currentTicket.setTimeArr(route.getTimeArr());
 
                                 Home.routeSignal = true;
 
@@ -135,12 +136,10 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.ViewHolder>{
 
         public ViewHolder(final View itemView) {
             super(itemView);
-
             tv_price = (TextView) itemView.findViewById(R.id.tv_priceTicket);
             tv_timeDep = (TextView) itemView.findViewById(R.id.tv_timeDep);
             tv_timeArr = (TextView) itemView.findViewById(R.id.tv_timeArr);
             btn_book = (Button) itemView.findViewById(R.id.btnBookThis);
-
 
         }
     }

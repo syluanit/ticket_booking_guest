@@ -52,6 +52,7 @@ public class So_Do_Xe_Adapter_Scrolling extends RecyclerView.Adapter<So_Do_Xe_Ad
     String url1 = "http://192.168.43.218/busmanager/public/destroydatveAndroid";
 
     Database database;
+    public static String waitingSeat = "";
 
     public So_Do_Xe_Adapter_Scrolling(Context context, ArrayList<GheNgoi> mangGheNgoi) {
         this.context = context;
@@ -105,6 +106,7 @@ public class So_Do_Xe_Adapter_Scrolling extends RecyclerView.Adapter<So_Do_Xe_Ad
                 int seatStatus = gheNgoi.getTrangThai();
                 if (seatStatus == 0){
                     So_Do_Cho_Ngoi_Activity.currentSeat.add(gheNgoi);
+                    waitingSeat += gheNgoi.getViTri() +",";
                     gheNgoi.setTrangThai(1) ;
                     sendData(url, gheNgoi.getId(), position);
                 } else {
@@ -198,7 +200,7 @@ public class So_Do_Xe_Adapter_Scrolling extends RecyclerView.Adapter<So_Do_Xe_Ad
                     public void onErrorResponse(VolleyError error) {
                         Toast.makeText(context, "Vui lòng kiểm tra kết nối sau đó thử lại!", Toast.LENGTH_SHORT).show();
                         Log.d("AAA", "onErrorResponse: " + error.toString());
-                        mangGheNgoi.get(position).setTrangThai(0);
+//                        mangGheNgoi.get(position).setTrangThai(0);
                     }
                 }){
             @Override

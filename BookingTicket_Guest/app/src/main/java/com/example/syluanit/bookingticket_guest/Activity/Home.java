@@ -38,6 +38,8 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.syluanit.bookingticket_guest.Adapter.So_Do_Xe_Adapter;
+import com.example.syluanit.bookingticket_guest.Adapter.So_Do_Xe_Adapter_Scrolling;
 import com.example.syluanit.bookingticket_guest.Model.CurrentTicket;
 import com.example.syluanit.bookingticket_guest.Model.TicketComplete;
 import com.example.syluanit.bookingticket_guest.R;
@@ -84,6 +86,7 @@ public class Home extends AppCompatActivity
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        Log.d("AAA", "onCreate: ");
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -375,8 +378,8 @@ public class Home extends AppCompatActivity
             Intent intent = new Intent(Home.this, Dang_Nhap_Activity.class);
             startActivity(intent);
         } else if (id == R.id.nav_Contact) {
-
-        } else if (id == R.id.nav_Introduction) {
+            Intent intent = new Intent(Home.this, Contact.class);
+            startActivity(intent);
 
         }
         else if (id == R.id.nav_TravelHistory) {
@@ -420,5 +423,34 @@ public class Home extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected void onPause() {
+        Log.d("AAA", "onPause: ");
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        Log.d("AAA", "onResume: HOme");
+        super.onResume();
+    }
+
+    @Override
+    protected void onStart() {
+        Log.d("AAA", "onStart: HOme");
+        super.onStart();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onStop() {
+        Log.d("AAA", "onStop: HOme ");
+        super.onStop();
     }
 }

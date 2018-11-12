@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.Contact">
+
+    <RelativeLayout
+        android:background="@color/colorPrimary"
+        android:id="@+id/layout_place"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/nav_header_height">
+
+        <ImageView
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:padding="10dp"
+            android:id="@+id/back_pressed_contact"
+            android:src="@drawable/ic_navigate_before_black_24dp"
+            android:layout_width="@dimen/nav_header_height"
+            android:layout_height="@dimen/nav_header_height" />
+
+        <TextView
+            android:textStyle="bold"
+            android:layout_centerInParent="true"
+            android:textColor="@color/nav_header_color"
+            android:textSize="@dimen/nav_header_text_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Liên hệ"
+            android:id="@+id/toolbar_title" />
+    </RelativeLayout>
+
+    <LinearLayout
+
+        android:layout_margin="10dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="70dp">
+        <ImageView
+            android:layout_marginLeft="40dp"
+            android:src="@mipmap/ic_luggage"
+            android:layout_width="70dp"
+            android:layout_height="70dp" />
+        <LinearLayout
+           android:layout_marginRight="60dp"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        <ImageView
+            android:padding="5dp"
+            android:src="@drawable/awesome_travel"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp" />
+            <TextView
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textSize="@dimen/body_text_size"
+                android:text="ĐƯA  BẠN  ĐI  XA"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:padding="10dp"
+        android:textColor="@android:color/black"
+        android:text="AWE Travel là ứng dụng mua vé xe trực tuyến và hoàn toàn miễn phí của hệ thống xe khách AWESOME TRAVEL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:padding="10dp"
+        android:textColor="@android:color/black"
+        android:text="Ứng dụng ra đời với tiêu chí tạo ra sự tiện lợi và thoải mái cho quý khách hàng khi sử dụng dịch vụ Awesome Travel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+    <ImageView
+        android:layout_marginTop="10dp"
+        android:src="@drawable/redcall"
+        android:layout_width="match_parent"
+        android:layout_height="80dp" />
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textSize="@dimen/body_text_size"
+        android:text="Trung tâm chăm sóc khách hàng "
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:textSize="@dimen/body_text_size"
+        android:text="402 Xô Viết Nghệ Tĩnh, P.25 Q.Bình Thạnh, Tp.HCM"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:textSize="@dimen/body_text_size"
+        android:text="lienhe@awetravel.vn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:textSize="@dimen/body_text_size_medium"
+        android:textColor="@color/white"
+
+        android:background="@drawable/red_rectangle_20dp"
+        android:text="HotLine: 1900 1000"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

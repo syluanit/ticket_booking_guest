@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
@@ -22,7 +23,9 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RadioGroup;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,6 +63,7 @@ public class So_Do_Cho_Ngoi_Activity extends AppCompatActivity {
     public static So_Do_Xe_Adapter_Scrolling adapter;
     LinearLayout giuong, ghe;
     Database database;
+    Dialog dialog;
 
     public static TextView tv_seatSelected;
     public static ArrayList<GheNgoi> currentSeat;
@@ -251,7 +255,7 @@ public class So_Do_Cho_Ngoi_Activity extends AppCompatActivity {
         seatSuggestion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                choice = true;
                 final Dialog dialog = new Dialog(So_Do_Cho_Ngoi_Activity.this);
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.setContentView(R.layout.dialog_seat_suggestion_choices);
@@ -287,6 +291,7 @@ public class So_Do_Cho_Ngoi_Activity extends AppCompatActivity {
                         if (choice){
                             final String url = "http://192.168.43.218/TicketBooking/public/ticketAndroid";
                             sendUserData(url);
+                            showProgressDialog();
                         }
                         else {
                             otherSuggestion();
@@ -303,16 +308,34 @@ public class So_Do_Cho_Ngoi_Activity extends AppCompatActivity {
 
     }
 
-    private void setSeatPositionText (){
-        if (currentSeat != null) {
-            String seat = "";
-            for (int i = 0; i < currentSeat.size(); i++) {
-                if (i != currentSeat.size() - 1) {
-                    seat += (currentSeat.get(i).getViTri() + ", ");
-                } else seat += (currentSeat.get(i).getViTri() + ".");
+    private void showProgressDialog (){
+        dialog = new Dialog(So_Do_Cho_Ngoi_Activity.this);
+        dialog.setContentView(R.layout.progressdialog);
+        final ProgressBar progressBar = (ProgressBar) dialog.findViewById(R.id.progress);
+        final SeekBar seekBar = (SeekBar) dialog.findViewById(R.id.Seekbar);
+        seekBar.setMax(100);
+        progressBar.setMax(100);
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+
+        CountDownTimer countDownTimer = new CountDownTimer(10000, 500) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                int current = progressBar.getProgress();
+                if (current >= progressBar.getMax())
+                {
+                   current = 0;
+                }
+                progressBar.setProgress(current + 10);
+                seekBar.setProgress(current + 10);
             }
-            tv_seatSelected.setText(seat);
-        }
+
+            @Override
+            public void onFinish() {
+                dialog.cancel();
+            }
+        };
+        countDownTimer.start();
+        dialog.show();
     }
 
     private void sendUserData(String url){
@@ -322,49 +345,71 @@ public class So_Do_Cho_Ngoi_Activity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         Log.d("AAA", "onResponse: " + response.toString());
+                        dialog.cancel();
 
                         try {
                             JSONObject jsonObject = new JSONObject(response);
-                            JSONArray jsonArray = jsonObject.getJSONArray("kq");
 
-                            final Dialog dialog = new Dialog(So_Do_Cho_Ngoi_Activity.this);
-                            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                            dialog.setContentView(R.layout.dialog_seat_suggestion_result);
-                            TextView tv_annoucement = dialog.findViewById(R.id.seat_seat);
-                            TextView nextSeat = dialog.findViewById(R.id.seat);
-                            Button back = dialog.findViewById(R.id.back_suggestion);
+                            if (!jsonObject.toString().equals("{\"kq\":0}")) {
+                                JSONArray jsonArray = jsonObject.getJSONArray("kq");
+                                final Dialog dialog = new Dialog(So_Do_Cho_Ngoi_Activity.this);
+                                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                                dialog.setContentView(R.layout.dialog_seat_suggestion_result);
+                                TextView tv_annoucement = dialog.findViewById(R.id.seat_seat);
+                                TextView nextSeat = dialog.findViewById(R.id.seat);
+                                Button back = dialog.findViewById(R.id.back_suggestion);
 
-                            back.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    dialog.cancel();
+                                back.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        dialog.cancel();
+                                    }
+                                });
+
+                                dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                                String seat = "";
+                                for (int i = 1; i < jsonArray.length(); i++) {
+                                    if (i == 4) {
+                                        JSONObject jsonObject1 = (JSONObject) jsonArray.get(i);
+                                        seat += jsonObject1.getString("Vị_trí_ghế");
+                                        break;
+                                    } else {
+                                        JSONObject jsonObject1 = (JSONObject) jsonArray.get(i);
+                                        seat += jsonObject1.getString("Vị_trí_ghế") + ", ";
+                                    }
                                 }
-                            });
-
-                            dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-                            String seat = "";
-                            for (int i = 1; i < jsonArray.length() ;i++){
-                                if (i == 4) {
-                                    JSONObject jsonObject1 = (JSONObject) jsonArray.get(i);
-                                    seat += jsonObject1.getString("Vị_trí_ghế");
-                                    break;}
-                                else {
-                                    JSONObject jsonObject1 = (JSONObject) jsonArray.get(i);
-                                    seat += jsonObject1.getString("Vị_trí_ghế") + ", ";
-                                }
+                                nextSeat.setText(seat);
+                                JSONObject jsonObject1 = (JSONObject) jsonArray.get(0);
+                                tv_annoucement.setText(jsonObject1.getString("Vị_trí_ghế"));
+                                dialog.show();
                             }
-                            nextSeat.setText(seat);
-                            JSONObject jsonObject1 = (JSONObject) jsonArray.get(0);
-                            tv_annoucement.setText(jsonObject1.getString("Vị_trí_ghế"));
-                            dialog.show();
+                            else {
+                                final Dialog dialog = new Dialog(So_Do_Cho_Ngoi_Activity.this);
+                                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                                dialog.setContentView(R.layout.dialog_outday);
+                                TextView tv_annoucement = dialog.findViewById(R.id.tv_OK_outday);
+                                TextView content = dialog.findViewById(R.id.tv_content);
+                                dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                                content.setText("Không đủ dữ liệu để gợi ý");
+//                                Toast.makeText(Dang_Nhap_Activity.this,response.toString() + "", Toast.LENGTH_SHORT).show();
+                                tv_annoucement.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        dialog.cancel();
+                                    }
+                                });
+                                dialog.show();
+                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        dialog.cancel();
                         Toast.makeText(So_Do_Cho_Ngoi_Activity.this, "Vui lòng kiểm tra kết nối mạng hoặc thử lại!", Toast.LENGTH_SHORT).show();
                         Log.d("AAA", "onErrorResponse: " + error.toString());
                     }
@@ -389,7 +434,8 @@ public class So_Do_Cho_Ngoi_Activity extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
-    private String gender, tuoimin, tuoimax;
+    private String gender = "0"
+            , tuoimin, tuoimax;
 
     private void otherSuggestion() {
         final Dialog dialog = new Dialog(So_Do_Cho_Ngoi_Activity.this);
@@ -402,6 +448,7 @@ public class So_Do_Cho_Ngoi_Activity extends AppCompatActivity {
         suggest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                showProgressDialog();
                 final String url = "http://192.168.43.218/TicketBooking/public/ticketAndroid";
 //                                    sendUserData(url);
                 final RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
@@ -409,39 +456,59 @@ public class So_Do_Cho_Ngoi_Activity extends AppCompatActivity {
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
+                                dialog.cancel();
                                 try {
                                     JSONObject jsonObject = new JSONObject(response);
-                                    JSONArray jsonArray = jsonObject.getJSONArray("kq");
 
-                                    final Dialog dialog = new Dialog(So_Do_Cho_Ngoi_Activity.this);
-                                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                                    dialog.setContentView(R.layout.dialog_seat_suggestion_result);
-                                    TextView tv_annoucement = dialog.findViewById(R.id.seat_seat);
-                                    TextView nextSeat = dialog.findViewById(R.id.seat);
-                                    Button back = dialog.findViewById(R.id.back_suggestion);
+                                    if (!jsonObject.toString().equals("{\"kq\":0}")) {
+                                        JSONArray jsonArray = jsonObject.getJSONArray("kq");
+                                        final Dialog dialog = new Dialog(So_Do_Cho_Ngoi_Activity.this);
+                                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                                        dialog.setContentView(R.layout.dialog_seat_suggestion_result);
+                                        TextView tv_annoucement = dialog.findViewById(R.id.seat_seat);
+                                        TextView nextSeat = dialog.findViewById(R.id.seat);
+                                        Button back = dialog.findViewById(R.id.back_suggestion);
 
-                                    back.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            dialog.cancel();
+                                        back.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                dialog.cancel();
+                                            }
+                                        });
+                                        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                                        String seat = "";
+                                        for (int i = 1; i < jsonArray.length(); i++) {
+                                            if (i == 4) {
+                                                JSONObject jsonObject1 = (JSONObject) jsonArray.get(i);
+                                                seat += jsonObject1.getString("Vị_trí_ghế");
+                                                break;
+                                            } else {
+                                                JSONObject jsonObject1 = (JSONObject) jsonArray.get(i);
+                                                seat += jsonObject1.getString("Vị_trí_ghế") + ", ";
+                                            }
                                         }
-                                    });
-                                    dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-                                    String seat = "";
-                                    for (int i = 1; i < jsonArray.length() ;i++){
-                                        if (i == 4) {
-                                            JSONObject jsonObject1 = (JSONObject) jsonArray.get(i);
-                                            seat += jsonObject1.getString("Vị_trí_ghế");
-                                            break;}
-                                        else {
-                                            JSONObject jsonObject1 = (JSONObject) jsonArray.get(i);
-                                            seat += jsonObject1.getString("Vị_trí_ghế") + ", ";
-                                        }
+                                        nextSeat.setText(seat);
+                                        JSONObject jsonObject1 = (JSONObject) jsonArray.get(0);
+                                        tv_annoucement.setText(jsonObject1.getString("Vị_trí_ghế"));
+                                        dialog.show();
+                                    }    else    {
+                                        final Dialog dialog = new Dialog(So_Do_Cho_Ngoi_Activity.this);
+                                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                                        dialog.setContentView(R.layout.dialog_outday);
+                                        TextView tv_annoucement = dialog.findViewById(R.id.tv_OK_outday);
+                                        TextView content = dialog.findViewById(R.id.tv_content);
+                                        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                                        content.setText("Không đủ dữ liệu để gợi ý");
+//                                Toast.makeText(Dang_Nhap_Activity.this,response.toString() + "", Toast.LENGTH_SHORT).show();
+                                        tv_annoucement.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                dialog.cancel();
+                                            }
+                                        });
+                                        dialog.show();
+
                                     }
-                                    nextSeat.setText(seat);
-                                    JSONObject jsonObject1 = (JSONObject) jsonArray.get(0);
-                                    tv_annoucement.setText(jsonObject1.getString("Vị_trí_ghế"));
-                                    dialog.show();
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -452,6 +519,7 @@ public class So_Do_Cho_Ngoi_Activity extends AppCompatActivity {
                         new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
+                                dialog.cancel();
                                 Toast.makeText(So_Do_Cho_Ngoi_Activity.this, "Vui lòng kiểm tra kết nối mạng hoặc thử lại!", Toast.LENGTH_SHORT).show();
                                 Log.d("AAA", "onErrorResponse: " + error.toString());
                             }
@@ -488,8 +556,10 @@ public class So_Do_Cho_Ngoi_Activity extends AppCompatActivity {
                 switch (checkedId) {
                     case R.id.radioButtonSeatMen:
                         gender = "1";
+                        break;
                     case R.id.radioButtonWomen:
                         gender = "0";
+                        break;
                 }
             }
         });
@@ -511,5 +581,17 @@ public class So_Do_Cho_Ngoi_Activity extends AppCompatActivity {
         });
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         dialog.show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        Log.d("AAA", "onDestroy: so do cho ngoi");
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onStop() {
+        Log.d("AAA", "onStop: So do");
+        super.onStop();
     }
 }

@@ -44,10 +44,10 @@
             android:id="@+id/nav_TravelHistory"
             android:icon="@drawable/ic_history_black_24dp"
             android:title="Lịch sử đã đi" />
-        <item
-            android:id="@+id/nav_Introduction"
-            android:icon="@drawable/ic_mood_black_24dp"
-            android:title="Giới thiệu" />
+        <!--<item-->
+            <!--android:id="@+id/nav_Introduction"-->
+            <!--android:icon="@drawable/ic_mood_black_24dp"-->
+            <!--android:title="Giới thiệu" />-->
         <item
             android:iconTint="@color/colorPrimary"
             android:id="@+id/nav_Contact"

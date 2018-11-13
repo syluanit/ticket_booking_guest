@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/white_border"
+    android:orientation="vertical">
+
+    <Button
+        android:textColor="@color/white"
+        android:background="@drawable/primary_rectangle_top"
+        android:textSize="@dimen/body_text_size"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:gravity="center"
+        android:text="Thời gian giữ chỗ còn lại"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:textColor="@color/color_text_route"
+        android:id="@+id/tv_time_holding_seat"
+        android:textSize="@dimen/body_text_size_large"
+        android:gravity="center"
+        android:text="5:00"
+        android:padding="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:weightSum="10"
+        android:background="@drawable/primary_rectangle_bottom"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_weight="5"
+            android:id="@+id/btn_back_suggestion"
+            android:textColor="@color/white"
+            android:background="@drawable/primary_border"
+            android:textSize="@dimen/body_text_size"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:gravity="center"
+            android:text="Hủy giữ chỗ"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <View
+            android:background="@color/white"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"></View>
+        <Button
+            android:layout_weight="5"
+            android:id="@+id/btn_suggestion"
+            android:textColor="@color/white"
+            android:background="@drawable/primary_border"
+            android:textSize="@dimen/body_text_size"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:gravity="center"
+            android:text="Tiếp tục"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+</LinearLayout>

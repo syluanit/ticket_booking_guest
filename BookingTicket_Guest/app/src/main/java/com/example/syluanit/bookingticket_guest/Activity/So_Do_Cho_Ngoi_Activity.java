@@ -438,12 +438,12 @@ public class So_Do_Cho_Ngoi_Activity extends AppCompatActivity {
             , tuoimin, tuoimax;
 
     private void otherSuggestion() {
-        final Dialog dialog = new Dialog(So_Do_Cho_Ngoi_Activity.this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.dialog_seat_suggestion);
-        final RangeSeekBar seekBar = (RangeSeekBar) dialog.findViewById(R.id.ageSeekbar);
-        RadioGroup radioGroup = (RadioGroup) dialog.findViewById(R.id.radioGroupSeat);
-        Button suggest = (Button) dialog.findViewById(R.id.btn_suggestion);
+        final Dialog dialog1 = new Dialog(So_Do_Cho_Ngoi_Activity.this);
+        dialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog1.setContentView(R.layout.dialog_seat_suggestion);
+        final RangeSeekBar seekBar = (RangeSeekBar) dialog1.findViewById(R.id.ageSeekbar);
+        RadioGroup radioGroup = (RadioGroup) dialog1.findViewById(R.id.radioGroupSeat);
+        Button suggest = (Button) dialog1.findViewById(R.id.btn_suggestion);
 
         suggest.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -579,8 +579,8 @@ public class So_Do_Cho_Ngoi_Activity extends AppCompatActivity {
 
             }
         });
-        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        dialog.show();
+        dialog1.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        dialog1.show();
     }
 
     @Override

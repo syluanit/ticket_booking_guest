@@ -111,7 +111,7 @@ public class TicketBookingInfo extends AppCompatActivity {
                                 dialog.show();
                             }
                             else if (res.equals("wrong")){
-                                Toast.makeText(TicketBookingInfo.this, "Vé đã đặt", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(TicketBookingInfo.this, "Vé đã có người vừa đặt", Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

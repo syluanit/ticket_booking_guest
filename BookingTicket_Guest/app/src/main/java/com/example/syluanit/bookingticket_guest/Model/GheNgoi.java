@@ -1,6 +1,7 @@
 package com.example.syluanit.bookingticket_guest.Model;
 
 public class GheNgoi {
+    private String timeholding;
     private String id;
     private int hinhAnh;
     private int Cua;
@@ -18,6 +19,14 @@ public class GheNgoi {
         Cua = cua;
         this.viTri = viTri;
         this.trangThai = trangThai;
+    }
+
+    public String getTimeholding() {
+        return timeholding;
+    }
+
+    public void setTimeholding(String timeholding) {
+        this.timeholding = timeholding;
     }
 
     public String getId() {

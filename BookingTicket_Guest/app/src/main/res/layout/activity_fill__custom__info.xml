@@ -61,83 +61,201 @@
             android:textSize="@dimen/body_text_size"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-    <LinearLayout
-        android:padding="10dp"
-        android:layout_below="@id/appbarLayoutTimeList"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <!--<LinearLayout-->
+        <!--android:padding="10dp"-->
+        <!--android:layout_below="@id/appbarLayoutTimeList"-->
+        <!--android:orientation="vertical"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+        <!--<android.support.design.widget.TextInputLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content" >-->
 
-            <EditText
-                android:id="@+id/name"
-                android:hint="Họ tên (*)"
-                android:textSize="@dimen/body_text_size"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </android.support.design.widget.TextInputLayout>
+            <!--<EditText-->
+                <!--android:id="@+id/name"-->
+                <!--android:hint="Họ tên (*)"-->
+                <!--android:textSize="@dimen/body_text_size"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content" />-->
+        <!--</android.support.design.widget.TextInputLayout>-->
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+        <!--<android.support.design.widget.TextInputLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content" >-->
 
-            <EditText
-                android:id="@+id/email"
-                android:textColor="@android:color/black"
-                android:hint="Email (*)"
-                android:textSize="@dimen/body_text_size"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </android.support.design.widget.TextInputLayout>
+            <!--<EditText-->
+                <!--android:id="@+id/email"-->
+                <!--android:textColor="@android:color/black"-->
+                <!--android:hint="Email (*)"-->
+                <!--android:textSize="@dimen/body_text_size"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content" />-->
+        <!--</android.support.design.widget.TextInputLayout>-->
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+        <!--<android.support.design.widget.TextInputLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content" >-->
 
-            <EditText
-                android:id="@+id/phone"
-                android:hint="Số điện thoại (*)"
-                android:textSize="@dimen/body_text_size"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </android.support.design.widget.TextInputLayout>
+            <!--<EditText-->
+                <!--android:id="@+id/phone"-->
+                <!--android:hint="Số điện thoại (*)"-->
+                <!--android:textSize="@dimen/body_text_size"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content" />-->
+        <!--</android.support.design.widget.TextInputLayout>-->
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+        <!--<android.support.design.widget.TextInputLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content" >-->
 
-            <EditText
-                android:id="@+id/IDCard"
-                android:hint="CMND/Hộ chiếu"
-                android:textSize="@dimen/body_text_size"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </android.support.design.widget.TextInputLayout>
+            <!--<EditText-->
+                <!--android:id="@+id/IDCard"-->
+                <!--android:hint="CMND/Hộ chiếu"-->
+                <!--android:textSize="@dimen/body_text_size"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content" />-->
+        <!--</android.support.design.widget.TextInputLayout>-->
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+        <!--<android.support.design.widget.TextInputLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content" >-->
 
-            <EditText
-                android:id="@+id/phone2"
-                android:hint="Số điện thoại dự phòng"
-                android:textSize="@dimen/body_text_size"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </android.support.design.widget.TextInputLayout>
+            <!--<EditText-->
+                <!--android:id="@+id/phone2"-->
+                <!--android:hint="Số điện thoại dự phòng"-->
+                <!--android:textSize="@dimen/body_text_size"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content" />-->
+        <!--</android.support.design.widget.TextInputLayout>-->
 
-        <TextView
-            android:textColor="@color/color_text_route"
+        <!--<TextView-->
+            <!--android:textColor="@color/color_text_route"-->
+            <!--android:paddingLeft="20dp"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:text="(*) thông tin bắt buộc"-->
+            <!--android:textSize="@dimen/body_text_size"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content" />-->
+    <!--</LinearLayout>-->
+
+        <LinearLayout
+            android:paddingTop="10dp"
+            android:paddingRight="20dp"
             android:paddingLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:text="(*) thông tin bắt buộc"
-            android:textSize="@dimen/body_text_size"
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+            android:layout_height="match_parent">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <EditText
+                    android:textSize="@dimen/body_text_size"
+                    android:hint="Họ tên*"
+                    android:id="@+id/tv_Name_editation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+                <EditText
+                    android:textSize="@dimen/body_text_size"
+                    android:hint="Email"
+                    android:id="@+id/tv_Email_editation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <EditText
+                    android:textSize="@dimen/body_text_size"
+                    android:hint="Địa chỉ"
+                    android:id="@+id/tv_Address_editation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <EditText
+                    android:id="@+id/pickDay_editation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Ngày sinh*"
+                    android:textSize="@dimen/body_text_size" />
+            </android.support.design.widget.TextInputLayout>
+
+            <LinearLayout
+                android:layout_marginTop="5dp"
+                android:background="@drawable/blue_blue"
+                android:padding="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_loaighe"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    android:text="Giới tính*"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/body_text_size"
+                    android:textStyle="bold" />
+
+                <RadioGroup
+                    android:orientation="horizontal"
+                    android:id="@+id/radioGroupSeat_editation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <RadioButton
+                        android:id="@+id/radioButtonSeatMen_editation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingRight="10dp"
+                        android:text="Nam"
+                        android:textSize="@dimen/body_text_size" />
+
+                    <RadioButton
+                        android:checked="true"
+                        android:id="@+id/radioButtonWomen_editation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nữ"
+                        android:textSize="@dimen/body_text_size" />
+                </RadioGroup>
+            </LinearLayout>
+
+            <TextView
+                android:textColor="@color/color_text_route"
+                android:paddingLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:text="(*) thông tin bắt buộc"
+                android:textSize="@dimen/body_text_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <!--<TextView-->
+                <!--android:textColor="@color/color_text_route"-->
+                <!--android:paddingLeft="20dp"-->
+                <!--android:layout_marginTop="10dp"-->
+                <!--android:text=""-->
+                <!--android:textSize="@dimen/body_text_size"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content" />-->
+
+        </LinearLayout>
     </LinearLayout>
 
     <Button

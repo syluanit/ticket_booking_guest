@@ -24,6 +24,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.syluanit.bookingticket_guest.Adapter.Ticket_Info_Adapter;
+import com.example.syluanit.bookingticket_guest.Fragment.Fragment_Tang_Duoi;
+import com.example.syluanit.bookingticket_guest.Fragment.Fragment_Tang_Tren;
 import com.example.syluanit.bookingticket_guest.Model.TicketInfo;
 import com.example.syluanit.bookingticket_guest.R;
 import com.example.syluanit.bookingticket_guest.Service.Database;
@@ -58,6 +60,8 @@ public class TicketBookingInfo extends AppCompatActivity {
         rv_ticket.setHasFixedSize(true);
         ticketInfoArrayList = new ArrayList<>();
 
+        database = new Database(this, "ticket.sqlite", null,1 );
+
         adapter = new Ticket_Info_Adapter(this, ticketInfoArrayList);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         rv_ticket.setLayoutManager(layoutManager);
@@ -70,6 +74,12 @@ public class TicketBookingInfo extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ((Activity) TicketBookingInfo.this).onBackPressed();
+                if (Home.currentTicket.getTypeSeat() == 1) {
+                    Fragment_Tang_Tren.adapter.notifyDataSetChanged();
+                    Fragment_Tang_Duoi.adapter.notifyDataSetChanged();
+                } else {
+                    So_Do_Cho_Ngoi_Activity.adapter.notifyDataSetChanged();
+                }
             }
         });
 
@@ -153,16 +163,36 @@ public class TicketBookingInfo extends AppCompatActivity {
     }
 
     private void prepareTicketInfo(){
-        Intent intent = getIntent();
-        Bundle bundle = intent.getExtras();
-        if (bundle != null) {
-            String user = bundle.getString("user","");
-            String email = bundle.getString("email","");
-            String phone = bundle.getString("phone","");
-            ticketInfoArrayList.add(new TicketInfo("Họ và tên", user));
-            ticketInfoArrayList.add(new TicketInfo("Email", email));
-            ticketInfoArrayList.add(new TicketInfo("Điện thoại", phone));
-        }
+//        Intent intent = getIntent();
+//        Bundle bundle = intent.getExtras();
+//        if (bundle != null) {
+//            String user = bundle.getString("user","");
+//            String email = bundle.getString("email","");
+//            String phone = bundle.getString("phone","");
+//            ticketInfoArrayList.add(new TicketInfo("Họ và tên", user));
+//            ticketInfoArrayList.add(new TicketInfo("Email", email));
+//            ticketInfoArrayList.add(new TicketInfo("Điện thoại", phone));
+//        }
+
+        Cursor data = database.getDaTa("SELECT * FROM sqlite_master WHERE name ='User' and type='table'");
+
+        if (data.getCount() > 0) {
+            Cursor currentUserDB = database.getDaTa("Select * from User");
+            while (currentUserDB.moveToNext()) {
+                String username = currentUserDB.getString(2);
+                String doB = currentUserDB.getString(3);
+                String gender1 = currentUserDB.getString(4);
+                String address = currentUserDB.getString(5);
+                String email = currentUserDB.getString(6);
+                String phone = currentUserDB.getString(7);
+
+                ticketInfoArrayList.add(new TicketInfo("Họ và tên", username));
+                ticketInfoArrayList.add(new TicketInfo("Email", email));
+                ticketInfoArrayList.add(new TicketInfo("Điện thoại", phone));
+
+            }}
+
+
         ticketInfoArrayList.add(new TicketInfo("Tuyến đi",
                 Home.currentTicket.getStartDestination() + " => "
                         + Home.currentTicket.getEndDestination()));
@@ -190,5 +220,16 @@ public class TicketBookingInfo extends AppCompatActivity {
     public static String currencyFormat(String amount) {
         DecimalFormat formatter = new DecimalFormat("###,###,###");
         return formatter.format(Double.parseDouble(amount));
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (Home.currentTicket.getTypeSeat() == 1) {
+            Fragment_Tang_Tren.adapter.notifyDataSetChanged();
+            Fragment_Tang_Duoi.adapter.notifyDataSetChanged();
+        } else {
+            So_Do_Cho_Ngoi_Activity.adapter.notifyDataSetChanged();
+        }
     }
 }

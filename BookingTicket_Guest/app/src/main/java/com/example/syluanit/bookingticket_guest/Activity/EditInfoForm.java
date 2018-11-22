@@ -31,6 +31,7 @@ import com.example.syluanit.bookingticket_guest.Service.Database;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.Normalizer;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -106,7 +107,8 @@ public class EditInfoForm extends AppCompatActivity {
                 String useremail = et_email.getText().toString();
                 if (!detect_name(username)) {
                     Toast.makeText(EditInfoForm.this, "Vui lòng kiểm tra tên của bạn!", Toast.LENGTH_LONG).show();
-                } else if (!detect_email(useremail)) {
+                } else if (!useremail.equals("") && !detect_email(useremail))
+                     {
                     Toast.makeText(EditInfoForm.this, "Vui lòng kiểm tra địa chỉ email!", Toast.LENGTH_LONG).show();
                 } else {
                 final String url = "http://192.168.43.218/busmanager/public/updateUserAndroid";
@@ -214,8 +216,12 @@ public class EditInfoForm extends AppCompatActivity {
 
                 String[] s = et_doB.getText().toString().split("-");
 
+                String ten_khong_dau = Normalizer.normalize(et_name.getText().toString(),
+                        Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]","");
+
                 params.put("MA", userId);
                 params.put("NAME", et_name.getText().toString());
+                params.put("NAMEKD", ten_khong_dau);
                 params.put("NGAY", s[0]);
                 params.put("THANG", s[1]);
                 params.put("NAM", s[2]);

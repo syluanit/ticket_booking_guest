@@ -151,37 +151,6 @@ public class So_Do_Cho_Ngoi_Activity extends AppCompatActivity {
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.setAdapter(adapter);
 
-//            gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                @Override
-//                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                    int seatStatus = gheNgoiArrayList.get(position).getTrangThai();
-//                    if (seatStatus == 0){
-//                      currentSeat.add(gheNgoiArrayList.get(position));
-//                        gheNgoiArrayList.get(position).setTrangThai(1) ;
-//
-//                    } else {
-//                        for (int i = 0; i < currentSeat.size(); i++) {
-//                            if (currentSeat.get(i).getViTri().equals(gheNgoiArrayList.get(position).getViTri())) {
-//                                currentSeat.remove(i);
-//                                break;
-//                            }
-//                        }
-//                        gheNgoiArrayList.get(position).setTrangThai(0);
-//                    }
-//                    setSeatPositionText();
-//                    adapter.notifyDataSetChanged();
-//                }
-//            });
-
-//            gridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-//                @Override
-//                public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-////                    Toast.makeText(getApplication(), "" + position , Toast.LENGTH_SHORT).show();
-//                    gheNgoiArrayList.get(position).setTrangThai(2) ;
-//                    adapter.notifyDataSetChanged();
-//                    return false;
-//                }
-//            });
         }
 
         //click button đặt vé
@@ -222,7 +191,7 @@ public class So_Do_Cho_Ngoi_Activity extends AppCompatActivity {
                            "'" + Home.currentTicket.getNumSeat() + "'," +
                            "'"+ Home.currentTicket.getTypeSeat()+"')");
 
-                    Intent intent = new Intent(So_Do_Cho_Ngoi_Activity.this, Fill_Customer_Info_Form.class);
+                    Intent intent = new Intent(So_Do_Cho_Ngoi_Activity.this, TicketBookingInfo.class);
                     startActivity(intent);
                 } else {
                     final Dialog dialog = new Dialog(So_Do_Cho_Ngoi_Activity.this);

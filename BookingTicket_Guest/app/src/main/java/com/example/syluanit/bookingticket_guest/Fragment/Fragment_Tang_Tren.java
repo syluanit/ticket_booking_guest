@@ -114,6 +114,10 @@ public class Fragment_Tang_Tren extends Fragment{
                                 j++;
 //                            }
                         }
+                        else if (jsonObjectTicket.getString("Trạng_thái").equals("2")) {
+                            gheNgoiArrayList.add(new GheNgoi(seatId, R.drawable.custom_seat, 0, jsonObjectTicket.getString("Vị_trí_ghế"), 2));
+                            j++;
+                        }
                     } else {
                         gheNgoiArrayList.add(new GheNgoi(0, ""));
                     }

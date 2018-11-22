@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -26,9 +27,13 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.syluanit.bookingticket_guest.R;
 
+import java.text.Normalizer;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Dang_Ky_Activity extends AppCompatActivity {
@@ -158,8 +163,21 @@ public class Dang_Ky_Activity extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
 //                params.put("X-CSRF-Token", accessToken);
+
+                String[] s = dob.getText().toString().split("-");
+                List<String> s1 = Arrays.asList(s);
+                Collections.reverse(s1);
+                String date = TextUtils.join("-", s1);
+                String ten_khong_dau = Normalizer.normalize(realname.getText().toString(),
+                        Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]","");
+
                 params.put("SDT", username.getText().toString().trim());
                 params.put("MK", password.getText().toString().trim());
+                params.put("GT", gender);
+                params.put("NAME", realname.getText().toString());
+                params.put("NAMEKD", ten_khong_dau);
+                params.put("NGAYSINH", date);
+
                 Log.d("AAA", "getParams: OK!!!");
                 return params;
             }

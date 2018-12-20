@@ -39,6 +39,7 @@ public class RouteActivity extends AppCompatActivity {
     TextView start, end, date;
     public static TextView noRoute;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,12 +57,9 @@ public class RouteActivity extends AppCompatActivity {
         Bundle bundle = intent.getExtras();
         if (bundle != null) {
             String receiveJson = bundle.getString("ticketJson", "");
-
             try {
-
                 JSONObject jsonObject = new JSONObject(receiveJson);
                 JSONArray jsonArray = jsonObject.getJSONArray("chuyenxe");
-//                Toast.makeText(this, jsonArray.toString() + "", Toast.LENGTH_SHORT).show();
                 if (!jsonArray.toString().equals("[]")){
                     noRoute.setVisibility(View.GONE);
                 for (int i = 0; i < jsonArray.length(); i++) {
@@ -71,7 +69,6 @@ public class RouteActivity extends AppCompatActivity {
                     String id = jsonObject1.getString("Mã");
                     String timeArr = jsonObject1.getString("Thời_gian_đến_dự_kiến");
                     String [] s = timeArr.split("\\s+");
-
 
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
                     SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("HH:mm");
@@ -115,6 +112,7 @@ public class RouteActivity extends AppCompatActivity {
         });
     }
 
+    // TODO transphorm the price
     public static String currencyFormat(String amount) {
         DecimalFormat formatter = new DecimalFormat("###,###,###");
         return formatter.format(Double.parseDouble(amount));

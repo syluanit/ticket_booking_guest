@@ -38,6 +38,8 @@ public class Dang_Nhap_Activity extends AppCompatActivity {
     Button login;
     EditText username, password;
     Database database;
+    String url;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,7 +81,10 @@ public class Dang_Nhap_Activity extends AppCompatActivity {
                 } else if (pass.length() < 6 || pass.length() > 30) {
                     Toast.makeText(Dang_Nhap_Activity.this, "Vui lòng nhập mật khẩu đúng!", Toast.LENGTH_SHORT).show();
                 } else {
-                    String url = "http://192.168.43.218/busmanager/public/dangnhapAndroid";
+                    String ip = getResources().getString(R.string.ip);
+                    String address = getResources().getString(R.string.address);
+                    url = ip + address + "/dangnhapAndroid";
+//                    String url = "http://192.168.43.218/busmanager/public/dangnhapAndroid";
                     sendUserData(url, user);
                 }
             }
@@ -98,6 +103,7 @@ public class Dang_Nhap_Activity extends AppCompatActivity {
                             String res = jsonObject.getString("kq");
 
                             if (res.equals("success")){
+                                //signed in successphully in SQL
                                 final Dialog dialog = new Dialog(Dang_Nhap_Activity.this);
                                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                                 dialog.setContentView(R.layout.dialog_outday);
@@ -105,7 +111,7 @@ public class Dang_Nhap_Activity extends AppCompatActivity {
                                 TextView content = dialog.findViewById(R.id.tv_content);
                                 dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                                 content.setText("Đăng nhập thành công");
-//                                Toast.makeText(Dang_Nhap_Activity.this,response.toString() + "", Toast.LENGTH_SHORT).show();
+
                                 tv_annoucement.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
@@ -114,6 +120,7 @@ public class Dang_Nhap_Activity extends AppCompatActivity {
                                             JSONArray jsonArray = jsonObject.getJSONArray("tt");
                                             JSONObject jsonObject1 = (JSONObject) jsonArray.get(0);
                                             String userId = jsonObject1.getString("Mã");
+                                            //create and store user inpho to the user table
                                             database.queryData("CREATE TABLE IF NOT EXISTS User(Id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                                                     " userId INTEGER, name VARCHAR(200), doB VARCHAR(200), " +
                                                     "gender VARCHAR(200), address VARCHAR(200), " +
@@ -131,10 +138,12 @@ public class Dang_Nhap_Activity extends AppCompatActivity {
                                         } catch (JSONException e) {
                                             e.printStackTrace();
                                         }
-                                        if (!Home.routeSignal){
-                                        Intent intent = new Intent(Dang_Nhap_Activity.this, Home.class);
-                                        startActivity(intent);
-                                        finish();
+                                        // checking whether user interacts at Route Activity or not
+                                        if (!Home.routeSignal) {
+                                            // iph not, move to Home Activity
+                                            Intent intent = new Intent(Dang_Nhap_Activity.this, Home.class);
+                                            startActivity(intent);
+                                            finish();
                                         }
                                         else {
                                             Intent intent = getIntent();
@@ -144,6 +153,7 @@ public class Dang_Nhap_Activity extends AppCompatActivity {
                                             startActivity(i);
                                             finish();
 
+                                            // set enable needed tag on the menu
                                             Home.navigationView.getMenu().findItem(R.id.nav_Login_SignUp).setVisible(false);
                                             Home.navigationView.getMenu().findItem(R.id.nav_SignUp).setVisible(false);
                                             Home.navigationView.getMenu().findItem(R.id.nav_TravelHistory).setVisible(true);
@@ -179,7 +189,7 @@ public class Dang_Nhap_Activity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-//                params.put("X-CSRF-Token", accessToken);
+
                 params.put("DNDT", username.getText().toString().trim());
                 params.put("DNMK", password.getText().toString().trim());
                 Log.d("AAA", "getParams: OK!!!");
@@ -193,6 +203,7 @@ public class Dang_Nhap_Activity extends AppCompatActivity {
         Intent intent = new Intent(this, Lay_Lai_Mat_Khau.class);
         startActivity(intent);
     }
+
     public void dangKy(View v){
         Intent intent = new Intent(Dang_Nhap_Activity.this, Dang_Ky_Activity.class);
         startActivity(intent);

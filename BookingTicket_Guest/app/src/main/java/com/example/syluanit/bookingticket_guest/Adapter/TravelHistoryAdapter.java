@@ -48,15 +48,6 @@ public class TravelHistoryAdapter extends RecyclerView.Adapter<TravelHistoryAdap
 //        holder.tv_seat.setText(route.getSeat().substring(0, route.getSeat().length()-2));
         holder.tv_seat.setText(route.getSeat());
         holder.tv_typeSeat.setText(route.getTypeSeat() == 1 ? "Ghế Ngồi" : "Giường Nằm");
-//        if (route.getSeat() != null) {
-//            String seat1 = "";
-//            for (int i = 0; i < route.getSeat().size(); i++) {
-//                if (i != route.getSeat().size() - 1) {
-//                    seat1 += (route.getSeat().get(i).toString() + ", ");
-//                } else seat1 += (route.getSeat().get(i).toString() + ".");
-//            }
-//            holder.tv_seat.setText(seat1);
-//        }
 
     }
 

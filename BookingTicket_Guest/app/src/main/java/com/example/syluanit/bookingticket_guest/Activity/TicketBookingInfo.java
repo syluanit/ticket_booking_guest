@@ -48,6 +48,7 @@ public class TicketBookingInfo extends AppCompatActivity {
     Button book;
     ImageView back;
     Database database;
+    String url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +71,7 @@ public class TicketBookingInfo extends AppCompatActivity {
         rv_ticket.setAdapter(adapter);
         prepareTicketInfo();
 
+        // TODO update the seat checking list when back to the SO DO Activity
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,7 +88,10 @@ public class TicketBookingInfo extends AppCompatActivity {
         book.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String url = "http://192.168.43.218/busmanager/public/datveAndroid";
+                String ip = getResources().getString(R.string.ip);
+                String address = getResources().getString(R.string.address);
+                url = ip + address + "/datveAndroid";
+//                final String url = "http://192.168.43.218/busmanager/public/datveAndroid";
                 sendBookingData(url);
             }
         });
@@ -98,7 +103,7 @@ public class TicketBookingInfo extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-//                        Toast.makeText(TicketBookingInfo.this, response.toString(), Toast.LENGTH_SHORT).show();
+
                         Log.d("AAA", "onResponse: " + response.toString());
                         JSONObject jsonObject = null;
                         try {
@@ -200,12 +205,6 @@ public class TicketBookingInfo extends AppCompatActivity {
         ticketInfoArrayList.add(new TicketInfo("Giờ đi",Home.currentTicket.getTimeDep()));
         ticketInfoArrayList.add(new TicketInfo("Giờ đến",Home.currentTicket.getTimeArr()));
 
-//        String seat1 = "";
-//        for (int i = 0; i < Home.currentTicket.getSeat().size(); i++) {
-//            if (i != Home.currentTicket.getSeat().size() - 1) {
-//                seat1 += (Home.currentTicket.getSeat().get(i).toString() + ", ");
-//            } else seat1 += (Home.currentTicket.getSeat().get(i).toString() + ".");
-//        }
         ticketInfoArrayList.add(new TicketInfo("Số lượng vé",
                 String.valueOf(Home.currentTicket.getNumSeat())));
         ticketInfoArrayList.add(new TicketInfo("Vị trí", Home.currentTicket.getSeat()));

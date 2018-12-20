@@ -5,11 +5,8 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -23,7 +20,6 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -34,33 +30,17 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.syluanit.bookingticket_guest.Adapter.So_Do_Xe_Adapter;
-import com.example.syluanit.bookingticket_guest.Adapter.So_Do_Xe_Adapter_Scrolling;
 import com.example.syluanit.bookingticket_guest.Model.CurrentTicket;
-import com.example.syluanit.bookingticket_guest.Model.TicketComplete;
 import com.example.syluanit.bookingticket_guest.R;
 import com.example.syluanit.bookingticket_guest.Service.Database;
 
 
-import org.florescu.android.rangeseekbar.RangeSeekBar;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.lang.reflect.Member;
-import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
-import me.anwarshahriar.calligrapher.Calligrapher;
 
 public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -76,7 +56,8 @@ public class Home extends AppCompatActivity
     public static CurrentTicket currentTicket;
     public static boolean routeSignal = false;
     public static NavigationView navigationView;
-
+//    String url = "http://192.168.43.218/busmanager/public/chuyenxeAndroid";
+    String url;
     Database database;
 
     @Override
@@ -118,20 +99,16 @@ public class Home extends AppCompatActivity
             }
         });
 
-        //click button search route
+        // TODO click searching route button
         btn_ticketSearch.bringToFront();
+
         btn_ticketSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String from = et_from.getText().toString();
                 String to = et_to.getText().toString();
                 String date = et_pickDay.getText().toString();
-
-                currentTicket.setStartDestination(from);
-                currentTicket.setEndDestination(to);
-                currentTicket.setDay(date);
-
-                // TODO Checking infomation
+                // TODO information checking
                 if (from.isEmpty()) {
                     Toast.makeText(Home.this, "Vui lòng chọn điểm đi!", Toast.LENGTH_LONG).show();
                 } else if (to.isEmpty()) {
@@ -139,15 +116,22 @@ public class Home extends AppCompatActivity
                 } else if (date.isEmpty()) {
                     Toast.makeText(Home.this, "Vui lòng chọn ngày đi!", Toast.LENGTH_LONG).show();
                 } else {
-//                 TODO Sending data to the TimeList Activity using Bundle
-                    final String url = "http://192.168.43.218/busmanager/public/chuyenxeAndroid";
-                    sendUserData(url);
+                    String ip = getResources().getString(R.string.ip);
+                    String address = getResources().getString(R.string.address);
+                    url = ip + address + "/chuyenxeAndroid";
+                    sendRouteData(url);
             }
+
+                currentTicket.setStartDestination(from);
+                currentTicket.setEndDestination(to);
+                currentTicket.setDay(date);
+
             }
         });
 
         et_from.setFocusable(false);
         et_from.setClickable(true);
+        // TODO starting point click event
         et_from.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -166,6 +150,7 @@ public class Home extends AppCompatActivity
 
         et_to.setFocusable(false);
         et_to.setClickable(true);
+        // TODO destination click event
         et_to.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -184,6 +169,7 @@ public class Home extends AppCompatActivity
 
 
         radioGroupTypeSeat = (RadioGroup) findViewById(R.id.radioGroup) ;
+        // set dephault value is Woman
         currentTicket.setTypeSeat(1);
         typeSeat = "1";
         radioGroupTypeSeat.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -208,8 +194,9 @@ public class Home extends AppCompatActivity
 //        database.queryData("Drop table IF exists Ticket");
 
         Cursor data = database.getDaTa("SELECT * FROM sqlite_master WHERE name ='User' and type='table'");
-        // checking the table User null? login or not?
+        // checking weather User signed or not
         if (data.getCount() > 0){
+            // TODO set visible tag
             navigationView.getMenu().findItem(R.id.nav_Login_SignUp).setVisible(false);
             navigationView.getMenu().findItem(R.id.nav_SignUp).setVisible(false);
             navigationView.getMenu().findItem(R.id.nav_TravelHistory).setVisible(true);
@@ -220,10 +207,10 @@ public class Home extends AppCompatActivity
             while (currentUserDB.moveToNext()) {
                 TextView tv = (TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_username);
                 tv.setText(currentUserDB.getString(7));
-//                Toast.makeText(this, "Co dữ liệu" + currentUserDB.getString(8), Toast.LENGTH_SHORT).show();
             }
         }
 
+        // TODO create table Ticket
         database.queryData("CREATE TABLE IF NOT EXISTS Ticket(Id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 " routeId INTEGER, start VARCHAR(200), end VARCHAR(200), " +
                 "date VARCHAR(200), timeStart VARCHAR(200), timeArr VARCHAR(200), " +
@@ -231,23 +218,20 @@ public class Home extends AppCompatActivity
 
     }
 
-    private void sendUserData(String url){
+    // TODO using Volley to send a request to server, background thread (worker thread) with post method
+    private void sendRouteData(String url){
         final RequestQueue requestQueue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d("AAA", "onResponse: yeahyeah");
-//                        Toast.makeText(Home.this, response.toString(), Toast.LENGTH_SHORT).show();
                         Log.d("AAA", "onResponse: " + response.toString());
                         Bundle ticket = new Bundle();
                         ticket.putString("ticketJson",response);
                         Intent intent = new Intent(Home.this, RouteActivity.class);
                         intent.putExtras(ticket);
                         startActivity(intent);
-                    }
-                },
-                new Response.ErrorListener() {
+                    }}, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Toast.makeText(Home.this, "Vui lòng kiểm tra kết nối mạng hoặc thử lại!", Toast.LENGTH_SHORT).show();
@@ -258,7 +242,6 @@ public class Home extends AppCompatActivity
             protected Map<String, String> getParams() throws AuthFailureError {
 
                 Map<String, String> params = new HashMap<>();
-//                params.put("X-CSRF-Token", accessToken);
                 params.put("Noidi", et_from.getText().toString().trim());
                 params.put("Noiden", et_to.getText().toString().trim());
                 params.put("Loaighe", typeSeat);
@@ -271,6 +254,7 @@ public class Home extends AppCompatActivity
         requestQueue.add(stringRequest);
     }
 
+    // TODO set text to the staring point and ending point aphter choose the provinces
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -292,6 +276,8 @@ public class Home extends AppCompatActivity
     private void pickDay(){
         final Calendar calendar = Calendar.getInstance();
         int ngay, thang, nam = 0;
+
+        // TODO checking weather date phorm is empty or not
         if (et_pickDay.getText().toString().matches("")) {
             ngay = calendar.get(Calendar.DATE);
              thang = calendar.get(Calendar.MONTH);
@@ -315,6 +301,8 @@ public class Home extends AppCompatActivity
                 et_pickDay.setText(simpleDateFormat.format(calendar.getTime()));
             }
         }, nam, thang - 1, ngay);
+
+        // TODO disable the past date
         datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
         datePickerDialog.show();
     }

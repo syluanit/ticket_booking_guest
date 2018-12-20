@@ -48,6 +48,7 @@ public class TravelHistory extends AppCompatActivity {
     private StringBuilder positionCheck;
     TextView noHistory;
     Database database;
+    String url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,21 +62,12 @@ public class TravelHistory extends AppCompatActivity {
 
         idCheck = "";
         positionCheck = new StringBuilder();
-//        historyArrayList.add(new Route("Sài Gòn",
-//                "Nha Trang", Home.currentTicket.getDay(),
-//                "8:00", "14:00", "200000"));
-//
-//        historyArrayList.add(new Route("Sài Gòn",
-//                "Nha Trang", Home.currentTicket.getDay(),
-//                "8:00", "14:00", "200000"));
 
         recyclerView = (RecyclerView) findViewById(R.id.rv_TravelBooking);
         recyclerView.setHasFixedSize(true);
         historyAdapter = new TravelHistoryAdapter(this, historyArrayList);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-//        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, layoutManager.getOrientation());
-//        recyclerView.addItemDecoration(dividerItemDecoration);
         recyclerView.setAdapter(historyAdapter);
 
         back.setOnClickListener(new View.OnClickListener() {
@@ -86,7 +78,10 @@ public class TravelHistory extends AppCompatActivity {
             }
         });
 
-        final String url = "http://192.168.43.218/busmanager/public/lichsuAndroid";
+        String ip = getResources().getString(R.string.ip);
+        String address = getResources().getString(R.string.address);
+        url = ip + address + "/lichsuAndroid";
+//        final String url = "http://192.168.43.218/busmanager/public/lichsuAndroid";
         sendUserData(url);
     }
 
@@ -104,6 +99,7 @@ public class TravelHistory extends AppCompatActivity {
                             if (!jsonArray.toString().equals("[]")){
                             Log.d("", "onResponse: ");
                             for (int i = 0; i < jsonArray.length(); i++) {
+                                //get the inpho
                                 JSONObject jsonObject1 = (JSONObject) jsonArray.get(i);
                                 String start = jsonObject1.getString("Nơi_đi");
                                 String end = jsonObject1.getString("Nơi_đến");
@@ -118,34 +114,11 @@ public class TravelHistory extends AppCompatActivity {
                                 String routeId = jsonObject1.getString("Mã");
                                 int typeSeat = jsonObject1.getInt("Loại_ghế");
                                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
+                                // add data to history list
                                 historyArrayList.add(new CurrentTicket(routeId, start, end, date,
                                         simpleDateFormat.format(simpleDateFormat.parse(timeStart)),
                                         simpleDateFormat.format(simpleDateFormat.parse(timeArr)),
                                         price, position, typeSeat, 1));
-//
-//                                if (i == 0){
-//                                    idCheck = routeId;
-//                                    positionCheck.append(position + ", ");
-//                                }
-//                                else if (routeId.equals(idCheck)){
-//                                    positionCheck.append(position +", ");
-//                                } else {
-//
-////                                    Toast.makeText(TravelHistory.this, s[0] + "", Toast.LENGTH_SHORT).show();
-////                                    ArrayList <GheNgoi> s1 = new ArrayList<>();
-////                                    for (int j = 0; j < s.length; j++){
-////                                        s1.get(j).setViTri(s[j]);
-////                                    }
-//                                    historyArrayList.add(new CurrentTicket(routeId, start, end, date,
-//                                            timeStart, "14:00", price, positionCheck.toString(), typeSeat, 1));
-//                                    positionCheck = new StringBuilder();
-//                                    positionCheck.append(position + ", ");
-//                                    if (i == jsonArray.length() - 1) {
-//                                        historyArrayList.add(new CurrentTicket(routeId, start, end, date,
-//                                                timeStart, "14:00", price, positionCheck.toString(), typeSeat, 1));
-//                                    }
-//                                    idCheck = routeId;
-//                                }
                                 }
                             }
                             else {

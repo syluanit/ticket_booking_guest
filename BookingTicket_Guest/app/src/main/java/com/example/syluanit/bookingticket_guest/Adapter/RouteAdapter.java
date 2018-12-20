@@ -42,6 +42,7 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.ViewHolder>{
     Context context;
     ArrayList<Route> routeArrayList;
     Database database;
+    String url;
 
     public RouteAdapter(Context context, ArrayList<Route> routeArrayList) {
         this.context = context;
@@ -67,7 +68,10 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.ViewHolder>{
             @Override
             public void onClick(View v) {
                 // Server Request
-                final String url = "http://192.168.43.218/busmanager/public/chonveAndroid";
+                String ip = context.getResources().getString(R.string.ip);
+                String address = context.getResources().getString(R.string.address);
+                url = ip + address + "/chonveAndroid";
+//                final String url = "http://192.168.43.218/busmanager/public/chonveAndroid";
 
                 final RequestQueue requestQueue = Volley.newRequestQueue(context);
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
@@ -89,7 +93,7 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.ViewHolder>{
                                 database = new Database(context, "ticket.sqlite", null, 1);
 
                                 Cursor data = database.getDaTa("SELECT * FROM sqlite_master WHERE name ='User' and type='table'");
-
+                                //user logined or not
                                 if (data.getCount() > 0) {
                                     Intent i = new Intent(context, So_Do_Cho_Ngoi_Activity.class);
                                     i.putExtra("ticketMap", response);

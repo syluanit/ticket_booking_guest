@@ -47,6 +47,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
     Context context;
     ArrayList<CurrentTicket> routeArrayList;
     public static int checkHistory = 0;
+    String url;
 
     public HistoryAdapter(Context context, ArrayList<CurrentTicket> routeArrayList) {
         this.context = context;
@@ -78,25 +79,11 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
             @Override
             public void onClick(View v) {
                 // Server Request
-//                final Calendar calendar = Calendar.getInstance();
-//                int ngayNow, thangNow, namNow = 0;
-//                    ngayNow = calendar.get(Calendar.DATE);
-//                    thangNow = calendar.get(Calendar.MONTH);
-//                    namNow = calendar.get(Calendar.YEAR);
-//
-//                String s = route.getDay();
-//                String [] s1 = s.split("-");
-//                int ngay1 = Integer.parseInt(s1[0]);
-//                int thang1 = Integer.parseInt(s1[0]);
-//                int nam1 = Integer.parseInt(s1[0]);
-//
-//                if (namNow > nam1) {}
-//                else if (thangNow > thang1)
-//                String source = route.getDay();
+                // TODO SEARCH history
                 String source = route.getDay();
 
                 String[] sourceSplit= source.split("-");
-
+                // get date month year phrom route
                 int anno= Integer.parseInt(sourceSplit[2]);
                 int mese= Integer.parseInt(sourceSplit[1]);
                 int giorno= Integer.parseInt(sourceSplit[0]);
@@ -110,7 +97,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
                 Date   data1 = calendar.getTime();
                 //phlag
                 int outdated = 0;
-                // compare current time with ticket time
+                // TODO compare current time with ticket time
                 if (System.currentTimeMillis() > data1.getTime()) {
                     outdated = 1;
                 }
@@ -128,7 +115,11 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
                     });
                     dialog.show();
                 } else {
-                    final String url = "http://192.168.43.218/busmanager/public/chonveAndroid";
+
+                    String ip = context.getResources().getString(R.string.ip);
+                    String address = context.getResources().getString(R.string.address);
+                    url = ip + address + "/chonveAndroid";
+//                    final String url = "http://192.168.43.218/busmanager/public/chonveAndroid";
 
                     final RequestQueue requestQueue = Volley.newRequestQueue(context);
                     StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
@@ -137,11 +128,6 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
                                 public void onResponse(String response) {
                                     Log.d("AAA", "onResponse: " + response.toString());
 
-//                                        JSONObject jsonObject = new JSONObject(response);
-//                                        JSONArray jsonArray = jsonObject.getJSONArray("sodo");
-//                                        JSONObject jsonObject1 = (JSONObject) jsonArray.get(0);
-//                                        String sodo = jsonObject1.getString("Sơ_đồ");
-                                        //
                                         Home.currentTicket.setStartDestination(route.getStartDestination());
                                         Home.currentTicket.setEndDestination(route.getEndDestination());
                                         Home.currentTicket.setDay(route.getDay());

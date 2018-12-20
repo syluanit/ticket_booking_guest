@@ -41,7 +41,6 @@
         <activity android:name=".Activity.ChangePasswordForm" />
         <activity android:name=".Activity.TravelHistory" />
         <activity android:name=".Activity.Contact" />
-        <activity android:name=".Activity.Introduction"></activity>
     </application>
 
 </manifest>

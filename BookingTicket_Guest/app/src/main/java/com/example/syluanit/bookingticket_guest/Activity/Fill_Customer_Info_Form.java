@@ -98,19 +98,6 @@ public class Fill_Customer_Info_Form extends AppCompatActivity {
                 }
             }
         });
-
-//        database = new Database(this, "ticket.sqlite", null, 1);
-//
-//        Cursor data = database.getDaTa("SELECT * FROM sqlite_master WHERE name ='User' and type='table'");
-//
-//        if (data.getCount() > 0){
-//            Cursor currentUserDB = database.getDaTa("Select * from User");
-//            while (currentUserDB.moveToNext()) {
-//                name.setText(currentUserDB.getString(2));
-//                email.setText(currentUserDB.getString(6));
-//                phone.setText(currentUserDB.getString(7));
-//            }
-//        }
     }
 
     @Override
@@ -200,7 +187,7 @@ public class Fill_Customer_Info_Form extends AppCompatActivity {
                     gender = "1";
                 } else {
                     women.setChecked(true);
-                    gender = "0";
+                    gender = "2";
                 }
                 String[] s = doB.split("-");
                 List<String> s1 = Arrays.asList(s);

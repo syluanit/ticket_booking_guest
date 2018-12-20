@@ -45,9 +45,10 @@ public class EditInfoForm extends AppCompatActivity {
     ImageView back;
     Button btn_edit;
     EditText et_name,et_email, et_address, et_doB;
-    String gender = "0";
+    String gender = "2";
     Database database;
     RadioButton men, women;
+    String url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,7 +95,7 @@ public class EditInfoForm extends AppCompatActivity {
                         gender = "1";
                         break;
                     case R.id.radioButtonWomen_editation:
-                        gender = "0";
+                        gender = "2";
                         break;
                 }
             }
@@ -111,7 +112,10 @@ public class EditInfoForm extends AppCompatActivity {
                      {
                     Toast.makeText(EditInfoForm.this, "Vui lòng kiểm tra địa chỉ email!", Toast.LENGTH_LONG).show();
                 } else {
-                final String url = "http://192.168.43.218/busmanager/public/updateUserAndroid";
+                    String ip = getResources().getString(R.string.ip);
+                    String address = getResources().getString(R.string.address);
+                    url = ip + address + "/updateUserAndroid";
+//                final String url = "http://192.168.43.218/busmanager/public/updateUserAndroid";
                 sendUserData(url);
                 }
             }
@@ -122,6 +126,7 @@ public class EditInfoForm extends AppCompatActivity {
     private void pickDay(){
         final Calendar calendar = Calendar.getInstance();
         int ngay, thang, nam = 0;
+
         if (et_doB.getText().toString().matches("")) {
             ngay = calendar.get(Calendar.DATE);
             thang = calendar.get(Calendar.MONTH);
@@ -176,6 +181,8 @@ public class EditInfoForm extends AppCompatActivity {
                                 List<String> s1 = Arrays.asList(s);
                                 Collections.reverse(s1);
                                 doB = TextUtils.join("-", s1);
+
+                                //update the new inphi to the table
                                 database.queryData("DELETE from User");
                                 database.queryData("INSERT INTO User VALUES(null," +
                                         " '"+ userId +"'," +
@@ -191,9 +198,6 @@ public class EditInfoForm extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
-
-
                     }
                 },
                 new Response.ErrorListener() {
@@ -236,6 +240,7 @@ public class EditInfoForm extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
+    // show all existing inpho
     private void prepareTicketInfo() {
         Cursor data = database.getDaTa("SELECT * FROM sqlite_master WHERE name ='User' and type='table'");
 
@@ -253,7 +258,7 @@ public class EditInfoForm extends AppCompatActivity {
                     gender = "1";
                 } else {
                     women.setChecked(true);
-                    gender = "0";
+                    gender = "2";
                 }
                 String[] s = doB.split("-");
                 List<String> s1 = Arrays.asList(s);

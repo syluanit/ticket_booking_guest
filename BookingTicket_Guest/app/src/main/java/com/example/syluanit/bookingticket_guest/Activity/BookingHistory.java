@@ -47,24 +47,28 @@ public class BookingHistory extends AppCompatActivity {
 
         back = (ImageView) findViewById(R.id.back_pressed_history);
         noHistory = (TextView) findViewById(R.id.noHistory);
-
         database = new Database(this, "ticket.sqlite", null, 1);
         historyArrayList = new ArrayList<>();
 
+        // checking whether user login or not
         Cursor dataIsExist = database.getDaTa("SELECT * FROM sqlite_master WHERE name ='User' and type='table'");
 
         if (dataIsExist.getCount() > 0) {
+            //user signed
             Cursor data = database.getDaTa("Select * from Ticket");
 
             if (!(data.getCount() > 0)) {
+                //new user, don't hava any history
                 noHistory.setVisibility(View.VISIBLE);
             } else {
                 noHistory.setVisibility(View.GONE);
+                // move to the last element to bring the newest history to the phirst
                 data.moveToLast();
                do {
-                    historyArrayList.add(new CurrentTicket(String.valueOf(data.getInt(1)), data.getString(2),
-                            data.getString(3), data.getString(4),
-                            data.getString(5), data.getString(6), data.getString(7),
+                    historyArrayList.add(new CurrentTicket(String.valueOf(data.getInt(1)),
+                            data.getString(2), data.getString(3),
+                            data.getString(4), data.getString(5),
+                            data.getString(6), data.getString(7),
                             data.getString(8), data.getString(9),
                             data.getInt(10), data.getInt(11)));
                 }  while (data.moveToPrevious());
@@ -75,16 +79,17 @@ public class BookingHistory extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.rv_HistoryBooking);
         recyclerView.setHasFixedSize(true);
         historyAdapter = new HistoryAdapter(this, historyArrayList);
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-//        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, layoutManager.getOrientation());
-//        recyclerView.addItemDecoration(dividerItemDecoration);
+
         recyclerView.setAdapter(historyAdapter);
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ((Activity) BookingHistory.this).onBackPressed();
+                //set the menu at the tag Booking when pressing back button
                 Home.navigationView.getMenu().findItem(R.id.nav_Booking).setChecked(true);
             }
         });

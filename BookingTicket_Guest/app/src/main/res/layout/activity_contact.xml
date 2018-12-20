@@ -35,8 +35,9 @@
     </RelativeLayout>
 
     <LinearLayout
-
-        android:layout_margin="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="70dp">
@@ -81,13 +82,12 @@
 
 
     <ImageView
-        android:layout_marginTop="10dp"
         android:src="@drawable/redcall"
         android:layout_width="match_parent"
-        android:layout_height="80dp" />
+        android:layout_height="70dp" />
 
     <TextView
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:gravity="center"
         android:textStyle="bold"
         android:textSize="@dimen/body_text_size"
@@ -107,20 +107,55 @@
         android:gravity="center"
         android:layout_marginTop="10dp"
         android:textSize="@dimen/body_text_size"
-        android:text="lienhe@awetravel.vn"
+        android:text="syluanit95@gmail.com"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:textSize="@dimen/body_text_size"
+        android:text="Ứng dụng được xây dựng bởi"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+    <TextView
+        android:gravity="center"
+        android:layout_marginTop="5dp"
+        android:textSize="@dimen/body_text_size"
+        android:text="Nguyễn Đặng Sỹ Luân"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:gravity="center"
+        android:layout_marginTop="5dp"
+        android:textSize="@dimen/body_text_size"
+        android:text="Phan Anh Minh"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:gravity="center"
+        android:layout_marginTop="5dp"
+        android:textSize="@dimen/body_text_size"
+        android:text="Nguyễn Thành Nhân"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
     <Button
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:textSize="@dimen/body_text_size_medium"
         android:textColor="@color/white"
 
         android:background="@drawable/red_rectangle_20dp"
-        android:text="HotLine: 1900 1000"
+        android:text="HotLine: 0963 219 951"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
+
 
 </LinearLayout>

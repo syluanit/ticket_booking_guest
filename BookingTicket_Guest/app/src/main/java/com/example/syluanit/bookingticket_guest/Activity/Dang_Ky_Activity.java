@@ -41,7 +41,8 @@ public class Dang_Ky_Activity extends AppCompatActivity {
     ImageView back;
     Button signUp;
     EditText username, password, rePassword, realname, dob;
-    String gender = "0";
+    String gender = "2";
+    String url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +80,11 @@ public class Dang_Ky_Activity extends AppCompatActivity {
                     Toast.makeText(Dang_Ky_Activity.this, "Vui lòng nhập tên chỉ chứa các ký tự!", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    String url = "http://192.168.43.218/busmanager/public/dangkyAndroid";
+
+                    String ip = getResources().getString(R.string.ip);
+                    String address = getResources().getString(R.string.address);
+                    url = ip + address + "/dangkyAndroid";
+//                    String url = "http://192.168.43.218/busmanager/public/dangkyAndroid";
                     sendUserData(url);
 
                 }
@@ -113,7 +118,7 @@ public class Dang_Ky_Activity extends AppCompatActivity {
                         gender = "1";
                         break;
                     case R.id.radioButtonWomen_signup:
-                        gender = "0";
+                        gender = "2";
                         break;
                 }
             }
@@ -129,8 +134,9 @@ public class Dang_Ky_Activity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         Log.d("AAA", "onResponse: yeahyeah");
-//                        Toast.makeText(Dang_Ky_Activity.this, response + "", Toast.LENGTH_SHORT).show();
+
                         if (response.toString().trim().equals("\"1\"")){
+                            // signed up successphully
                             final Dialog dialog = new Dialog(Dang_Ky_Activity.this);
                             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                             dialog.setContentView(R.layout.dialog_outday);
@@ -162,12 +168,13 @@ public class Dang_Ky_Activity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-//                params.put("X-CSRF-Token", accessToken);
 
+                //reverse Birth Day String
                 String[] s = dob.getText().toString().split("-");
                 List<String> s1 = Arrays.asList(s);
                 Collections.reverse(s1);
                 String date = TextUtils.join("-", s1);
+                //transphorm name to none sign
                 String ten_khong_dau = Normalizer.normalize(realname.getText().toString(),
                         Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]","");
 
@@ -211,7 +218,7 @@ public class Dang_Ky_Activity extends AppCompatActivity {
                 dob.setText(simpleDateFormat.format(calendar.getTime()));
             }
         }, nam, thang , ngay);
-//        datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+
         datePickerDialog.show();
     }
 

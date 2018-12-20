@@ -64,6 +64,7 @@ public class So_Do_Cho_Ngoi_Activity extends AppCompatActivity {
     LinearLayout giuong, ghe;
     Database database;
     Dialog dialog;
+    String url;
 
     public static TextView tv_seatSelected;
     public static ArrayList<GheNgoi> currentSeat;
@@ -89,9 +90,8 @@ public class So_Do_Cho_Ngoi_Activity extends AppCompatActivity {
         Intent intent = getIntent();
         TicketMap  = intent.getStringExtra("ticketMap");
 
-        // show sơ đô xe giương hoặc ghế ngôi
         if (Home.currentTicket.getTypeSeat() == 1 ) {
-            // Giuong nam
+            // TODO BED
             giuong.setVisibility(View.VISIBLE);
             ghe.setVisibility(View.GONE);
             TabLayout tabLayout =  findViewById(R.id.myTabLayout);
@@ -103,10 +103,10 @@ public class So_Do_Cho_Ngoi_Activity extends AppCompatActivity {
             tabLayout.setupWithViewPager(viewPager);
         }
         else {
+            // TODO SEAT
             giuong.setVisibility(View.GONE);
             ghe.setVisibility(View.VISIBLE);
-            // Ghe Ngoi
-//            gridView = (GridView) findViewById(R.id.gridviewGheNgoi);
+
             try {
                 JSONObject jsonObject = new JSONObject(TicketMap);
                 JSONArray jsonArray = jsonObject.getJSONArray("ve");
@@ -116,6 +116,7 @@ public class So_Do_Cho_Ngoi_Activity extends AppCompatActivity {
 
                 String [] sodo = s.split("(?!^)");
                 int j = 0;
+                // TODO prepare the Seat Array List
                 for (int i = 0; i < sodo.length; i++) {
                         if (i == 0){
                             gheNgoiArrayList.add(new GheNgoi(null,R.mipmap.ic_driver, 0, "", 0));
@@ -151,9 +152,10 @@ public class So_Do_Cho_Ngoi_Activity extends AppCompatActivity {
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.setAdapter(adapter);
 
+            // end SEAT
         }
 
-        //click button đặt vé
+        //TODO clicking button booking event
         btn_Dat_Ve.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -170,15 +172,21 @@ public class So_Do_Cho_Ngoi_Activity extends AppCompatActivity {
                                     seatId += (currentSeat.get(i).getId());
                                 }
                             }
-//                            Toast.makeText(So_Do_Cho_Ngoi_Activity.this, seatId + "", Toast.LENGTH_SHORT).show();
-                            //set seat and seatID value and numSeat value
+                          //set seat and seatID value and numSeat value
                             Home.currentTicket.setSeat(seat);
                             Home.currentTicket.setSeatId(seatId);
                             Home.currentTicket.setNumSeat(currentSeat.size());
                         }
 
+                    database.queryData("CREATE TABLE IF NOT EXISTS Ticket" +
+                            "(Id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                            " routeId INTEGER, start VARCHAR(200), end VARCHAR(200), " +
+                            "date VARCHAR(200), timeStart VARCHAR(200), timeArr VARCHAR(200), " +
+                            "price VARCHAR(200), seat VARCHAR(200), seatId VARCHAR(200)," +
+                            " numSeat INTEGER, typeSeat INTEGER)");
 
-                   database.queryData("INSERT INTO Ticket VALUES(null, '"+ Home.currentTicket.getId() +"'," +
+                    database.queryData("INSERT INTO Ticket VALUES(null," +
+                            " '"+ Home.currentTicket.getId() +"'," +
                            " '"+ Home.currentTicket.getStartDestination() +"'," +
                            " '"+ Home.currentTicket.getEndDestination() +"'," +
                             " '"+ Home.currentTicket.getDay() +"'," +
@@ -194,6 +202,7 @@ public class So_Do_Cho_Ngoi_Activity extends AppCompatActivity {
                     Intent intent = new Intent(So_Do_Cho_Ngoi_Activity.this, TicketBookingInfo.class);
                     startActivity(intent);
                 } else {
+                    // TODO show a dialog when not choose any seat
                     final Dialog dialog = new Dialog(So_Do_Cho_Ngoi_Activity.this);
                     dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                     dialog.setContentView(R.layout.dialog_no_seat_selected);
@@ -220,7 +229,7 @@ public class So_Do_Cho_Ngoi_Activity extends AppCompatActivity {
 
         choice = true;
 
-        //click gợi ý chỗ ngôi
+        //TODO SEAT SUGGESTION Button
         seatSuggestion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -249,6 +258,7 @@ public class So_Do_Cho_Ngoi_Activity extends AppCompatActivity {
                 back.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        adapter.notifyDataSetChanged();
                         dialog.cancel();
                     }
                 });
@@ -256,10 +266,11 @@ public class So_Do_Cho_Ngoi_Activity extends AppCompatActivity {
                 suggest.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-//                        dialog.cancel();
                         if (choice){
-                            final String url = "http://192.168.43.218/TicketBooking/public/ticketAndroid";
-                            sendUserData(url);
+                            String ip = getResources().getString(R.string.ip);
+                            String address = getResources().getString(R.string.address);
+                            url = ip + address + "/ticketAndroid";
+                            seatSuggestionRequest(url);
                             showProgressDialog();
                         }
                         else {
@@ -267,9 +278,12 @@ public class So_Do_Cho_Ngoi_Activity extends AppCompatActivity {
                         }
                     }
                 });
+                // TODO set the heigth and width phor dialog
                 Display display = ((WindowManager)getApplicationContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
                 dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                 dialog.getWindow().setLayout((6* display.getWidth()/7), (display.getHeight() * 15) / 40);
+                dialog.setCancelable(false);
+                dialog.setCanceledOnTouchOutside(false);
                 dialog.show();
             }
         });
@@ -307,7 +321,8 @@ public class So_Do_Cho_Ngoi_Activity extends AppCompatActivity {
         dialog.show();
     }
 
-    private void sendUserData(String url){
+    // TODO SEAT suggestion requêst
+    private void seatSuggestionRequest(String url){
         final RequestQueue requestQueue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
@@ -336,6 +351,7 @@ public class So_Do_Cho_Ngoi_Activity extends AppCompatActivity {
                                 });
 
                                 dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                                // TODO show inpho on the dialog
                                 String seat = "";
                                 for (int i = 1; i < jsonArray.length(); i++) {
                                     if (i == 4) {
@@ -353,6 +369,8 @@ public class So_Do_Cho_Ngoi_Activity extends AppCompatActivity {
                                 dialog.show();
                             }
                             else {
+
+                                // in case dont have enough data to suggest
                                 final Dialog dialog = new Dialog(So_Do_Cho_Ngoi_Activity.this);
                                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                                 dialog.setContentView(R.layout.dialog_outday);
@@ -406,6 +424,7 @@ public class So_Do_Cho_Ngoi_Activity extends AppCompatActivity {
     private String gender = "0"
             , tuoimin, tuoimax;
 
+    // TODO suggest phor people are not user
     private void otherSuggestion() {
         final Dialog dialog1 = new Dialog(So_Do_Cho_Ngoi_Activity.this);
         dialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -414,11 +433,46 @@ public class So_Do_Cho_Ngoi_Activity extends AppCompatActivity {
         RadioGroup radioGroup = (RadioGroup) dialog1.findViewById(R.id.radioGroupSeat);
         Button suggest = (Button) dialog1.findViewById(R.id.btn_suggestion);
 
+        gender = "2";
+
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.radioButtonSeatMen:
+                        gender = "1";
+                        break;
+                    case R.id.radioButtonWomen:
+                        gender = "2";
+                        break;
+                }
+            }
+        });
+
+        tuoimin = "18";
+        tuoimax = "50";
+        seekBar.setRangeValues(0, 99);
+        seekBar.setSelectedMinValue(18);
+        seekBar.setSelectedMaxValue(50);
+        seekBar.setTextAboveThumbsColor(ContextCompat.getColor(getApplication(), R.color.color_text_route));
+        seekBar.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener() {
+            @Override
+            public void onRangeSeekBarValuesChanged(RangeSeekBar bar, Object minValue, Object maxValue) {
+
+                tuoimin = minValue.toString();
+                tuoimax = maxValue.toString();
+
+            }
+        });
+
         suggest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showProgressDialog();
-                final String url = "http://192.168.43.218/TicketBooking/public/ticketAndroid";
+                String ip = getResources().getString(R.string.ip);
+                String address = getResources().getString(R.string.address);
+                url = ip + address + "/ticketAndroid";
+//                final String url = "http://192.168.43.218/TicketBooking/public/ticketAndroid";
 //                                    sendUserData(url);
                 final RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
@@ -517,37 +571,7 @@ public class So_Do_Cho_Ngoi_Activity extends AppCompatActivity {
             }
         });
 
-        gender = "0";
 
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId) {
-                    case R.id.radioButtonSeatMen:
-                        gender = "1";
-                        break;
-                    case R.id.radioButtonWomen:
-                        gender = "0";
-                        break;
-                }
-            }
-        });
-
-        tuoimin = "18";
-        tuoimax = "50";
-        seekBar.setRangeValues(0, 99);
-        seekBar.setSelectedMinValue(18);
-        seekBar.setSelectedMaxValue(50);
-        seekBar.setTextAboveThumbsColor(ContextCompat.getColor(getApplication(), R.color.color_text_route));
-        seekBar.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener() {
-            @Override
-            public void onRangeSeekBarValuesChanged(RangeSeekBar bar, Object minValue, Object maxValue) {
-
-                tuoimin = minValue.toString();
-                tuoimax = maxValue.toString();
-
-            }
-        });
         dialog1.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         dialog1.show();
     }

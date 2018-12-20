@@ -6,4 +6,8 @@
     <string name="nav_header_title">Awesome Travel</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
+    <!--<string name="ip">http://192.168.43.218</string>-->
+    <string name="ip">http://192.168.43.80</string>
+    <!--<string name="address">/busmanager/public</string>-->
+    <string name="address">/lvtn/public</string>
 </resources>

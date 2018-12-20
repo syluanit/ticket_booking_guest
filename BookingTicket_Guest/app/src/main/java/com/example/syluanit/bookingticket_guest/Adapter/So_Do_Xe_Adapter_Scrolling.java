@@ -52,10 +52,11 @@ public class So_Do_Xe_Adapter_Scrolling extends RecyclerView.Adapter<So_Do_Xe_Ad
 
     private Context context;
     ArrayList<GheNgoi> mangGheNgoi;
-    String url = "http://192.168.43.218/busmanager/public/xulydatveAndroid";
-    String url1 = "http://192.168.43.218/busmanager/public/destroydatveAndroid";
+//    String url = "http://192.168.43.218/busmanager/public/xulydatveAndroid";
+//    String url1 = "http://192.168.43.218/busmanager/public/destroydatveAndroid";
+    String url, url1;
     private String time = "5:00";
-    private int holding_seat_time = 60000;
+    private int holding_seat_time = 600000;
 
     Database database;
 
@@ -78,8 +79,7 @@ public class So_Do_Xe_Adapter_Scrolling extends RecyclerView.Adapter<So_Do_Xe_Ad
         final GheNgoi gheNgoi = mangGheNgoi.get(position);
 //        holder.iv_seat.setImageResource(gheNgoi.getHinhAnh());
         holder.setIsRecyclable(false);
-        // TODO set seat' status
-        // Invisible vị trí trống đương đi
+        // TODO set seat's status None seat
         if (gheNgoi.getHinhAnh() == 0) {
             holder.iv_seat.setVisibility(View.GONE);
             holder.iv_seat.setEnabled(false);
@@ -88,24 +88,23 @@ public class So_Do_Xe_Adapter_Scrolling extends RecyclerView.Adapter<So_Do_Xe_Ad
             holder.tv_seat.setVisibility(View.GONE);
             holder.tv_seat.setEnabled(false);
             holder.tv_seat.setOnClickListener(null);
-
         } else {
             holder.iv_seat.setImageResource(gheNgoi.getHinhAnh());
             holder.tv_seat.setText(gheNgoi.getViTri());
         }
-        // Available
-        if (gheNgoi.getTrangThai() == 0){
+        // seat is shown
+        if (gheNgoi.getTrangThai() == 0){ // Available
             holder.iv_seat.setBackgroundColor(Color.TRANSPARENT);
-        }//click chọn
+        }//pressed
         else if (gheNgoi.getTrangThai() == 1){
             holder.iv_seat.setPressed(true);
         }
-        else{//đã đặt
+        else{//booked
             holder.iv_seat.setEnabled(false);
             holder.iv_seat.setFocusable(false);
             holder.iv_seat.setOnClickListener(null);
         }
-        //click  on item
+        // TODO CLick on SEAT
         holder.setItemClickListener(new ItemClickListener() {
             @Override
             public void onClick(View view, final int position, boolean isLongClick) {
@@ -114,9 +113,12 @@ public class So_Do_Xe_Adapter_Scrolling extends RecyclerView.Adapter<So_Do_Xe_Ad
                     // ghế đang trống
                     So_Do_Cho_Ngoi_Activity.currentSeat.add(gheNgoi);
                     gheNgoi.setTrangThai(1) ;
+                    String ip = context.getResources().getString(R.string.ip);
+                    String address = context.getResources().getString(R.string.address);
+                    url = ip + address + "/xulydatveAndroid";
                     sendData(url, gheNgoi.getId(), position);
                 } else {
-                    //ghế đang giữ chỗ
+                    //TODO seat is holding by other
                     final Dialog dialog = new Dialog(context);
                     dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                     dialog.setContentView(R.layout.dialog_destroy_seat);
@@ -124,6 +126,7 @@ public class So_Do_Xe_Adapter_Scrolling extends RecyclerView.Adapter<So_Do_Xe_Ad
                     Button destroy = (Button) dialog.findViewById(R.id.btn_back_suggestion);
                     final TextView time_holding = (TextView) dialog.findViewById(R.id.tv_time_holding_seat);
 
+                    //set time to the Dialog
                     final CountDownTimer count = new CountDownTimer(holding_seat_time, 900) {
                         @Override
                         public void onTick(long millisUntilFinished) {
@@ -150,6 +153,9 @@ public class So_Do_Xe_Adapter_Scrolling extends RecyclerView.Adapter<So_Do_Xe_Ad
                     destroy.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            String ip = context.getResources().getString(R.string.ip);
+                            String address = context.getResources().getString(R.string.address);
+                            url1 = ip + address + "/destroydatveAndroid";
                             sendDataDestroy(url1, gheNgoi.getId() ,position);
                             notifyDataSetChanged();
                             dialog.cancel();
@@ -159,7 +165,6 @@ public class So_Do_Xe_Adapter_Scrolling extends RecyclerView.Adapter<So_Do_Xe_Ad
                     dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                     dialog.setCancelable(false);
                     dialog.setCanceledOnTouchOutside(false);
-//                    dialog.getWindow().setLayout((6* display.getWidth()/7), (display.getHeight() * 15) / 40);
                     dialog.show();
                 }
                 setSeatPositionText();
@@ -202,18 +207,7 @@ public class So_Do_Xe_Adapter_Scrolling extends RecyclerView.Adapter<So_Do_Xe_Ad
         }
     }
 
-    private void setSeatPositionText (){
-        if (So_Do_Cho_Ngoi_Activity.currentSeat != null) {
-            String seat = "";
-            for (int i = 0; i < So_Do_Cho_Ngoi_Activity.currentSeat.size(); i++) {
-                if (i != So_Do_Cho_Ngoi_Activity.currentSeat.size() - 1) {
-                    seat += (So_Do_Cho_Ngoi_Activity.currentSeat.get(i).getViTri() + ", ");
-                } else seat += (So_Do_Cho_Ngoi_Activity.currentSeat.get(i).getViTri() + ".");
-            }
-            So_Do_Cho_Ngoi_Activity.tv_seatSelected.setText(seat);
-        }
-    }
-
+    // TODO empty SEAT -> click -> send request
     private void sendData(String url, final String ticketId, final int position){
 
         final RequestQueue requestQueue = Volley.newRequestQueue(context);
@@ -222,32 +216,30 @@ public class So_Do_Xe_Adapter_Scrolling extends RecyclerView.Adapter<So_Do_Xe_Ad
                     @Override
                     public void onResponse(String response) {
                         Log.d("AAA", "onResponse: yeahyeah" + response.toString());
-//
+
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             String result = jsonObject.getString("kq");
                             if( result.equals("0")){
-
                                 CountDownTimer countDownTimer = new CountDownTimer(holding_seat_time, 1000) {
                                     @Override
                                     public void onTick(long millisUntilFinished) {
                                         int seconds = (int) ((millisUntilFinished / 1000) % 60);
                                         int minutes = (int) ((millisUntilFinished / (1000 * 60)) % 60);
                                         mangGheNgoi.get(position).setTimeholding(
-                                                String.valueOf(minutes) + ":" + String.valueOf(seconds));
-
-                                    }
-
+                                                String.valueOf(minutes) + ":" + String.valueOf(seconds)); }
                                     @Override
                                     public void onFinish() {
-                                        sendDataAutoDestroy(url1, mangGheNgoi.get(position).getId() ,position);
-                                    }
+                                        String ip = context.getResources().getString(R.string.ip);
+                                        String address = context.getResources().getString(R.string.address);
+                                        url1 = ip + address + "/destroydatveAndroid";
+                                        sendDataAutoDestroy(url1, mangGheNgoi.get(position).getId() ,position); }
                                 };
                                 countDownTimer.start();
-
                             }
                             else {
-                                Toast.makeText(context, "Vé này vừa có người đặt, vui lòng chọn vé khác!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "Vé này vừa có người đặt, vui lòng chọn vé khác!",
+                                        Toast.LENGTH_SHORT).show();
                                 for (int i = 0; i < So_Do_Cho_Ngoi_Activity.currentSeat.size(); i++) {
                                     if (So_Do_Cho_Ngoi_Activity.currentSeat.get(i).getViTri().equals(mangGheNgoi.get(position).getViTri())) {
                                         So_Do_Cho_Ngoi_Activity.currentSeat.remove(i);
@@ -267,7 +259,6 @@ public class So_Do_Xe_Adapter_Scrolling extends RecyclerView.Adapter<So_Do_Xe_Ad
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-//                        Toast.makeText(context, "Vui lòng kiểm tra kết nối sau đó thử lại!", Toast.LENGTH_SHORT).show();
                         Log.d("AAA", "onErrorResponse: " + error.toString());
 //                        mangGheNgoi.get(position).setTrangThai(0);
                     }
@@ -289,14 +280,11 @@ public class So_Do_Xe_Adapter_Scrolling extends RecyclerView.Adapter<So_Do_Xe_Ad
                 return params;
             }
         };
-
-//        int socketTimeout = 300000;//300 seconds - change to what you want
-//        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
-//        stringRequest.setRetryPolicy(policy);
         requestQueue.add(stringRequest);
 
     }
 
+    // TODO unselect when user choosing no longer booking
     private void sendDataDestroy(String url, final String ticketId, final int position){
 
         final RequestQueue requestQueue = Volley.newRequestQueue(context);
@@ -305,7 +293,7 @@ public class So_Do_Xe_Adapter_Scrolling extends RecyclerView.Adapter<So_Do_Xe_Ad
                     @Override
                     public void onResponse(String response) {
                         Log.d("AAA", "onResponse: yeahyeah" + response.toString());
-//
+
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             String result = jsonObject.getString("kq");
@@ -358,6 +346,8 @@ public class So_Do_Xe_Adapter_Scrolling extends RecyclerView.Adapter<So_Do_Xe_Ad
         requestQueue.add(stringRequest);
     }
 
+
+    //TODO auto unselect seat when time outs
     private void sendDataAutoDestroy(String url, final String ticketId, final int position){
 
         final RequestQueue requestQueue = Volley.newRequestQueue(context);
@@ -366,7 +356,7 @@ public class So_Do_Xe_Adapter_Scrolling extends RecyclerView.Adapter<So_Do_Xe_Ad
                     @Override
                     public void onResponse(String response) {
                         Log.d("AAA", "onResponse: yeahyeah" + response.toString());
-//
+
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             String result = jsonObject.getString("kq");
@@ -407,5 +397,16 @@ public class So_Do_Xe_Adapter_Scrolling extends RecyclerView.Adapter<So_Do_Xe_Ad
         requestQueue.add(stringRequest);
     }
 
+    private void setSeatPositionText (){
+        if (So_Do_Cho_Ngoi_Activity.currentSeat != null) {
+            String seat = "";
+            for (int i = 0; i < So_Do_Cho_Ngoi_Activity.currentSeat.size(); i++) {
+                if (i != So_Do_Cho_Ngoi_Activity.currentSeat.size() - 1) {
+                    seat += (So_Do_Cho_Ngoi_Activity.currentSeat.get(i).getViTri() + ", ");
+                } else seat += (So_Do_Cho_Ngoi_Activity.currentSeat.get(i).getViTri() + ".");
+            }
+            So_Do_Cho_Ngoi_Activity.tv_seatSelected.setText(seat);
+        }
+    }
 }
 

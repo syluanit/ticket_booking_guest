@@ -53,6 +53,7 @@ public class Chon_Dia_Diem extends AppCompatActivity {
     ImageView iv_back;
     MaterialSearchView searchView;
     Dialog dialog;
+    String url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +66,10 @@ public class Chon_Dia_Diem extends AppCompatActivity {
 
         diaDiemArrayList = new ArrayList<>();
 
-        String url = "http://192.168.43.218/busmanager/public/gettinh";
+        String ip = getResources().getString(R.string.ip);
+        String address = getResources().getString(R.string.address);
+        url = ip + address + "/gettinh";
+//        url = "http://192.168.43.218/busmanager/public/gettinh";
         receiveUserData(url);
         showProgressDialog();
 
@@ -124,7 +128,6 @@ public class Chon_Dia_Diem extends AppCompatActivity {
             }
         });
 
-
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -136,14 +139,15 @@ public class Chon_Dia_Diem extends AppCompatActivity {
                 if (newText != null && !newText.isEmpty()){
                     final ArrayList<DiaDiem> diaDiemSearch = new ArrayList<>();
                     for( DiaDiem item:diaDiemArrayList){
-//                        if (Normalizer.normalize(item.getPlace().toLowerCase(),Normalizer.Form.NFD).
-////                                contains(Normalizer.normalize(newText.toLowerCase(),Normalizer.Form.NFD))){
-                        // compare the item in list with the new text user type
-                        if (Normalizer.normalize(item.getPlace().toLowerCase(),Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]","").
-                              contains(Normalizer.normalize(newText.toLowerCase(),Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]",""))){
+                    // compare the item in list with the new text user type
+                        if (Normalizer.normalize(item.getPlace().toLowerCase(),Normalizer.Form.NFD)
+                                .replaceAll("[^\\p{ASCII}]","").
+                              contains(Normalizer.normalize(newText.toLowerCase(),Normalizer.Form.NFD)
+                                      .replaceAll("[^\\p{ASCII}]",""))){
                             diaDiemSearch.add(item);
                         }
-                        chon_dia_diem_adapter = new Chon_Dia_Diem_Adapter(getApplicationContext(), R.layout.dong_dia_diem ,diaDiemSearch);
+                        chon_dia_diem_adapter = new Chon_Dia_Diem_Adapter(getApplicationContext(),
+                                R.layout.dong_dia_diem ,diaDiemSearch);
                         listView.setAdapter(chon_dia_diem_adapter);
                         // you need set click event again
                         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -214,6 +218,7 @@ public class Chon_Dia_Diem extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        //search menu
         getMenuInflater().inflate(R.menu.search_view, menu);
         MenuItem item = menu.findItem(R.id.action_search);
         searchView.setMenuItem(item);
@@ -248,5 +253,14 @@ public class Chon_Dia_Diem extends AppCompatActivity {
         };
         countDownTimer.start();
         dialog.show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (searchView.isSearchOpen()) {
+            searchView.closeSearch();
+        } else {
+            super.onBackPressed();
+        }
     }
 }
